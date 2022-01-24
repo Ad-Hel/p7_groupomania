@@ -7,7 +7,7 @@ const app = express();
 
 app.use(express.json());
 
-const usersRoutes = require('./route/users.js');
+const usersRoutes = require('./route/user.js');
 const picturesRoutes = require('./route/picture')
 
 async function connectionTest(){
