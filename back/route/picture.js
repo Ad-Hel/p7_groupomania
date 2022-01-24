@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
+const auth = require('../middleware/auth')
+
 const pictureCtrl = require('../controller/picture');
 
-router.post('/', pictureCtrl.create);
+router.post('/', auth, pictureCtrl.create);
 router.put('/:id', pictureCtrl.modify);
 router.delete('/:id', pictureCtrl.delete);
 router.get('/:id', pictureCtrl.showOne);
