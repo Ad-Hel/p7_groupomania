@@ -21,6 +21,18 @@ async function connectionTest(){
 
 connectionTest();
 
+async function DbSync(){
+    try{
+        await sequelize.sync();
+        console.log('Synchronisation de la base de données.');
+    } catch(error){
+        console.error(error);
+    }
+
+}
+DbSync();
+
+
 app.use('/api/auth', usersRoutes);
 app.use('/api/picture', picturesRoutes);
 
