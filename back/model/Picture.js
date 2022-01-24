@@ -17,24 +17,11 @@ Picture.init({
     imageUrl: {
         type: DataTypes.STRING,
         allowNull: false
-    },
-    userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
     }
 
 }, {
     sequelize,
     modelName: 'Picture'
 });
-
-// Picture.belongsTo(User);
-// Picture.belongsToMany(User, { through: 'UsersLikePictures'});
-
-async function pictureSync(){
-    await Picture.sync();
-    console.log('Synchronisation du modèle image.');
-}
-pictureSync();
 
 module.exports = Picture;

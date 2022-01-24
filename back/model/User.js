@@ -32,14 +32,9 @@ User.init({
     modelName: 'User'
 });
 User.hasMany(Picture);
-Picture.belongsTo(User, {foreignKey: 'userId', allowNull: false});
+Picture.belongsTo(User);
 Picture.belongsToMany(User, { through: 'UsersLikePictures'});
 User.belongsToMany(Picture, {through: 'UsersLikePictures'});
-async function userSync(){
-    await User.sync();
-    console.log('Synchronisation du modèle utilisateur.');
-}
-userSync();
 
 
 module.exports = User;
