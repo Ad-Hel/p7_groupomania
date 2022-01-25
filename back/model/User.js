@@ -23,6 +23,11 @@ User.init({
         allowNull: false,
         unique: true
     },
+    role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 1
+    },
     password: {
         type: DataTypes.STRING,
         allowNull: false
