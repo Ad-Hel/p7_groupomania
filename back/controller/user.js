@@ -40,3 +40,12 @@ exports.signin = async (req, res, next) => {
         res.status(500).json(error);
     }
 }
+
+exports.showOne = async (req, res, next) => {
+    try{
+        const user = await User.findByPk(req.params.id);
+        res.status(200).json(user);
+    } catch(error){
+        res.status(404).json(error);
+    }
+}
