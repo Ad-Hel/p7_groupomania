@@ -36,7 +36,11 @@ User.init({
     sequelize,
     modelName: 'User'
 });
-User.hasMany(Picture);
+User.hasMany(Picture, {
+    foreignKey: {
+        allowNull: false
+    }
+});
 Picture.belongsTo(User);
 Picture.belongsToMany(User, { through: 'UsersLikePictures'});
 User.belongsToMany(Picture, {through: 'UsersLikePictures'});
