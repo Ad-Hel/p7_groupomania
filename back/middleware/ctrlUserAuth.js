@@ -12,7 +12,6 @@ module.exports = async (req, res, next) => {
         if (idRoleCtrl(userId, userRole, req.params.id, target.role)){
             next()
         } else {
-            console.log(idRoleCtrl(userId, userRole, req.params.id, targetRole));
             res.status(403).json({"message":"Accès refusé."})
         }
     } catch(error){
