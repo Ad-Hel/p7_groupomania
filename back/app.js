@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 
 const sequelize = require('./config/database.js');
@@ -23,6 +24,7 @@ connectionTest();
 
 async function DbSync(){
     try{
+        // await sequelize.sync({force: true});
         await sequelize.sync();
         console.log('Synchronisation de la base de données.');
     } catch(error){
@@ -32,6 +34,8 @@ async function DbSync(){
 }
 DbSync();
 
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/auth', usersRoutes);
 app.use('/api/picture', picturesRoutes);
