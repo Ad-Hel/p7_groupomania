@@ -74,3 +74,13 @@ exports.modifyOne = async (req, res, next) => {
         res.status(404).json(error);
     }
 }
+
+exports.deleteOne = async (req, res, next) => {
+    try{
+        const user = await User.findByPk(req.params.id);
+        await user.destroy();
+        res.status(200).json({"message":"Utilisateur supprimé."});
+    } catch(error){
+        res.status(404).json(error);
+    }
+}
