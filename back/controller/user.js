@@ -12,24 +12,23 @@ exports.signup = async (req, res, next) => {
         });
         res.status(201).json({user});
     } catch (error){
-        res.status(500).json({error});
+        res.status(500).json(error);
     };   
 };
 
 exports.signin = async (req, res, next) => {
     try{
-        const user = await User.findOne({where: { mail: req.body.mail}});
+        const user = await User.findOne({where: { email: req.body.email}});
         if (!user){
             res.status(401).json({ error: "Utilisateur inconnu."})
         };
-        console.log(user.id);
         const pwd = await bcrypt.compare(req.body.password, user.password);
         if (!pwd){
             res.status(401).json({error: "Mot de passe inconnu."});
         };
-        console.log("mot de passe : " + pwd)
         res.status(201).json({
             userId: user.id,
+            userRole: user.role,
             token: jwt.sign(
                 { 
                     userId: user.id,
