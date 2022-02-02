@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './index.scss';
+import Home from './page/Home';
+import Signup from './page/Signup';
+import Signin from './page/Signin';
+import Picture from './page/Picture';
+import User from './page/User';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home/>} />
+        <Route path="/signup" element={<Signup/>}/>
+        <Route path="/signin" element={<Signin/>}/>
+        {/* <Route path="/user" element={<User/>}/> */}
+        <Route path="/picture" element={<Picture/>}/>
+      </Routes>
+    </Router>
+
   </React.StrictMode>,
   document.getElementById('root')
 );
