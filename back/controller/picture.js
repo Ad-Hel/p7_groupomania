@@ -1,4 +1,3 @@
-const { parse } = require('dotenv');
 const Picture = require('../model/Picture.js');
 const User = require('../model/User.js');
 const fs = require('fs/promises');
@@ -6,8 +5,9 @@ const jwt = require('jsonwebtoken');
 
 exports.create = async (req, res, next) => {
     try{
+        const pictureData = JSON.parse(req.body.picture);
         const picture = await Picture.create({
-            ...req.body,
+            ...pictureData,
             imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         })
         res.status(201).json(picture);
