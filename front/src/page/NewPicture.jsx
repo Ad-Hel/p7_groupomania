@@ -1,16 +1,16 @@
 import Header from "../layout/Header";
 import Container from "../layout/Container";
 import Footer from "../layout/Footer";
-import OnePicture from "../components/OnePicture";
+import FormPicture from "../components/FormPicture";
 
 
-function Picture(){
-    const id = new URLSearchParams(window.location.search).get('id');
+function NewPicture(){
     return(
         <div>
             <Header/>
             <Container>
-                <OnePicture id={id}/>
+                <h1>Nouvelle image</h1>
+                <FormPicture/>
             </Container>
             <Footer/>
         </div>
@@ -18,4 +18,4 @@ function Picture(){
     )
 }
 
-export default Picture
+export default NewPicture
