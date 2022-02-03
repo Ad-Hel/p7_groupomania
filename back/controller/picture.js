@@ -28,12 +28,9 @@ exports.modify = async (req, res, next) => {
             });
             res.status(200).json(amendedPicture);
         } else {
-            console.log('Modify sans fichier : ok');
-            console.log(...req.body.picture)
             const amendedPicture = await picture.update({
                 ...pictureData
             })
-            console.log(amendedPicture.title)
             res.status(200).json(amendedPicture);
         } 
     } catch (error) {
