@@ -20,11 +20,11 @@ exports.signin = async (req, res, next) => {
     try{
         const user = await User.findOne({where: { email: req.body.email}});
         if (!user){
-            res.status(401).json({ error: "Utilisateur inconnu."})
+            return res.status(401).json({ error: "Utilisateur inconnu."})
         };
         const pwd = await bcrypt.compare(req.body.password, user.password);
         if (!pwd){
-            res.status(401).json({error: "Mot de passe inconnu."});
+            return res.status(401).json({error: "Mot de passe inconnu."});
         };
         res.status(201).json({
             userId: user.id,
