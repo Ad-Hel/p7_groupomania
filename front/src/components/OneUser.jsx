@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 function OneUser(props){
     const [user, setUser] = useState(' ');
     const id = props.id;
-    const token = "Bearer " + JSON.parse(window.localStorage.getItem('user')).token;
+    const auth = JSON.parse(window.localStorage.getItem('user'))
+    const token = "Bearer " + auth.token;
     useEffect( () => {
         async function getUser(id){
             try{
