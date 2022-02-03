@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 function OnePicture(props){
     const [picture, setPicture] = useState(' ');
     const id = props.id;
-    const token = "Bearer " + JSON.parse(window.localStorage.getItem('user')).token;
+    const auth = JSON.parse(window.localStorage.getItem('user'))
+    const token = "Bearer " + auth.token;
     useEffect( () => {
         async function getOnePicture(id) {
             try{
@@ -23,6 +24,7 @@ function OnePicture(props){
         getOnePicture(id)
         
     }, [])
+
 
     return(
         <article>
