@@ -1,36 +1,34 @@
 import { useState } from "react";
 
-
-async function sendUser(user){
-    const initHead = new Headers({
-        "Content-Type": "application/json"
-    })
-    const init = {
-        method: 'POST',
-        headers: initHead,
-        mode: 'cors',
-        body: user
-    }
-    try{
-        const res = await fetch('http://localhost:3000/api/auth/signup', init);
-        user = await res.json();
-        console.log("sendUser : " + user);
-    }
-    catch(error){
-        console.log(error);
-    }
-    
-}
-
-
-
-function FormSignup(){
+function FormSignup(props){
     const [user, setUser] = useState({
-        firstName: 'Prénom',
-        lastName: 'Nom',
-        mail: 'votre@email.ex',
-        password: 'mot de passe'
+    firstName: 'Prénom',
+    lastName: 'Nom',
+    mail: 'votre@email.ex',
+    password: 'mot de passe'
     });
+    
+    async function sendUser(user){
+        const initHead = new Headers({
+            "Content-Type": "application/json"
+        })
+        const init = {
+            method: 'POST',
+            headers: initHead,
+            mode: 'cors',
+            body: user
+        }
+        try{
+            const res = await fetch('http://localhost:3000/api/auth/signup', init);
+            user = await res.json();
+            console.log("sendUser : " + user);
+        }
+        catch(error){
+            console.log(error);
+        }
+        
+    }
+
     function userCreate(form){
         form.preventDefault();
         console.log("userCreate : " + JSON.stringify(user));

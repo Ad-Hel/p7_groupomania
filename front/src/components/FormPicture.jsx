@@ -1,39 +1,39 @@
 import { useState } from "react";
 
-async function sendPicture(data, picture){
-    const user = JSON.parse(window.localStorage.getItem('user'));
-    const auth = "Bearer " + user.token;
-    picture = {
-        ...picture,
-        "UserId": user.id
-    }
-    data.append("picture", JSON.stringify(picture));
-    const initHead = new Headers({
-        // "Content-Type": "multipart/form-data",
-        "Authorization": auth
-    });
-    const init = {
-        method: 'POST',
-        mode: 'cors',
-        headers: initHead,
-        body: data
-    }
-    await console.log(init.body.image);
-    try{
-        const res = await fetch('http://localhost:3000/api/picture', init);
-        const picture = await res.json();
-        console.log(picture);
-    } catch(error){
-        console.log(error);
-    }
-}
-
 function FormPicture(){
     const [picture, setPicture] = useState({
         title: "Titre",
     });
 
     const [file, setFile] = useState(null);
+
+    async function sendPicture(data, picture){
+        const user = JSON.parse(window.localStorage.getItem('user'));
+        const auth = "Bearer " + user.token;
+        picture = {
+            ...picture,
+            "UserId": user.id
+        }
+        data.append("picture", JSON.stringify(picture));
+        const initHead = new Headers({
+            // "Content-Type": "multipart/form-data",
+            "Authorization": auth
+        });
+        const init = {
+            method: 'POST',
+            mode: 'cors',
+            headers: initHead,
+            body: data
+        }
+        await console.log(init.body.image);
+        try{
+            const res = await fetch('http://localhost:3000/api/picture', init);
+            const picture = await res.json();
+            console.log(picture);
+        } catch(error){
+            console.log(error);
+        }
+    }
 
     function createPicture(form){
         form.preventDefault();
