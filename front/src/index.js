@@ -5,8 +5,9 @@ import './index.scss';
 import Home from './page/Home';
 import Signup from './page/Signup';
 import Signin from './page/Signin';
-import Picture from './page/Picture';
+import NewPicture from './page/NewPicture';
 import User from './page/User';
+import Picture from './page/Picture';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -16,7 +17,8 @@ ReactDOM.render(
         <Route path="/" element={<Home/>} />
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/signin" element={<Signin/>}/>
-        {/* <Route path="/user" element={<User/>}/> */}
+        <Route path="/user" element={<User/>}/>
+        <Route path="/new" element={<NewPicture/>}/>
         <Route path="/picture" element={<Picture/>}/>
       </Routes>
     </Router>
