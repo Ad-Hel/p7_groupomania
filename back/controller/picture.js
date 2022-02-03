@@ -18,18 +18,22 @@ exports.create = async (req, res, next) => {
 exports.modify = async (req, res, next) => {
     try{
         const picture = await Picture.findByPk(req.params.id);
+        const pictureData = JSON.parse(req.body.picture);
         if (req.file){
             const filename = picture.imageUrl.split('/images/')[1];
             await fs.unlink(`./images/${filename}`);
             const amendedPicture = await picture.update({
-                ...req.body,
+                ...pictureData,
                 imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
             });
             res.status(200).json(amendedPicture);
         } else {
+            console.log('Modify sans fichier : ok');
+            console.log(...req.body.picture)
             const amendedPicture = await picture.update({
-                ...req.body
+                ...pictureData
             })
+            console.log(amendedPicture.title)
             res.status(200).json(amendedPicture);
         } 
     } catch (error) {
