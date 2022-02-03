@@ -2,27 +2,31 @@ import { useEffect, useState } from "react";
 
 function OnePicture(props){
     const [picture, setPicture] = useState(' ');
-    const [id, setId] = useState(props.id); 
-    console.log('ID : ' + id);
+    const id = props.id;
+    const token = "Bearer " + JSON.parse(window.localStorage.getItem('user')).token;
     useEffect( () => {
         async function getOnePicture(id) {
             try{
-                const res = await fetch('http://localhost:3000/api/picture/' + id);
+                const headers = new Headers({
+                    "Authorization": token
+                })
+                const init = {
+                    headers: headers
+                }
+                const res = await fetch('http://localhost:3000/api/picture/' + id, init);
                 const picture = await res.json();
-                console.log(picture);
                 setPicture(picture);
             } catch(error){
                 console.log(error);
             }
         }
-        console.log('ID in useEffect : ' + id)
         getOnePicture(id)
         
     }, [])
 
     return(
         <article>
-            <h3>{picture.title}</h3>
+            <h1>{picture.title}</h1>
             <img src={picture.imageUrl} alt="" />
         </article>
         
