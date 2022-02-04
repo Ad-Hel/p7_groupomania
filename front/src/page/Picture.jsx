@@ -12,7 +12,7 @@ function Picture(){
         window.location.replace('http://localhost:3001/signin')
       }
     const id = parseInt(new URLSearchParams(window.location.search).get('id'),10);
-    const auth = JSON.parse(window.localStorage.getItem('user'));
+    const auth = JSON.parse(window.localStorage.getItem('auth'));
     const [isModify, setIsModify] = useState(false);
     return(
         <div>
@@ -21,7 +21,7 @@ function Picture(){
                 {!isModify ?
                 <OnePicture id={id}/>
                 :
-                <FormPictureModify id={id}/>
+                <FormPictureModify id={id} setIsModify={setIsModify}/>
                 }
                 {(auth.id === id && !isModify) && <button onClick={() => setIsModify(true)}>Modifier</button>}
             </Container>
