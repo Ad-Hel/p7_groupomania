@@ -12,7 +12,5 @@ router.put('/:id', ctrlPictureAuth, multer, pictureCtrl.modify);
 router.delete('/:id', ctrlPictureAuth, pictureCtrl.delete);
 router.get('/:id', auth, pictureCtrl.showOne);
 router.get('/', auth, pictureCtrl.showAll);
-router.post('/like/:id', auth, pictureCtrl.like);
-router.delete('/like/:id', auth, pictureCtrl.unlike);
 
 module.exports = router;
