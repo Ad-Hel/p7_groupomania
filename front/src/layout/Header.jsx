@@ -19,7 +19,7 @@ function Header(){
                 :
                 <button onClick={signout}>Sign Out</button>
             }
-            <Link to="/picture"> + </Link> | {" "}
+            <Link to="/new"> + </Link> | {" "}
             
         </nav>
     );
