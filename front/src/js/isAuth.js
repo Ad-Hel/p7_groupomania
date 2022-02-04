@@ -1,5 +1,5 @@
 function isAuth(){
-    const auth = window.localStorage.getItem('user');
+    const auth = window.localStorage.getItem('auth');
     if (auth){
       return true;
     } else {
