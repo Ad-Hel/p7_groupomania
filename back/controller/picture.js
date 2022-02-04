@@ -51,8 +51,6 @@ exports.delete = async (req, res, next) => {
 exports.showAll = async (req, res, next) => {
     try{
         const pictures = await Picture.findAll({include: User});
-        const allPictures = [];
-        console.log(allPictures);
         res.status(200).json(pictures);
     } catch(error){
         res.status(400).json(error);
@@ -61,7 +59,7 @@ exports.showAll = async (req, res, next) => {
 exports.showOne = async (req, res, next) => {
     try{
         const picture = await Picture.findByPk(req.params.id);
-        res.status(200).json(picture, isLiked, likeCount);
+        res.status(200).json(picture);
     } catch(error){
         res.status(404).json(error);
     }
