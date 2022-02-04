@@ -1,27 +1,21 @@
 import { useEffect, useState } from "react";
+import apiRequest from "../js/apiRequest";
+import LikeButton from "./LikeButton";
 
 function AllPictures(){
     const [pictures, setPictures] = useState([]);
+    const auth = JSON.parse(window.localStorage.getItem('auth'));
     useEffect(() => {
         async function getAllPictures(){
             try{
-                const user = JSON.parse(window.localStorage.getItem('user'));
-                const auth = "Bearer " + user.token;
-                const head = new Headers({
-                    "Authorization": auth
-                })
-                const init = {
-                    headers: head
+                const args = {
+                    token: auth.token,
+                    url: "picture"
                 }
-                const res = await fetch('http://localhost:3000/api/picture', init);
-                const pictures = await res.json();
-                console.log(pictures);
-                setPictures(pictures);
+                const res = await apiRequest(args);
+                setPictures(res.data);
             } catch(error){
-                // console.log(res.error);
-                // if (res.status() === 401){
-                    // window.location.replace('http://localhost:3001/signin');
-                // }
+                console.log(error);
             }
         }
         getAllPictures();
@@ -34,8 +28,9 @@ function AllPictures(){
             </h2>
             {pictures.map((picture)=>(
             <article key={picture.id}>
-                <h3>{picture.title}</h3>
+                <a href={`http://localhost:3001/picture?id=${picture.id}`} ><h3>{picture.title}</h3></a>
                 <img src={picture.imageUrl} alt=""/>
+                <LikeButton auth={auth} picture={picture.id} />
             </article>
             ))}
         </section>
