@@ -1,0 +1,15 @@
+@import '../utils/colors';
+.footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 18vh;
+    background-color: white;
+    border-top: solid 0.1rem $secondary;
+    &__text{
+        color: $secondary-dark;
+        font-size: 0.75rem;
+        text-align: center;
+    }
+}

@@ -1,6 +1,7 @@
+import '../scss/layout/footer.scss'
 function Footer(){
     return(
-        <footer>
+        <footer className='footer'>
             <div className="footer__content">
             <p className="footer__text">
                 <a className="footer__text footer__text--link" href="/" title="">Mentions légales</a>
