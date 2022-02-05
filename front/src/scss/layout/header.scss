@@ -1,0 +1,28 @@
+@import '../utils/colors';
+$side: max(1rem, calc((100% - 600px)/2));
+.header{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    min-height: 7vh;
+    background-color: white;
+    border-bottom: solid 0.1rem $secondary;
+    display: grid;
+    grid-template-columns: $side min(600px, 100vw) $side;
+    &__nav{
+        grid-column: 3;
+        align-self: center;
+        /* TO DO : mobile menu */
+        @media (max-width: 767px){
+            display: none;
+        }
+    }
+    &__logo{
+        max-height: 5vh;
+        width: min(300px, 50vw);
+        margin: 1vh 0;
+        grid-column: 2;
+        object-fit: cover;
+        object-position: max(-40px, -5vw);
+    }
+}
