@@ -27,8 +27,8 @@ exports.signin = async (req, res, next) => {
             return res.status(401).json({error: "Mot de passe inconnu."});
         };
         res.status(201).json({
-            userId: user.id,
-            userRole: user.role,
+            ...user.dataValues,
+            password: "",
             token: jwt.sign(
                 { 
                     userId: user.id,
