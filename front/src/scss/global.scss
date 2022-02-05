@@ -1,0 +1,23 @@
+@font-face {
+    font-family: Poppins;
+    src:url("../../public/assets/Fonts/Poppins/Poppins-Regular.ttf");
+}
+@import './normalize.css';
+@import './utils/typography';
+@import './utils/space';
+
+*{
+    box-sizing: border-box;
+}
+
+html{
+    font-family: Poppins, Arial, Helvetica, sans-serif;
+    scroll-behavior: smooth;
+    font-size: 14px;
+    @media (max-width: 767px){
+        font-size: 12px;
+    }
+}
+body{
+    background-color: $light;
+}

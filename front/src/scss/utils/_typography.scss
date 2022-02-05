@@ -1,0 +1,25 @@
+@import './colors';
+
+h1{
+    font-size: 3rem;
+    font-weight: 900;
+    color: $primary;
+}
+h2{
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: $primary;
+}
+h3{
+    font-size: 1rem;
+    font-weight: 600;
+    color: $dark;
+}
+p{
+    font-size: 1rem;
+    color: $dark
+}
+a{
+    color: $primary;
+    text-decoration: none;
+}
