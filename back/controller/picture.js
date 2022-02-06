@@ -50,7 +50,12 @@ exports.delete = async (req, res, next) => {
 }
 exports.showAll = async (req, res, next) => {
     try{
-        const pictures = await Picture.findAll({include: User});
+        const pictures = await Picture.findAll({
+            include: User,
+            order: [
+                ['createdAt', 'DESC']
+            ]
+        });
         res.status(200).json(pictures);
     } catch(error){
         res.status(400).json(error);
