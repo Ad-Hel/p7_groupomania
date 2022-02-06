@@ -30,15 +30,18 @@ if (dotenv.error){
  /**
   * Set the port to listen
   * Test the environnemental port
-  * Set it to 3000 if the environnemental port is not valid
+  * Set it to 4800 if the environnemental port is not valid
   */
- const port = normalizePort(process.env.PORT || '3000');
+ const port = normalizePort(process.env.PORT || '4800');
  app.set('port', port);
  
  /**
   * This function  catch server error to provide a meaningful console message.
   * @param {string} error 
   */
+
+
+
  const errorHandler = error => {
    if (error.syscall !== 'listen') {
      throw error;

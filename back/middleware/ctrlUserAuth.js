@@ -5,7 +5,7 @@ const idRoleCtrl = require('./idRoleCtrl');
 module.exports = async (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
-        const decodedToken = jwt.verify(token, 'TOKEN_TO_HIDE_IN_ENV');
+        const decodedToken = jwt.verify(token, process.env.TOKEN);
         const userId = decodedToken.userId; 
         const userRole = decodedToken.userRole;
         const target = await User.findByPk(req.params.id);

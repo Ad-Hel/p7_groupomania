@@ -2,7 +2,7 @@ const multer = require('multer');
 
 const save  = multer.diskStorage({
      destination: function(req, file, cb) {
-         cb(null, './images');
+         cb(null, process.env.IMAGES_STORAGE_PATH);
      },
      filename: function(req, file, cb){
          const originalName = file.originalname.split('.');
