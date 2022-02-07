@@ -33,13 +33,13 @@ function AllPictures(){
             {pictures.map((picture)=>(
             <article key={picture.id} className="front-picture">
                 <header className="front-picture__header">
-                    <a href={`http://localhost:3001/picture?id=${picture.id}`} >
+                    <a href={`/picture?id=${picture.id}`} >
                         <h3 className="front-picture__title">{picture.title}</h3>
                     </a>
                 </header>
                 <img className="front-picture__image" src={picture.imageUrl} alt=""/>
                 <footer className="front-picture__footer">
-                    <p><a href={`http://localhost:3001/user?id=${picture.User.id}`}>{picture.User.firstName} {picture.User.lastName}</a></p>
+                    <p><a href={`/user?id=${picture.User.id}`}>{picture.User.firstName} {picture.User.lastName}</a></p>
                     <LikeButton auth={auth} picture={picture.id} />
                 </footer>
             </article>
