@@ -1,0 +1,10 @@
+Environment variables to complete 
+
+PORT=
+DB_HOST=
+DB_DIALECT=
+DB_NAME=
+DB_USER=
+DB_PASSWORD=
+IMAGES_STORAGE_PATH=
+TOKEN=
