@@ -6,14 +6,10 @@ import FormSignin from '../components/FormSignin';
 
 function Signin(){
     return(
-        <div>
-            <Header/>
+        <Container>
             <h1>Se connecter</h1>
-            <Container>
-                <FormSignin/>
-            </Container>
-            <Footer/>
-        </div>
+            <FormSignin />
+        </Container>
     )
 }
 

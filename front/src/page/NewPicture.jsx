@@ -10,14 +10,10 @@ function NewPicture(){
         window.location.replace('http://localhost:3001/signin')
       }
     return(
-        <div>
-            <Header/>
-            <Container>
-                <h1>Nouvelle image</h1>
-                <FormPicture/>
-            </Container>
-            <Footer/>
-        </div>
+        <Container>
+            <h1>Nouvelle image</h1>
+            <FormPicture/>
+        </Container>
 
     )
 }

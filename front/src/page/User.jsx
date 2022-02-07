@@ -9,22 +9,18 @@ import isAuth from "../js/isAuth";
 function User(){
     if (!isAuth()){
         window.location.replace('http://localhost:3001/signin')
-      }
+    }
     const id = parseInt(new URLSearchParams(window.location.search).get('id'),10);
-    const auth = JSON.parse(window.localStorage.getItem('user'));
+    const auth = JSON.parse(window.localStorage.getItem('auth'));
     const [isModify, setIsModify] = useState(false);
     return(
-        <div>
-            <Header/>
-            <Container>
-                {isModify ?
-                <FormUserModify id={id}/> 
-                :
-                <OneUser id={id}/>}
-                {(auth.id === id && !isModify) && <button onClick={() => setIsModify(true)}>Modifier</button>}  
-            </Container>
-            <Footer/>
-        </div>
+        <Container>
+            {isModify ?
+            <FormUserModify id={id} setIsModify={setIsModify}/> 
+            :
+            <OneUser id={id}/>}
+            {(auth.id === id && !isModify) && <button onClick={() => setIsModify(true)}>Modifier</button>}  
+        </Container>
     ) 
 }
 

@@ -5,14 +5,10 @@ import FormSignup from '../components/FormSignup';
 
 function Signup(){
     return(
-        <div>
-            <Header/>
+        <Container>
             <h1>Rejoindre la communauté Groupomania </h1>
-            <Container>
-                <FormSignup/>
-            </Container>
-            {/* <Footer/> */}
-        </div>
+            <FormSignup/>
+        </Container>
     )
 }
 

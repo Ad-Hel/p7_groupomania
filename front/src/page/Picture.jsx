@@ -4,28 +4,32 @@ import Footer from "../layout/Footer";
 import OnePicture from "../components/OnePicture";
 import FormPictureModify from "../components/FormPictureModify";
 import isAuth from "../js/isAuth";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 function Picture(){
     if (!isAuth()){
         window.location.replace('http://localhost:3001/signin')
       }
+    const [userId, setUserId] = useState(0);
     const id = parseInt(new URLSearchParams(window.location.search).get('id'),10);
+    useEffect(()=>{
+        console.log(userId);
+    }, [userId])
+    
     const auth = JSON.parse(window.localStorage.getItem('auth'));
+    console.log(auth.id);
     const [isModify, setIsModify] = useState(false);
     return(
         <div>
-            <Header/>
             <Container>
                 {!isModify ?
-                <OnePicture id={id}/>
+                <OnePicture id={id} setUserId={setUserId}/>
                 :
                 <FormPictureModify id={id} setIsModify={setIsModify}/>
                 }
-                {(auth.id === id && !isModify) && <button onClick={() => setIsModify(true)}>Modifier</button>}
+                {(auth.id === userId && !isModify) && <button onClick={() => setIsModify(true)}>Modifier</button>}
             </Container>
-            <Footer/>
         </div>
 
     )

@@ -10,15 +10,14 @@ async function signIn(user){
         },
         url: "auth/signin"
     }
-    const response = await apiRequest(args);
-    if (response.status === 201){
-        const auth = response.data;
+    const res = await apiRequest(args);
+    if (res.status === 201){
+        const auth = res.data;
         const localAuth = {
-            id: auth.userId,
-            role: auth.userRole,
+            ...auth,
             token: "Bearer "+ auth.token
         }
-        window.localStorage.setItem('auth', JSON.stringify(localAuth));
+        return localAuth;
         /**
          * Test to store the token in a web worker
          */
@@ -26,8 +25,10 @@ async function signIn(user){
         //     const authWorker = new SharedWorker('../authWorker.js');
         //     authWorker.port.postMessage({userRole: auth.userRole, userId: auth.userId, token: auth.token});
         // }
-        window.location.replace('http://localhost:3001/')
-    }
+        // window.location.replace('http://localhost:3000/')
+    } else {
+        return res;
+    };
 }
 
 export default signIn;
