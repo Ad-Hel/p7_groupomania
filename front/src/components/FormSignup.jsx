@@ -1,6 +1,10 @@
 import { useState } from "react";
 import apiRequest from "../js/apiRequest";
 import signIn from "../js/signIn";
+import ButtonSubmit from "./ButtonSubmit";
+import Form from "./Form";
+import Input from "./Input";
+
 
 function FormSignup(props){
     const [user, setUser] = useState({
@@ -42,13 +46,13 @@ function FormSignup(props){
         });
     }
     return(
-        <form onSubmit={userCreate}>
-            <input onChange={handleChange} type="text" name="firstName" className="input input--text" value={user.firstName}/>
-            <input onChange={handleChange} type="text" name="lastName" className="input input--text" value={user.lastName}/>
-            <input onChange={handleChange} type="email" name="email" className="input input--email" value={user.email}/>
-            <input onChange={handleChange} type="password" name="password" className="input input--password" value={user.password}/>
-            <button type="submit">Créer un compte</button>
-        </form>
+        <Form action={userCreate}>
+            <Input type="text" name="firstName" value={user.firstName} onchange={handleChange}/>
+            <Input type="text" name="lastName" value={user.lastName} onchange={handleChange}/>
+            <Input type="email" name="email" value={user.email} onchange={handleChange}/>
+            <Input type="password" name="password" value={user.password} onchange={handleChange}/>
+            <ButtonSubmit label="Je m'inscris"/>
+        </Form>
     )
 }
 

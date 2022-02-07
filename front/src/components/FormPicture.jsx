@@ -1,7 +1,15 @@
 import { useState } from "react";
 import apiRequest from "../js/apiRequest";
+import ButtonSubmit from "./ButtonSubmit";
+import Form from "./Form";
+import Input from "./Input";
+import useAuth from "./useAuth";
+// import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function FormPicture(){
+    const auth = useAuth().auth;
+    const navigate = useNavigate();
     const [picture, setPicture] = useState({
         title: "Titre",
     });
@@ -9,8 +17,6 @@ function FormPicture(){
     const [file, setFile] = useState(null);
 
     async function sendPicture(data, picture){
-        const auth = JSON.parse(window.localStorage.getItem('auth'));
-        console.log(auth.token)
         picture = {
             ...picture,
             "UserId": auth.id
@@ -26,7 +32,10 @@ function FormPicture(){
         }
         const res = await apiRequest(args);
         if (res.status === 201){
-            window.location.replace('http://localhost:3001/picture?id='+res.data.id)
+            console.log("201 ok")
+            const url = '/picture?id=' + res.data.id;
+            // return <Navigate to={url} replace/>
+            navigate(url);
         }
     }
 
@@ -45,17 +54,15 @@ function FormPicture(){
     }
 
     function getFile(event){
-        // const fileSelected = event.target.files[0];
         setFile(event.target.files[0])
-        console.log(file);
     }
 
     return(
-        <form onSubmit={createPicture}>
-            <input onChange={getTitle} type="text" name="title" className="input input--text" value={picture.title}/>
-            <input onChange={getFile} type="file" name="image" className="input input--file"/>
-            <button type="submit">Poster</button>
-        </form>
+        <Form action={createPicture}>
+            <Input type="text" name="title" value={picture.title} onchange={getTitle}/>
+            <Input type="file" name="image" onchange={getFile}/>
+            <ButtonSubmit label="Poster"/>
+        </Form>
     )
 }
 

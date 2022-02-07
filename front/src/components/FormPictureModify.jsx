@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import apiRequest from "../js/apiRequest";
+import Form from "./Form";
+import Input from "./Input";
+import ButtonSubmit from "./ButtonSubmit";
 
 
 function FormPictureModify(props){
@@ -67,11 +70,11 @@ function FormPictureModify(props){
     }
 
     return(
-        <form onSubmit={createPicture}>
-            <input onChange={getTitle} type="text" name="title" className="input input--text" value={picture.title}/>
-            <input onChange={getFile} type="file" name="image" className="input input--file"/>
-            <button type="submit">Modifier</button>
-        </form>
+        <Form action={createPicture}>
+            <Input type="text" name="title" value={picture.title} onchange={getTitle}/>
+            <Input type="file" name="image" onchange={getFile}/>
+            <ButtonSubmit label="Modifier" />
+        </Form>
     )
 }
 

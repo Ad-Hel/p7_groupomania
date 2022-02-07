@@ -1,55 +1,54 @@
 import { useState, useEffect } from "react";
+import apiRequest from '../js/apiRequest';
+import Form from "./Form";
+import Input from "./Input";
+import ButtonSubmit from "./ButtonSubmit";
 
 
 function FormUserModify(props){
-    const [user, setUser] = useState({});
-    const auth = JSON.parse(window.localStorage.getItem('user'))
-    const token = "Bearer " + auth.token;
+    const [user, setUser] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: ""
+    });
+    const auth = JSON.parse(window.localStorage.getItem('auth'));
     const id = props.id;
             
     useEffect( () => {
         if (id > 0){
         async function getUser(id){
-            try{
-                const headers = new Headers({
-                    "Authorization": token
-                })
-                const init = {
-                    headers: headers
-                }
-                const res = await fetch('http://localhost:3000/api/auth/' + id, init);
-                const user = await res.json();
-                setUser({
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    email: user.email
-                });
-            } catch(error){
-                console.log(error)
+            const args = {
+                token: auth.token,
+                url: 'auth/' + id
             }
+            const res = await apiRequest(args);
+            console.log(res)
+            setUser({
+                firstName: res.data.firstName,
+                lastName: res.data.lastName,
+                email: res.data.email
+            })
         }
         getUser(id);
     }}, [])
     
     async function sendUser(user){
-        const initHead = new Headers({
-            "Authorization": token,
-            "Content-Type": "application/json"
-        })
-        const init = {
-            method: 'PUT',
-            headers: initHead,
-            mode: 'cors',
-            body: user
+        const args = {
+            token: auth.token,
+            head: {
+                "Content-Type": "application/json"
+            },
+            init: {
+                method: 'PUT',
+                body: user
+            },
+            url: 'auth/' + id
         }
-        try{
-            const res = await fetch('http://localhost:3000/api/auth/' + id, init);
-            user = await res.json();
-            console.log("sendUser : " + user);
-        }
-        catch(error){
-            console.log(error);
-        } 
+        const res = await apiRequest(args);
+        if (res.status === 200){
+            props.setIsModify(false);
+       } 
     }
 
     function userModify(form){
@@ -71,13 +70,13 @@ function FormUserModify(props){
         });
     }
     return(
-        <form onSubmit={userModify}>
-            <input onChange={handleChange} type="text" name="firstName" className="input input--text" value={user.firstName}/>
-            <input onChange={handleChange} type="text" name="lastName" className="input input--text" value={user.lastName}/>
-            <input onChange={handleChange} type="email" name="email" className="input input--email" value={user.email}/>
-            <input onChange={handleChange} type="password" name="password" className="input input--password" value={user.password}/>
-            <button type="submit">Modifier</button>
-        </form>
+        <Form action={userModify}>
+            <Input type="text" name="firstName" value={user.firstName} onchange={handleChange}/>
+            <Input type="text" name="lastName" value={user.lastName} onchange={handleChange}/>
+            <Input type="email" name="email" value={user.email} onchange={handleChange}/>
+            <Input type="password" name="password" value={user.password} onchange={handleChange}/>
+            <ButtonSubmit label="Modifier"/>
+        </Form>
     )
 }
 

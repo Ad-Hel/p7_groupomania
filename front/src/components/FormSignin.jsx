@@ -1,4 +1,8 @@
-import signIn from "../js/signIn";
+// import signIn from "../js/signIn";
+import ButtonSubmit from "./ButtonSubmit";
+import Form from "./Form";
+import Input from "./Input";
+import useAuth from "./useAuth";
 
 const { useState } = require("react");
 
@@ -8,11 +12,16 @@ function FormSignin(){
         email: "email@exemple.com",
         password: "password"
     });
+    const [error, setError] = useState('')
+    const Auth = useAuth();
 
-    function signin(form){
+    async function signin(form){
         form.preventDefault();
-        console.log(signinInfo);
-        signIn(JSON.stringify(signinInfo));
+        console.log("Call Auth.onSignIn")
+        const res = Auth.onSignIn(signinInfo);
+        // if (res){
+        //     setError(res.data.error);
+        // } 
     }
 
     function updateSigninInfo(event){
@@ -25,12 +34,12 @@ function FormSignin(){
     }
 
     return(
-        <form onSubmit={signin}>
-            <input onChange={updateSigninInfo} type="email" name="email" className="input input--email" value={signinInfo.email} />
-            <input onChange={updateSigninInfo} type="password" name="password" className="input input--password" value={signinInfo.password} />
-            <button type="submit">Se connecter</button>
-            <p>{signinInfo.error && signinInfo.error}</p>
-        </form>
+        <Form action={signin}>
+            <Input type="email" name="email" value={signinInfo.email} onchange={updateSigninInfo}/>
+            <Input type="password" name="password" value={signinInfo.password} onchange={updateSigninInfo}/>
+            <ButtonSubmit label="Se connecter"/>
+            <p>{error && error}</p>
+        </Form>
     )
 }
 
