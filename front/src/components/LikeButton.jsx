@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import apiRequest from "../js/apiRequest";
 
 function LikeButton(props){
     const [isLiked, setIsLiked] = useState(false);
@@ -7,47 +8,51 @@ function LikeButton(props){
     const pictureId = props.picture;
     useEffect( ()=>{
         async function getIsLiked(){
-            const headers = new Headers({
-                "Authorization": auth.token
-            })
-            const init = {
-                headers: headers
+            const args = {
+                token: auth.token,
+                url: 'like/isliked/' + pictureId
             }
-            const res = await fetch('http://localhost:3000/api/like/isLiked/' + pictureId, init);
-            const like = await res.json();
-            setIsLiked(like);
+            const res = await apiRequest(args);
+            setIsLiked(res.data);
         }
         getIsLiked()
         getCount()
     }, [pictureId, auth])
     async function getCount(){
-        const res = await fetch('http://localhost:3000/api/like/count/' + pictureId);
-        const count = await res.json();
-        setLikeCount(count);
+        const args = {
+            url: 'like/count/' + pictureId
+        }
+        const res = await apiRequest(args);
+        setLikeCount(res.data);
     }
     async function sendLike(){
-        const headers = new Headers({
-            "Authorization": auth.token
-        })
-        const init = {
-            method: 'POST',
-            headers: headers
+        const args = {
+            url: 'like/' + pictureId,
+            token: auth.token,
+            init: {
+                method: 'POST'
+            }
         }
-        await fetch('http://localhost:3000/api/like/' + pictureId, init);
-        setIsLiked(!isLiked);
-        getCount();
+        const res = await apiRequest(args)
+        console.log(res.status)
+        if (res.status === 200){
+            setIsLiked(!isLiked);
+            getCount();
+        }        
     }
     async function sendDislike(){
-        const headers = new Headers({
-            "Authorization": auth.token
-        })
-        const init = {
-            method: 'DELETE',
-            headers: headers
+        const args = {
+            url: 'like/' + pictureId,
+            token: auth.token,
+            init: {
+                method: 'DELETE'
+            }
         }
-        await fetch('http://localhost:3000/api/like/' + pictureId, init);
-        setIsLiked(!isLiked);
-        getCount()
+        const res = await apiRequest(args);
+        if (res.status === 200){
+            setIsLiked(!isLiked);
+            getCount()
+        }        
     }
     return isLiked ? (
         <button onClick={sendDislike}>{likesCount} 👍</button>
