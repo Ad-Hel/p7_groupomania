@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import apiRequest from "../js/apiRequest";
 import LikeButton from "./LikeButton";
+import '../scss/component/front-picture.scss'
+import useAuth from "./useAuth";
 
 function AllPictures(){
     const [pictures, setPictures] = useState([]);
-    const auth = JSON.parse(window.localStorage.getItem('auth'));
+    const auth = useAuth().auth;
+    console.log(auth);
     useEffect(() => {
         async function getAllPictures(){
             try{
@@ -14,6 +17,7 @@ function AllPictures(){
                 }
                 const res = await apiRequest(args);
                 setPictures(res.data);
+                console.log(res.data)
             } catch(error){
                 console.log(error);
             }
@@ -24,13 +28,20 @@ function AllPictures(){
     return(
         <section>
             <h2>
-                Timeline
+                Bonjour {auth.firstName}.
             </h2>
             {pictures.map((picture)=>(
-            <article key={picture.id}>
-                <a href={`http://localhost:3001/picture?id=${picture.id}`} ><h3>{picture.title}</h3></a>
-                <img src={picture.imageUrl} alt=""/>
-                <LikeButton auth={auth} picture={picture.id} />
+            <article key={picture.id} className="front-picture">
+                <header className="front-picture__header">
+                    <a href={`http://localhost:3001/picture?id=${picture.id}`} >
+                        <h3 className="front-picture__title">{picture.title}</h3>
+                    </a>
+                </header>
+                <img className="front-picture__image" src={picture.imageUrl} alt=""/>
+                <footer className="front-picture__footer">
+                    <p><a href={`http://localhost:3001/user?id=${picture.User.id}`}>{picture.User.firstName} {picture.User.lastName}</a></p>
+                    <LikeButton auth={auth} picture={picture.id} />
+                </footer>
             </article>
             ))}
         </section>
