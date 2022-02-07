@@ -9,15 +9,19 @@ function Navigation(){
     }
     return(
         <nav className='header__nav'>
-            <Link to="/">🏠</Link>  {"   "}
-            
-            <Link to="/new"> ➕ </Link>  {"   "}
-                <span>
-                    <Link to="/signup">Sign Up</Link> | 
-                    <Link to="/signin">Sign In</Link> | 
-                </span>
-                :
+            {
+                Auth.auth.id !== '' ?
+            <div>
+                <Link to="/">🏠</Link>  {"   "}
+                <Link to="/new"> ➕ </Link>  {"   "}
                 <button onClick={signout}>Sign Out</button>
+            </div>
+            :
+            <div>
+                <Link to="/signup">Sign Up</Link> {"   "} 
+                <Link to="/signin">Sign In</Link> {"   "}
+            </div>
+             }          
         </nav>
     )
 }
