@@ -3,6 +3,7 @@ import apiRequest from "../js/apiRequest";
 import Form from "./Form";
 import Input from "./Input";
 import ButtonSubmit from "./ButtonSubmit";
+import useAuth from './useAuth';
 
 
 function FormPictureModify(props){
@@ -10,7 +11,7 @@ function FormPictureModify(props){
         title: "Titre",
     });
     const [file, setFile] = useState(null);
-    const auth = JSON.parse(window.localStorage.getItem('auth'));
+    const auth = useAuth().auth;
     const id = props.id;
 
     useEffect( () => {
