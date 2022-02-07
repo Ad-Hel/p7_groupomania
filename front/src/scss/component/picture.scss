@@ -1,0 +1,31 @@
+@import '../utils/space';
+@import '../utils/colors';
+
+.picture{
+    display: flex;
+    justify-self: center;
+    margin: 7vh 0;
+    background-color: white;
+    border: solid 0.1rem $secondary;
+    &__image{
+        max-width: 75vh;
+        height: 75vh;
+        object-fit: cover;
+    }
+    &__content{
+        padding: $space-sm;
+        display: flex;
+        flex-direction: column;
+        width: calc(900px - 50vh);
+    }
+    &__footer{
+        margin-top: auto;
+        border-top: solid 0.1rem $secondary;
+        padding: $space-md $space-xs $space-xs;
+        display: flex;
+
+    }
+    // &__title{
+    //     font-size: 1rem;
+    // }
+}
