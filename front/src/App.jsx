@@ -27,9 +27,21 @@ function App(){
                 } />
                 <Route path="/signup" element={<Signup/>}/>
                 <Route path="/signin" element={<Signin/>}/>
-                <Route path="/user" element={<User/>}/>
-                <Route path="/new" element={<NewPicture/>}/>
-                <Route path="/picture" element={<Picture/>}/>
+                <Route path="/user" element={
+                    <ProtectedRoute>
+                        <User/>
+                    </ProtectedRoute>
+                }/>
+                <Route path="/new" element={
+                    <ProtectedRoute>
+                        <NewPicture/>
+                    </ProtectedRoute>
+                }/>
+                <Route path="/picture" element={
+                    <ProtectedRoute>
+                        <Picture/>
+                    </ProtectedRoute>
+                }/>
             </Routes>
             <Footer/>
         </Auth>
