@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const bcrypt = require('bcrypt')
+const User = require ('./model/User')
 
 
 const sequelize = require('./config/database.js');
@@ -34,6 +36,28 @@ async function DbSync(){
 
 }
 DbSync();
+
+const createAdmin = async () => {
+    const hash = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
+    const [user, created] = await User.findOrCreate({
+        where: {
+            role: 3
+        },
+        defaults: {
+            firstName: process.env.ADMIN_FIRST_NAME,
+            lastName: process.env.ADMIN_LAST_NAME,
+            email: process.env.ADMIN_EMAIL,
+            password: hash
+        }
+    })
+    if (created){
+        return user
+    } else {
+        return 'Un compte administrateur existe déjà.'
+    }
+}
+createAdmin();
+console.log(createAdmin);
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
