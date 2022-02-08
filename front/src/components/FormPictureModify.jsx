@@ -11,6 +11,7 @@ function FormPictureModify(props){
         title: "Titre",
     });
     const [file, setFile] = useState(null);
+    const [error, setError] = useState(null);
     const auth = useAuth().auth;
     const id = props.id;
 
@@ -49,7 +50,9 @@ function FormPictureModify(props){
        const res = await apiRequest(args);
        if (res.status === 200){
             props.setIsModify(false);
-       } 
+       } else if (res.status === 403){
+           setError(res.data.message);
+       }
     }
 
     function createPicture(form){
@@ -75,6 +78,7 @@ function FormPictureModify(props){
             <Input type="text" name="title" value={picture.title} onchange={getTitle}/>
             <Input type="file" name="image" onchange={getFile}/>
             <ButtonSubmit label="Modifier" />
+            {error && <p className="error">{error}</p>}
         </Form>
     )
 }
