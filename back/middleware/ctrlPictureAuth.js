@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
         if (idRoleCtrl(userId, userRole, target.id, target.role)){
             next()
         } else{
-            throw 'Accès refusé.' ;
+            res.status(403).json({'message':'Vous n\'avez pas les droits nécessaires pour réaliser cette action.'})
         }
     } catch(error){
         res.status(500).json(error)
