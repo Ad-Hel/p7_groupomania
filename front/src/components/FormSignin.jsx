@@ -17,11 +17,10 @@ function FormSignin(){
 
     async function signin(form){
         form.preventDefault();
-        console.log("Call Auth.onSignIn")
-        const res = Auth.onSignIn(signinInfo);
-        // if (res){
-        //     setError(res.data.error);
-        // } 
+        const res = await Auth.onSignIn(signinInfo);
+        if (res){
+            setError(res);
+        } 
     }
 
     function updateSigninInfo(event){
