@@ -3,6 +3,7 @@ import apiRequest from '../js/apiRequest';
 import Form from "./Form";
 import Input from "./Input";
 import ButtonSubmit from "./ButtonSubmit";
+import useAuth from "./useAuth";
 
 
 function FormUserModify(props){
@@ -10,9 +11,12 @@ function FormUserModify(props){
         firstName: "",
         lastName: "",
         email: "",
-        password: ""
+        password: "",
+        role: "",
     });
-    const auth = JSON.parse(window.localStorage.getItem('auth'));
+    const [oldUser, setOldUser] = useState([])
+    const [error, setError] = useState(null);
+    const auth = useAuth().auth;
     const id = props.id;
             
     useEffect( () => {
@@ -23,12 +27,17 @@ function FormUserModify(props){
                 url: 'auth/' + id
             }
             const res = await apiRequest(args);
-            console.log(res)
-            setUser({
-                firstName: res.data.firstName,
-                lastName: res.data.lastName,
-                email: res.data.email
-            })
+            if (res.status === 200){
+                const user = {
+                    firstName: res.data.firstName,
+                    lastName: res.data.lastName,
+                    email: res.data.email,
+                    password: "",
+                    role: res.data.role
+                }
+                setUser(user);
+                setOldUser(user);
+            }
         }
         getUser(id);
     }}, [])
@@ -48,16 +57,21 @@ function FormUserModify(props){
         const res = await apiRequest(args);
         if (res.status === 200){
             props.setIsModify(false);
-       } 
+       } else if (res.status === 403){
+           setError(res.data.message);
+       }
     }
 
     function userModify(form){
         form.preventDefault();
-        console.log("userModify : " + JSON.stringify(user));
-        const userArray = Object.entries(user);
-        const filteredUserArray = userArray.filter( ([key, value]) => value !== '');
-        const newUser = Object.fromEntries(filteredUserArray);
-        console.log(newUser);
+        const newUser = Object.keys(user).reduce((diff, key) => {
+            if (oldUser[key] === user[key]) return diff;
+            return {
+                ...diff,
+                [key]: user[key]
+            }
+        }, {})
+        console.log(JSON.stringify(newUser));
         sendUser(JSON.stringify(newUser));
     }
    
@@ -71,11 +85,13 @@ function FormUserModify(props){
     }
     return(
         <Form action={userModify}>
+            {auth.role > 1 && <Input type="number" name="role" value={user.role} onchange={handleChange}/>}
             <Input type="text" name="firstName" value={user.firstName} onchange={handleChange}/>
             <Input type="text" name="lastName" value={user.lastName} onchange={handleChange}/>
             <Input type="email" name="email" value={user.email} onchange={handleChange}/>
             <Input type="password" name="password" value={user.password} onchange={handleChange}/>
             <ButtonSubmit label="Modifier"/>
+            {error && <p className="error">{error}</p>}
         </Form>
     )
 }
