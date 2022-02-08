@@ -1,19 +1,22 @@
-import { useState } from "react";
+import {  useState } from "react";
+import useAuth from "./useAuth";
 import apiRequest from "../js/apiRequest";
-import signIn from "../js/signIn";
 import ButtonSubmit from "./ButtonSubmit";
 import Form from "./Form";
 import Input from "./Input";
 
 
-function FormSignup(props){
+function FormSignup(){
     const [user, setUser] = useState({
     firstName: 'Prénom',
     lastName: 'Nom',
     email: 'votre@email.ex',
     password: 'mot de passe'
     });
-    
+    const [error, setError] = useState(null)
+    const Auth = useAuth();
+
+
     async function sendUser(user){
         const args = {
             head: {
@@ -21,21 +24,21 @@ function FormSignup(props){
             },
             init: {
                 method: 'POST',
-                body: user
+                body: JSON.stringify(user)
             },
             url: "auth/signup"
-        }
+        }        
         const res = await apiRequest(args);
         if (res.status === 201){
-            signIn(user);
+            await Auth.onSignIn(user);
+        } else if (res.status === 500 && res.data.name === "SequelizeUniqueConstraintError"){
+            setError('L\'adresse email renseignée est déjà utilisée pour un compte. Veuillez vous connecter.')
         }
     }
 
     function userCreate(form){
         form.preventDefault();
-        console.log("userCreate : " + JSON.stringify(user));
-        sendUser(JSON.stringify(user));
-        
+        sendUser(user);
     }
     function handleChange(event){
         const name = event.target.name;
@@ -52,6 +55,7 @@ function FormSignup(props){
             <Input type="email" name="email" value={user.email} onchange={handleChange}/>
             <Input type="password" name="password" value={user.password} onchange={handleChange}/>
             <ButtonSubmit label="Je m'inscris"/>
+            {error && <p className="error">{error}</p>}
         </Form>
     )
 }
