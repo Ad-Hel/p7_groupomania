@@ -1,7 +1,9 @@
-const User = require('../model/User')
-const Picture = require('../model/Picture.js');
 const fs = require('fs/promises');
 const jwt = require('jsonwebtoken');
+const Picture = require('../model/Picture');
+const Like = require('../model/Like');
+const User = require('../model/User');
+
 
 exports.create = async (req, res, next) => {
     try{
@@ -49,13 +51,27 @@ exports.delete = async (req, res, next) => {
     }
 }
 exports.showAll = async (req, res, next) => {
+    const offset = (req.params.page * 9) - 9;
     try{
         const pictures = await Picture.findAll({
-            include: User,
+            include: [
+                {
+                    model: User,
+                    attributes: ['firstName', 'lastName']
+                },
+                {
+                    model: Like,
+                    attributes: ['UserId']
+                }
+            ],
             order: [
                 ['createdAt', 'DESC']
-            ]
+            ],
+            limit: 9,
+            offset: offset
         });
+        console.log(pictures)
+        console.log(pictures[0].User)
         res.status(200).json(pictures);
     } catch(error){
         res.status(400).json(error);

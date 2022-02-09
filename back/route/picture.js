@@ -12,5 +12,6 @@ router.put('/:id', ctrlPictureAuth, multer, pictureCtrl.modify);
 router.delete('/:id', ctrlPictureAuth, pictureCtrl.delete);
 router.get('/:id', auth, pictureCtrl.showOne);
 router.get('/', auth, pictureCtrl.showAll);
+router.get('/page/:page', auth, pictureCtrl.showAll);
 
 module.exports = router;

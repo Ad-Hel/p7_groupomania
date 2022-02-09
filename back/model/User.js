@@ -1,6 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/database.js');
 const Picture = require('./Picture');
+const Like = require('./Like');
 
 class User extends Model {};
 
@@ -36,14 +37,25 @@ User.init({
     sequelize,
     modelName: 'User'
 });
+
+
+
+
 User.hasMany(Picture, {
     foreignKey: {
         allowNull: false
     }
 });
 Picture.belongsTo(User);
-Picture.belongsToMany(User, { through: 'UsersLikePictures'});
-User.belongsToMany(Picture, {through: 'UsersLikePictures'});
+Picture.belongsToMany(User, { through: 'Like'});
+User.belongsToMany(Picture, {through: 'Like'});
+Picture.hasMany(Like);
+User.hasMany(Like);
+Like.belongsTo(Picture);
+Like.belongsTo(User);
 
 
+
+
+module.exports = Like;
 module.exports = User;
