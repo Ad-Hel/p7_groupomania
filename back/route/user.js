@@ -11,5 +11,6 @@ router.post('/signup', userCtrl.signup );
 router.post('/signin', userCtrl.signin );
 router.get('/:id', auth, userCtrl.showOne);
 router.put('/:id', authCtrl, ctrlUserRole, userCtrl.modifyOne);
+router.delete('/:id', authCtrl, ctrlUserRole, userCtrl.deleteOne);
 
 module.exports = router;
