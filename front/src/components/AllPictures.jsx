@@ -6,14 +6,14 @@ import useAuth from "./useAuth";
 
 function AllPictures(){
     const [pictures, setPictures] = useState([]);
+    const [page, setPage] = useState(1);
     const auth = useAuth().auth;
-    console.log(auth);
     useEffect(() => {
-        async function getAllPictures(){
+        async function getAllPictures(pageNumber){
             try{
                 const args = {
                     token: auth.token,
-                    url: "picture"
+                    url: "picture/page/" + pageNumber,
                 }
                 const res = await apiRequest(args);
                 setPictures(res.data);
@@ -22,8 +22,14 @@ function AllPictures(){
                 console.log(error);
             }
         }
-        getAllPictures();
-    }, [])
+        getAllPictures(page);
+        window.scrollTo(0,0);
+
+    }, [page])
+
+    function handlePagination(){
+        setPage(page + 1);
+    }
 
     return(
         <section>
@@ -39,11 +45,12 @@ function AllPictures(){
                 </header>
                 <img className="front-picture__image" src={picture.imageUrl} alt=""/>
                 <footer className="front-picture__footer">
-                    <p><a href={`/user?id=${picture.User.id}`}>{picture.User.firstName} {picture.User.lastName}</a></p>
-                    <LikeButton auth={auth} picture={picture.id} />
+                    <p><a href={`/user?id=${picture.UserId}`}>{picture.User.firstName} {picture.User.lastName}</a></p>
+                    <LikeButton auth={auth} picture={picture.id} likesCount={picture.Likes.length} isLiked={picture.Likes.find(x => (x = {UserId: auth.id})) ? true : false} />
                 </footer>
             </article>
             ))}
+            <button onClick={handlePagination}>Page suivante</button>
         </section>
        
     )
