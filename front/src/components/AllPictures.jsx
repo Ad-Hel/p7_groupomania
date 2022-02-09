@@ -10,16 +10,13 @@ function AllPictures(){
     const auth = useAuth().auth;
     useEffect(() => {
         async function getAllPictures(pageNumber){
-            try{
-                const args = {
-                    token: auth.token,
-                    url: "picture/page/" + pageNumber,
-                }
-                const res = await apiRequest(args);
+            const args = {
+                token: auth.token,
+                url: "picture/page/" + pageNumber,
+            }
+            const res = await apiRequest(args);
+            if (res.status === 200){
                 setPictures(res.data);
-                console.log(res.data)
-            } catch(error){
-                console.log(error);
             }
         }
         getAllPictures(page);
@@ -46,7 +43,7 @@ function AllPictures(){
                 <img className="front-picture__image" src={picture.imageUrl} alt=""/>
                 <footer className="front-picture__footer">
                     <p><a href={`/user?id=${picture.UserId}`}>{picture.User.firstName} {picture.User.lastName}</a></p>
-                    <LikeButton auth={auth} picture={picture.id} likesCount={picture.Likes.length} isLiked={picture.Likes.find(x => (x = {UserId: auth.id})) ? true : false} />
+                    <LikeButton auth={auth} picture={picture.id} likesCount={picture.Likes.length} isLiked={picture.Likes.find(x => (x.UserId === auth.id)) ? true : false} />
                 </footer>
             </article>
             ))}
