@@ -2,22 +2,11 @@ import { useEffect, useState } from "react";
 import apiRequest from "../js/apiRequest";
 
 function LikeButton(props){
-    const [isLiked, setIsLiked] = useState(false);
-    const [likesCount, setLikeCount] = useState();
+    const [isLiked, setIsLiked] = useState(props.isLiked);
+    const [likesCount, setLikeCount] = useState(props.likesCount);
     const auth = props.auth;
     const pictureId = props.picture;
-    useEffect( ()=>{
-        async function getIsLiked(){
-            const args = {
-                token: auth.token,
-                url: 'like/isliked/' + pictureId
-            }
-            const res = await apiRequest(args);
-            setIsLiked(res.data);
-        }
-        getIsLiked()
-        getCount()
-    }, [pictureId, auth])
+
     async function getCount(){
         const args = {
             url: 'like/count/' + pictureId
@@ -25,6 +14,7 @@ function LikeButton(props){
         const res = await apiRequest(args);
         setLikeCount(res.data);
     }
+
     async function sendLike(){
         const args = {
             url: 'like/' + pictureId,
@@ -40,6 +30,7 @@ function LikeButton(props){
             getCount();
         }        
     }
+
     async function sendDislike(){
         const args = {
             url: 'like/' + pictureId,
@@ -54,6 +45,7 @@ function LikeButton(props){
             getCount()
         }        
     }
+    
     return isLiked ? (
         <button onClick={sendDislike}>{likesCount} 👍</button>
     ) : (
