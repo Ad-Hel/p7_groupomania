@@ -70,8 +70,6 @@ exports.showAll = async (req, res, next) => {
             limit: 9,
             offset: offset
         });
-        console.log(pictures)
-        console.log(pictures[0].User)
         res.status(200).json(pictures);
     } catch(error){
         res.status(400).json(error);
