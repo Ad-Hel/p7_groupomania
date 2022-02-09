@@ -34,7 +34,6 @@ exports.isLiked = async (req, res, next) =>{
     try{
         const picture = await Picture.findByPk(req.params.id);
         const isLiked = await picture.hasUser(res.locals.userId);
-        console.log(isLiked)
         res.status(200).json(isLiked);
     } catch(error){
         res.status(404).json(error);

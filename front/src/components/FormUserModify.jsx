@@ -71,7 +71,6 @@ function FormUserModify(props){
                 [key]: user[key]
             }
         }, {})
-        console.log(JSON.stringify(newUser));
         sendUser(JSON.stringify(newUser));
     }
    
