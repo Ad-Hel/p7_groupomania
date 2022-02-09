@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const sequelize = require('../config/database');
+const queryInterface = sequelize.getQueryInterface();
 
 const User = require('../model/User');
 
@@ -44,7 +46,6 @@ exports.signin = async (req, res, next) => {
 
 exports.showOne = async (req, res, next) => {
     try{
-        console.log(req.params.id)
         const user = await User.findByPk(req.params.id,{attributes: ['id', 'firstName', 'lastName', 'email', 'role']});
         res.status(200).json(user);
     } catch(error){
@@ -61,7 +62,6 @@ exports.modifyOne = async (req, res, next) => {
                 ...req.body,
                 password: hash
             },{attributes: ['id', 'firstName', 'lastName', 'email', 'role']});
-            console.log(newUser);
             res.status(200).json({...newUser.dataValues}); 
         } else {
             const newUser = await user.update({
@@ -77,6 +77,13 @@ exports.modifyOne = async (req, res, next) => {
 exports.deleteOne = async (req, res, next) => {
     try{
         const user = await User.findByPk(req.params.id);
+        queryInterface.bulkUpdate('pictures', {
+            userId: 1000
+        }, 
+        {
+            userId: req.params.id
+        }
+        )
         await user.destroy();
         res.status(200).json({"message":"Utilisateur supprimé."});
     } catch(error){

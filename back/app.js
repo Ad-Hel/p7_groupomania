@@ -52,12 +52,25 @@ const createAdmin = async () => {
     })
     if (created){
         return user
-    } else {
-        return 'Un compte administrateur existe déjà.'
     }
 }
 createAdmin();
-console.log(createAdmin);
+const createDeletedUser = async () => {
+    const hash = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
+    const [user, created] = await User.findOrCreate({
+        where: {
+            id: 1000,           
+        },
+        defaults: {
+            firstName: "Utilisateur",
+            lastName: "supprimé",
+            email: "utilisateur@supprime.ex",
+            password: hash
+        }
+    })
+    console.log(user + created)
+}
+createDeletedUser();
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
