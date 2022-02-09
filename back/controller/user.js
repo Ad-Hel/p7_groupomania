@@ -26,7 +26,6 @@ exports.signin = async (req, res, next) => {
         if (!pwd){
             return res.status(401).json({message: "Mot de passe erroné."});
         };
-        delete user.dataValues.password;
         res.status(201).json({
             ...user.dataValues,
             token: jwt.sign(
@@ -45,9 +44,8 @@ exports.signin = async (req, res, next) => {
 
 exports.showOne = async (req, res, next) => {
     try{
-        const user = await User.findByPk(req.params.id);
-        delete user.dataValues.password;
-        console.log(user.dataValues);
+        console.log(req.params.id)
+        const user = await User.findByPk(req.params.id,{attributes: ['id', 'firstName', 'lastName', 'email', 'role']});
         res.status(200).json(user);
     } catch(error){
         res.status(404).json(error);
@@ -56,20 +54,19 @@ exports.showOne = async (req, res, next) => {
 
 exports.modifyOne = async (req, res, next) => {
     try{
-        const user = await User.findByPk(req.params.id);
+        const user = await User.findByPk(req.params.id,{attributes: ['id', 'firstName', 'lastName', 'email', 'role']});
         if (req.body.password){
             const hash = await bcrypt.hash(req.body.password, 10);
             const newUser = await user.update({
                 ...req.body,
                 password: hash
-            });
-            delete newUser.dataValues.password;
+            },{attributes: ['id', 'firstName', 'lastName', 'email', 'role']});
+            console.log(newUser);
             res.status(200).json({...newUser.dataValues}); 
         } else {
             const newUser = await user.update({
                 ...req.body
-            });
-            delete newUser.dataValues.password;
+            },{attributes: ['id', 'firstName', 'lastName', 'email', 'role']});
             res.status(200).json({...newUser.dataValues});
         };
     } catch(error){
