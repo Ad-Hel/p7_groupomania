@@ -9,14 +9,6 @@ $side: max(1rem, calc((100% - 600px)/2));
     border-bottom: solid 0.1rem $secondary;
     display: grid;
     grid-template-columns: $side min(600px, 100vw) $side;
-    &__nav{
-        grid-column: 3;
-        align-self: center;
-        /* TO DO : mobile menu */
-        @media (max-width: 767px){
-            display: none;
-        }
-    }
     &__logo{
         max-height: 5vh;
         width: min(300px, 50vw);
