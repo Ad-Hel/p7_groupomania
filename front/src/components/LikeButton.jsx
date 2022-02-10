@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import apiRequest from "../js/apiRequest";
 
 function LikeButton(props){
-    const [isLiked, setIsLiked] = useState(props.isLiked);
-    const [likesCount, setLikeCount] = useState(props.likesCount);
     const auth = props.auth;
-    const pictureId = props.picture;
+    const picture = props.picture;
+    const [isLiked, setIsLiked] = useState(picture.Likes.find(x => (x.UserId === auth.id)) ? true : false);
+    const [likesCount, setLikeCount] = useState(picture.Likes.length);
 
     async function getCount(){
         const args = {
-            url: 'like/count/' + pictureId
+            url: 'like/count/' + picture.id
         }
         const res = await apiRequest(args);
         setLikeCount(res.data);
@@ -17,7 +17,7 @@ function LikeButton(props){
 
     async function sendLike(){
         const args = {
-            url: 'like/' + pictureId,
+            url: 'like/' + picture.id,
             token: auth.token,
             init: {
                 method: 'POST'
@@ -33,7 +33,7 @@ function LikeButton(props){
 
     async function sendDislike(){
         const args = {
-            url: 'like/' + pictureId,
+            url: 'like/' + picture.id,
             token: auth.token,
             init: {
                 method: 'DELETE'
