@@ -1,0 +1,21 @@
+@import '../utils/colors';
+@import '../utils/space';
+.button{
+    border: solid 0.1rem $secondary;
+    background-color: $secondary;
+    transform: translate(-2px, -4px);
+    padding: $space-sm $space-md;
+    border-radius: 5px;
+    box-shadow: 2px 4px 0 $secondary-dark;
+    &:hover{
+        transform: translate(0);
+        box-shadow: none;
+    }
+    &--none{
+        background-color: transparent;
+        border-color: transparent;
+        box-shadow: none;
+        padding: 0;
+        transform: translate(0);
+    }
+}
