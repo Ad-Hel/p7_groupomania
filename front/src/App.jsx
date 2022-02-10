@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, Switch } from 'react-router-dom';
 import './scss/global.scss';
 import Home from './page/Home';
 import Signup from './page/Signup';
@@ -27,7 +27,7 @@ function App(){
                 } />
                 <Route path="/signup" element={<Signup/>}/>
                 <Route path="/signin" element={<Signin/>}/>
-                <Route path="/user" element={
+                <Route path="/user/:id" element={
                     <ProtectedRoute>
                         <User/>
                     </ProtectedRoute>
@@ -37,7 +37,7 @@ function App(){
                         <NewPicture/>
                     </ProtectedRoute>
                 }/>
-                <Route path="/picture" element={
+                <Route path="/picture/:id" element={
                     <ProtectedRoute>
                         <Picture/>
                     </ProtectedRoute>

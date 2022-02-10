@@ -4,14 +4,15 @@ import FormPictureModify from "../components/FormPictureModify";
 import { useEffect, useState } from 'react';
 import useAuth from "../components/useAuth";
 import apiRequest from "../js/apiRequest";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Button from "../components/Button";
 
 
 function Picture(){
     const [userId, setUserId] = useState(0);
     const [isModify, setIsModify] = useState(false);
     const [error, setError] = useState(null)
-    const id = parseInt(new URLSearchParams(window.location.search).get('id'),10);
+    const { id } = useParams()
     const auth = useAuth().auth;
     const navigate = useNavigate();
 
@@ -30,6 +31,10 @@ function Picture(){
             setError(res.data.message)
         }
     }
+
+    function handleModify(){
+        setIsModify(!isModify);
+    }
     
     return(
         <div>
@@ -39,11 +44,11 @@ function Picture(){
                 :
                 <div>
                     <FormPictureModify id={id} setIsModify={setIsModify}/>
-                    <button className="button button--delete" onClick={handleDelete}>Supprimer</button>
+                    <Button type='button' classStyle='delete' onclick={handleDelete}>Supprimer</Button>
                     { error && <p>{error}</p>}
                 </div>
                 }
-                {((auth.id === userId || auth.role > 1 )&& !isModify) && <div className="edit"><button className="button button--edit" onClick={() => setIsModify(true)}>Modifier</button></div>}
+                {((auth.id === userId || auth.role > 1 )&& !isModify) && <Button type='button' classStyle='edit' onclick={handleModify}>Modifier</Button>}
             </Container>
         </div>
 

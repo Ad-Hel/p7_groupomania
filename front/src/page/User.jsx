@@ -4,17 +4,19 @@ import { useState } from "react";
 import FormUserModify from "../components/FormUserModify";
 import useAuth from "../components/useAuth";
 import apiRequest from "../js/apiRequest";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom';
+import Button from "../components/Button";
 
 
 
 function User(){
-    const id = parseInt(new URLSearchParams(window.location.search).get('id'),10);
+    // const id = parseInt(new URLSearchParams(window.location.search).get('id'),10);
+    const { id } =  useParams();
     const auth = useAuth().auth;
     const [isModify, setIsModify] = useState(false);
     const [error, setError] = useState(null)
     const navigate = useNavigate();
-
+    
     async function handleDelete(){
         const args = {
             token: auth.token,
@@ -31,6 +33,10 @@ function User(){
         }
     }
 
+    function handleModify(){
+        setIsModify(!isModify);
+    }
+
     return(
         <Container>
             {isModify ?
@@ -41,7 +47,7 @@ function User(){
             </div>
             :
             <OneUser id={id}/>}
-            {((auth.id === id || auth.role > 1 ) && !isModify) && <button onClick={() => setIsModify(true)}>Modifier</button>}  
+            {((auth.id === parseInt(id) || auth.role > 1 )&& !isModify) && <Button type='button' classStyle='edit' onclick={handleModify}>Modifier</Button>}
         </Container>
     ) 
 }
