@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import apiRequest from "../js/apiRequest";
-import LikeButton from "./LikeButton";
-import '../scss/component/front-picture.scss'
+import Button from "./Button";
+import FrontPicture from "./FrontPicture";
 import useAuth from "./useAuth";
 
 function AllPictures(){
     const [pictures, setPictures] = useState([]);
     const [page, setPage] = useState(1);
+    const [isLastPage, setIsLastPage] = useState(false)
     const auth = useAuth().auth;
     useEffect(() => {
         async function getAllPictures(pageNumber){
@@ -16,7 +17,10 @@ function AllPictures(){
             }
             const res = await apiRequest(args);
             if (res.status === 200){
-                setPictures(res.data);
+                setPictures(res.data.rows);
+                if ( (page * 9 ) > res.data.count ){
+                    setIsLastPage(true);
+                }
             }
         }
         getAllPictures(page);
@@ -34,22 +38,10 @@ function AllPictures(){
                 Bonjour {auth.firstName}.
             </h2>
             {pictures.map((picture)=>(
-            <article key={picture.id} className="front-picture">
-                <header className="front-picture__header">
-                    <a href={`/picture?id=${picture.id}`} >
-                        <h3 className="front-picture__title">{picture.title}</h3>
-                    </a>
-                </header>
-                <img className="front-picture__image" src={picture.imageUrl} alt=""/>
-                <footer className="front-picture__footer">
-                    <p><a href={`/user?id=${picture.UserId}`}>{picture.User.firstName} {picture.User.lastName}</a></p>
-                    <LikeButton auth={auth} picture={picture.id} likesCount={picture.Likes.length} isLiked={picture.Likes.find(x => (x.UserId === auth.id)) ? true : false} />
-                </footer>
-            </article>
+                <FrontPicture key={picture.id} picture={picture} auth={auth} />
             ))}
-            <button onClick={handlePagination}>Page suivante</button>
+            {!isLastPage && <Button type="button" onclick={handlePagination}>Page suivante</Button>}
         </section>
-       
     )
 }
 
