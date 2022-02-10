@@ -1,31 +1,38 @@
 @import '../utils/space';
 @import '../utils/colors';
+@import '../utils/mixin';
 
 .picture{
     display: flex;
-    justify-self: center;
-    margin: 7vh 0;
+    flex-direction: column;
+    margin: auto 0;
     background-color: white;
-    border: solid 0.1rem $secondary;
+    @include desktop{
+        flex-direction: row;
+        border: solid 0.1rem $secondary;
+        margin: 7vh 0;
+    }
     &__image{
-        max-width: 75vh;
-        height: 75vh;
+        max-width: min(75vh, calc(100vw));
+        height: auto;
         object-fit: cover;
+        @include desktop{
+            height: 75vh;
+        }
     }
     &__content{
         padding: $space-sm;
         display: flex;
         flex-direction: column;
         width: calc(900px - 50vh);
+        max-width: 100vw;
     }
     &__footer{
         margin-top: auto;
         border-top: solid 0.1rem $secondary;
         padding: $space-md $space-xs $space-xs;
         display: flex;
+        justify-content: space-between;
 
     }
-    // &__title{
-    //     font-size: 1rem;
-    // }
 }
