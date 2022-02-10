@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import apiRequest from "../js/apiRequest";
 import Form from "./Form";
 import Input from "./Input";
-import ButtonSubmit from "./ButtonSubmit";
+import Button from "./Button";
 import useAuth from './useAuth';
 
 
@@ -77,7 +77,7 @@ function FormPictureModify(props){
         <Form action={createPicture}>
             <Input type="text" name="title" value={picture.title} onchange={getTitle}/>
             <Input type="file" name="image" onchange={getFile}/>
-            <ButtonSubmit label="Modifier" />
+            <Button type="submit">Modifier</Button>
             {error && <p className="error">{error}</p>}
         </Form>
     )

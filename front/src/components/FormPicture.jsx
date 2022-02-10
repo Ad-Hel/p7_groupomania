@@ -1,6 +1,6 @@
 import { useState } from "react";
 import apiRequest from "../js/apiRequest";
-import ButtonSubmit from "./ButtonSubmit";
+import Button from "./Button";
 import Form from "./Form";
 import Input from "./Input";
 import useAuth from "./useAuth";
@@ -33,7 +33,7 @@ function FormPicture(){
         const res = await apiRequest(args);
         if (res.status === 201){
             console.log("201 ok")
-            const url = '/picture?id=' + res.data.id;
+            const url = '/picture/' + res.data.id;
             // return <Navigate to={url} replace/>
             navigate(url);
         }
@@ -61,7 +61,7 @@ function FormPicture(){
         <Form action={createPicture}>
             <Input type="text" name="title" value={picture.title} onchange={getTitle}/>
             <Input type="file" name="image" onchange={getFile}/>
-            <ButtonSubmit label="Poster"/>
+            <Button type="submit">Poster</Button>
         </Form>
     )
 }

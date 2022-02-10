@@ -1,7 +1,7 @@
 import {  useState } from "react";
 import useAuth from "./useAuth";
 import apiRequest from "../js/apiRequest";
-import ButtonSubmit from "./ButtonSubmit";
+import Button from "./Button";
 import Form from "./Form";
 import Input from "./Input";
 
@@ -50,11 +50,11 @@ function FormSignup(){
     }
     return(
         <Form action={userCreate}>
-            <Input type="text" name="firstName" value={user.firstName} onchange={handleChange}/>
-            <Input type="text" name="lastName" value={user.lastName} onchange={handleChange}/>
-            <Input type="email" name="email" value={user.email} onchange={handleChange}/>
-            <Input type="password" name="password" value={user.password} onchange={handleChange}/>
-            <ButtonSubmit label="Je m'inscris"/>
+            <Input label="Prénom" type="text" name="firstName" value={user.firstName} onchange={handleChange}/>
+            <Input label="Nom" type="text" name="lastName" value={user.lastName} onchange={handleChange}/>
+            <Input label="Adresse courriel" type="email" name="email" value={user.email} onchange={handleChange}/>
+            <Input label="Mot de passe" type="password" name="password" value={user.password} onchange={handleChange}/>
+            <Button type="submit">S'inscrire</Button>
             {error && <p className="error">{error}</p>}
         </Form>
     )

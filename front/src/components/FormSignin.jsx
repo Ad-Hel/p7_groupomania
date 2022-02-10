@@ -1,5 +1,5 @@
 // import signIn from "../js/signIn";
-import ButtonSubmit from "./ButtonSubmit";
+import Button from "./Button";
 import Form from "./Form";
 import Input from "./Input";
 import useAuth from "./useAuth";
@@ -34,9 +34,9 @@ function FormSignin(){
 
     return(
         <Form action={signin}>
-            <Input type="email" name="email" value={signinInfo.email} onchange={updateSigninInfo}/>
-            <Input type="password" name="password" value={signinInfo.password} onchange={updateSigninInfo}/>
-            <ButtonSubmit label="Se connecter"/>
+            <Input label="Adresse courriel" type="email" name="email" value={signinInfo.email} onchange={updateSigninInfo}/>
+            <Input label="Mot de passe" type="password" name="password" value={signinInfo.password} onchange={updateSigninInfo}/>
+            <Button type="submit">Se connecter</Button>
             <p>{error && error}</p>
         </Form>
     )

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import apiRequest from '../js/apiRequest';
 import Form from "./Form";
 import Input from "./Input";
-import ButtonSubmit from "./ButtonSubmit";
+import Button from "./Button";
 import useAuth from "./useAuth";
 
 
@@ -89,7 +89,7 @@ function FormUserModify(props){
             <Input type="text" name="lastName" value={user.lastName} onchange={handleChange}/>
             <Input type="email" name="email" value={user.email} onchange={handleChange}/>
             <Input type="password" name="password" value={user.password} onchange={handleChange}/>
-            <ButtonSubmit label="Modifier"/>
+            <Button type="submit">Modifier</Button>
             {error && <p className="error">{error}</p>}
         </Form>
     )
