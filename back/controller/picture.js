@@ -53,7 +53,7 @@ exports.delete = async (req, res, next) => {
 exports.showAll = async (req, res, next) => {
     const offset = (req.params.page * 9) - 9;
     try{
-        const pictures = await Picture.findAll({
+        const pictures = await Picture.findAndCountAll({
             include: [
                 {
                     model: User,
@@ -77,7 +77,18 @@ exports.showAll = async (req, res, next) => {
 }
 exports.showOne = async (req, res, next) => {
     try{
-        const picture = await Picture.findByPk(req.params.id);
+        const picture = await Picture.findByPk(req.params.id, {
+            include: [
+                {
+                    model: User,
+                    attributes: ['firstName', 'lastName']
+                },
+                {
+                    model: Like,
+                    attributes: ['UserId']
+                }
+            ]
+        });
         res.status(200).json(picture);
     } catch(error){
         res.status(404).json(error);
