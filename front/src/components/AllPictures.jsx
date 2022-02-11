@@ -3,12 +3,14 @@ import apiRequest from "../js/apiRequest";
 import Button from "./Button";
 import FrontPicture from "./FrontPicture";
 import useAuth from "./useAuth";
+import { useNavigate } from "react-router-dom";
 
 function AllPictures(){
     const [pictures, setPictures] = useState([]);
     const [page, setPage] = useState(1);
     const [isLastPage, setIsLastPage] = useState(false)
     const auth = useAuth().auth;
+    const navigate = useNavigate();
     useEffect(() => {
         async function getAllPictures(pageNumber){
             const args = {
@@ -20,8 +22,10 @@ function AllPictures(){
                 setPictures(res.data.rows);
                 if ( (page * 9 ) > res.data.count ){
                     setIsLastPage(true);
-                }
-            }
+                } 
+            }else {
+                navigate('/signin');
+             }
         }
         getAllPictures(page);
         window.scrollTo(0,0);
