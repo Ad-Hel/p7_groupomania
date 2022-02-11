@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import apiRequest from "../js/apiRequest";
-import LikeButton from "./LikeButton";
 import '../scss/component/picture.scss';
 import Picture from "./Picture";
 import useAuth from "./useAuth";
