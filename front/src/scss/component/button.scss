@@ -19,4 +19,22 @@
         padding: 0;
         transform: translate(0);
     }
+    &--like{
+        height: 2rem;
+        width: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &--true{
+            color: $primary;
+            transform: translate(0);
+            box-shadow: none;
+        }
+        &--false{
+            color: white;
+            &:hover{
+                color: $primary;
+            }
+        }
+    }
 }
