@@ -7,6 +7,7 @@
     padding: $space-sm $space-md;
     border-radius: 5px;
     box-shadow: 2px 4px 0 $secondary-dark;
+    cursor: pointer;
     &:hover{
         transform: translate(0);
         box-shadow: none;
