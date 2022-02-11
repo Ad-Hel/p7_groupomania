@@ -1,0 +1,23 @@
+.reactions{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    &__counter{
+        font-weight: 700;
+        font-size: 1.2rem;
+        line-height: 100%;
+        opacity: 0;
+        transition: 0.1s ease-in-out;
+        &--initial{
+            transform: translateY(0);
+            opacity: 1;
+        }
+        &--up{
+            transform: translateY(-1rem);
+        }
+        &--down{
+            transform: translateY(1rem)
+        }
+    }
+}
