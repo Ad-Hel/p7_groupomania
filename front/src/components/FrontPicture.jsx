@@ -1,5 +1,5 @@
 import '../scss/component/front-picture.scss';
-import LikeButton from "./LikeButton";
+import Reactions from "./Reactions";
 import { Link } from 'react-router-dom'
 
 function FrontPicture(props){
@@ -15,7 +15,7 @@ function FrontPicture(props){
                 <img className="front-picture__image" src={picture.imageUrl} alt=""/>
                 <footer className="front-picture__footer">
                     <Link to={`/user/${picture.UserId}`} replace>{picture.User.firstName} {picture.User.lastName}</Link>
-                    <LikeButton auth={auth} picture={picture}/>
+                    <Reactions auth={auth} picture={picture}/>
                 </footer>
         </article>
     )
