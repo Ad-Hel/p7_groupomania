@@ -1,20 +1,58 @@
 @import '../utils/colors';
 @import '../utils//space';
+@import '../utils/mixin';
 .nav{
-    grid-column: 3;
-    align-self: center;
-    position: relative;
-    @media (max-width: 767px){
-        display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    padding: $space-md $space-sm;
+    background-color: white;
+    justify-content: space-around;
+    align-items: center;
+    height: 5vh;
+    @include desktop{
+        grid-column: 3;
+        align-self: center;
+        position: relative;
+        display: flex;
+        gap: 2rem;
+        justify-content: start;
     }
     &__dropdown{
-        position: fixed;
-        top: 7vh;
-        background-color: white;
-        border: solid 0.1rem $secondary;
-        display: flex;
-        flex-direction: column;
-        padding: $space-xs;
-        gap: $space-xs;
+        &__content{
+            @include desktop{
+                bottom: unset;
+                width: unset;
+                right: unset;
+                top: 7vh;
+            }
+            position: fixed;
+            z-index: 1000;
+            background-color: white;
+            border: solid 0.1rem $secondary;
+            display: flex;
+            flex-direction: column;
+            padding: $space-md;
+            gap: $space-sm;
+            bottom: 5vh;
+            transform: translateX(calc( -50% + 10px));
+            & a{
+                text-align: center;
+                color: black;
+            }
+        }
+        &__background{
+            background-color: transparent;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    }
+    &__icon{
+        fill: $secondary-dark;
     }
 }
