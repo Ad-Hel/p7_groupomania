@@ -26,6 +26,7 @@ function FormPictureModify(props){
                 setPicture({
                     title: res.data.title
                 });
+                document.getElementById('image').style.backgroundImage = 'url(' + res.data.imageUrl + ')';
             } catch(error){
                 console.log(error);
             }
@@ -70,7 +71,9 @@ function FormPictureModify(props){
     }
 
     function getFile(event){
-        setFile(event.target.files[0])
+        const [file] = event.target.files;
+        event.target.style.backgroundImage = 'url(' + URL.createObjectURL(file) +')';
+        setFile(file)
     }
 
     return(

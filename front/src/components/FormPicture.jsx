@@ -34,7 +34,6 @@ function FormPicture(){
         if (res.status === 201){
             console.log("201 ok")
             const url = '/picture/' + res.data.id;
-            // return <Navigate to={url} replace/>
             navigate(url);
         }
     }
@@ -54,7 +53,10 @@ function FormPicture(){
     }
 
     function getFile(event){
-        setFile(event.target.files[0])
+        const [file] = event.target.files;
+        event.target.style.backgroundImage = 'url(' + URL.createObjectURL(file) +')';
+        setFile(file)
+
     }
 
     return(
