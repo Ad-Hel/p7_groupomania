@@ -44,7 +44,7 @@ function AllPictures(){
             {pictures.map((picture)=>(
                 <FrontPicture key={picture.id} picture={picture} auth={auth} />
             ))}
-            {!isLastPage && <Button type="button" onclick={handlePagination}>Page suivante</Button>}
+            {!isLastPage && <Button type="button" classStyle="next" onclick={handlePagination}>Page suivante</Button>}
         </section>
     )
 }
