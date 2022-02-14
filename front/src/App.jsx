@@ -1,4 +1,4 @@
-import { Routes, Route, Switch } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import './scss/global.scss';
 import Home from './page/Home';
 import Signup from './page/Signup';
@@ -6,19 +6,20 @@ import Signin from './page/Signin';
 import NewPicture from './page/NewPicture';
 import User from './page/User';
 import Picture from './page/Picture';
-import { createContext, useState } from 'react';
+import { createContext } from 'react';
 import Header from './layout/Header';
 import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './layout/Footer';
 import Auth  from './components/Auth';
+import LogoAlt from './components/LogoAlt';
 
 const AuthContext = createContext(null);
 
 function App(){
-    
+    const location = useLocation();
     return(
         <Auth>
-            <Header/>
+            {(location.pathname !== "/signup" && location.pathname !== "/signin") ? <Header/> : <LogoAlt/>}
             <Routes>
                 <Route index element={
                     <ProtectedRoute>
@@ -45,7 +46,6 @@ function App(){
             </Routes>
             <Footer/>
         </Auth>
-
     )
 }
 export { AuthContext };
