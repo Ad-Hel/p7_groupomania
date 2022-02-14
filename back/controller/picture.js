@@ -54,6 +54,8 @@ exports.showAll = async (req, res, next) => {
     const offset = (req.params.page * 9) - 9;
     try{
         const pictures = await Picture.findAndCountAll({
+            col: 'id',
+            distinct:true,
             include: [
                 {
                     model: User,
