@@ -1,17 +1,24 @@
+import { createContext } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import './scss/global.scss';
+
+import Auth  from './components/Auth';
+import RoleProtectedRoute from './components/RoleProtectedRoute';
+import ProtectedRoute from './components/ProtectedRoute';
+
+import Header from './layout/Header';
+import Footer from './layout/Footer';
+
 import Home from './page/Home';
 import Signup from './page/Signup';
 import Signin from './page/Signin';
 import NewPicture from './page/NewPicture';
 import User from './page/User';
 import Picture from './page/Picture';
-import { createContext } from 'react';
-import Header from './layout/Header';
-import ProtectedRoute from './components/ProtectedRoute';
-import Footer from './layout/Footer';
-import Auth  from './components/Auth';
+import Users from './page/Users';
+
 import LogoAlt from './components/LogoAlt';
+
+import './scss/global.scss';
 
 const AuthContext = createContext(null);
 
@@ -42,6 +49,11 @@ function App(){
                     <ProtectedRoute>
                         <Picture/>
                     </ProtectedRoute>
+                }/>
+                <Route path="/users" element={
+                    <RoleProtectedRoute>
+                        <Users/>
+                    </RoleProtectedRoute>
                 }/>
             </Routes>
             <Footer/>

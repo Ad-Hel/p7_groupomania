@@ -90,3 +90,17 @@ exports.deleteOne = async (req, res, next) => {
         res.status(404).json(error);
     }
 }
+
+exports.showAll = async (req, res, next) => {
+    const offset = (req.params.page - 1) * 9;
+    try{
+        const users = await User.findAndCountAll({
+            attributes: ['id', 'firstName', 'lastName', 'email', 'role'],
+            limit: 9,
+            offset: offset
+        })
+        res.status(200).json(users);
+    } catch(error){
+        res.status(400).json(error);
+    }
+}
