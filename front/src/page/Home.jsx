@@ -12,8 +12,10 @@ function Home() {
   const [pictures, setPictures] = useState([]);
   const [page, setPage] = useState(1);
   const [isLastPage, setIsLastPage] = useState(false)
+
   const auth = useAuth().auth;
   const navigate = useNavigate();
+
   useEffect(() => {
       async function getAllPictures(pageNumber){
           const args = {
@@ -38,6 +40,7 @@ function Home() {
   function handlePagination(){
       setPage(page + 1);
   }
+  
   return (
     <Container>
       <section>
