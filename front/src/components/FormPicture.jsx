@@ -1,27 +1,28 @@
-import { useState } from "react";
-import apiRequest from "../js/apiRequest";
-import Button from "./Button";
-import Form from "./Form";
-import Input from "./Input";
-import useAuth from "./useAuth";
-// import { Navigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
-function FormPicture(){
+import useAuth from "./useAuth";
+import apiRequest from "../js/apiRequest";
+
+import Form from "./Form";
+import Button from "./Button";
+import Input from "./Input";
+
+function FormPicture(props){
     const auth = useAuth().auth;
     const navigate = useNavigate();
-    const [picture, setPicture] = useState({
-        title: "Titre",
-    });
-
+    const [picture, setPicture] = useState({ title: "Titre" });
     const [file, setFile] = useState(null);
+    const [error, setError] = useState(null);
 
-    async function sendPicture(data, picture){
-        picture = {
-            ...picture,
-            "UserId": auth.id
+    useEffect(() => {
+        if (props.isModify){
+            setPicture({ title: props.picture.title })
+            document.getElementById('image').style.backgroundImage = 'url(' + props.picture.imageUrl + ')';
         }
-        data.append("picture", JSON.stringify(picture));
+    }, [])
+    
+    async function createPicture(data){
         const args = {
             token: auth.token,
             init: {
@@ -32,17 +33,38 @@ function FormPicture(){
         }
         const res = await apiRequest(args);
         if (res.status === 201){
-            console.log("201 ok")
             const url = '/picture/' + res.data.id;
             navigate(url);
         }
     }
 
-    function createPicture(form){
+    async function modifyPicture(data){
+       const args =  {
+           init: {
+               method: 'PUT',
+               body: data
+           },
+           token: auth.token,
+           url: 'picture/' + props.picture.id
+       }
+       const res = await apiRequest(args);
+       if (res.status === 200){
+            props.setIsModify(false);
+       } else if (res.status === 403){
+           setError(res.data.message);
+       }
+    }
+
+    function handlePicture(form){
         form.preventDefault();
         const formData = new FormData();
         formData.append("image", file);
-        sendPicture(formData, picture)
+        formData.append("picture", JSON.stringify(picture));
+        if (props.isModify){
+            modifyPicture(formData)
+        } else {
+            createPicture(formData)
+        }
     }
 
     function getTitle(event){
@@ -60,10 +82,11 @@ function FormPicture(){
     }
 
     return(
-        <Form action={createPicture}>
+        <Form action={handlePicture}>
             <Input type="text" name="title" value={picture.title} onchange={getTitle}/>
             <Input type="file" name="image" onchange={getFile}/>
             <Button type="submit">Poster</Button>
+            {error && <p className="error">{error}</p>}
         </Form>
     )
 }

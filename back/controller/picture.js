@@ -10,6 +10,7 @@ exports.create = async (req, res, next) => {
         const pictureData = JSON.parse(req.body.picture);
         const picture = await Picture.create({
             ...pictureData,
+            UserId: res.locals.userId,
             imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         })
         res.status(201).json(picture);

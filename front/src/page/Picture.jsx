@@ -5,7 +5,7 @@ import useAuth from "../components/useAuth";
 import apiRequest from "../js/apiRequest";
 
 import Container from "../layout/Container";
-import FormPictureModify from "../components/FormPictureModify";
+import FormPicture from "../components/FormPicture";
 import Reactions from '../components/Reactions';
 import Button from "../components/Button";
 
@@ -28,14 +28,11 @@ function Picture(){
                 url: "picture/" + id,
             }
             const res = await apiRequest(args);
-            console.log(res.data)
             setPicture(res.data);
             setUserId(res.data.UserId);
-            console.log(picture)
         }
-        console.log("Am i here ?")
         getOnePicture(id)
-    }, [])
+    }, [isModify])
 
     async function handleDelete(){
         const args = {
@@ -57,9 +54,11 @@ function Picture(){
         setIsModify(!isModify);
     }
     
-    return(
+    return picture ?
+    
+    (
         <Container>
-            {!isModify && picture ?
+            {!isModify ?
             
             <article className="picture">
                 <img className="picture__image" src={picture.imageUrl} alt="" />
@@ -75,12 +74,16 @@ function Picture(){
             </article>
             :
             <>
-                <FormPictureModify id={id} setIsModify={setIsModify}/>
+                <FormPicture picture={picture} isModify setIsModify={setIsModify}/>
                 <Button type='button' classStyle='delete' onclick={handleDelete}>Supprimer</Button>
                 { error && <p>{error}</p>}
             </>
             }
             {((auth.id === userId || auth.role > 1 )&& !isModify) && <Button type='button' classStyle='edit' onclick={handleModify}>Modifier</Button>}
+        </Container>
+    ) : (
+        <Container>
+            <p>Chargement...</p>
         </Container>
     )
 }
