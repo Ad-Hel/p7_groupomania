@@ -1,20 +1,41 @@
-import Container from "../layout/Container";
-import OnePicture from "../components/OnePicture";
-import FormPictureModify from "../components/FormPictureModify";
 import { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from "react-router-dom";
+
 import useAuth from "../components/useAuth";
 import apiRequest from "../js/apiRequest";
-import { useNavigate, useParams } from "react-router-dom";
+
+import Container from "../layout/Container";
+import FormPictureModify from "../components/FormPictureModify";
+import Reactions from '../components/Reactions';
 import Button from "../components/Button";
 
+import '../scss/component/picture.scss';
 
 function Picture(){
+    const [picture, setPicture] = useState(null);
     const [userId, setUserId] = useState(0);
     const [isModify, setIsModify] = useState(false);
     const [error, setError] = useState(null)
     const { id } = useParams()
+
     const auth = useAuth().auth;
     const navigate = useNavigate();
+
+    useEffect( () => {
+        async function getOnePicture(id) {
+            const args = {
+                token: auth.token,
+                url: "picture/" + id,
+            }
+            const res = await apiRequest(args);
+            console.log(res.data)
+            setPicture(res.data);
+            setUserId(res.data.UserId);
+            console.log(picture)
+        }
+        console.log("Am i here ?")
+        getOnePicture(id)
+    }, [])
 
     async function handleDelete(){
         const args = {
@@ -37,21 +58,30 @@ function Picture(){
     }
     
     return(
-        <div>
-            <Container>
-                {!isModify ?
-                <OnePicture id={id} setUserId={setUserId}/>
-                :
-                <div>
-                    <FormPictureModify id={id} setIsModify={setIsModify}/>
-                    <Button type='button' classStyle='delete' onclick={handleDelete}>Supprimer</Button>
-                    { error && <p>{error}</p>}
-                </div>
-                }
-                {((auth.id === userId || auth.role > 1 )&& !isModify) && <Button type='button' classStyle='edit' onclick={handleModify}>Modifier</Button>}
-            </Container>
-        </div>
-
+        <Container>
+            {!isModify && picture ?
+            
+            <article className="picture">
+                <img className="picture__image" src={picture.imageUrl} alt="" />
+                <div className="picture__content">
+                    <header className="picture__header">
+                        <h1 className="picture__title">{picture.title}</h1>
+                    </header>
+                    <footer className="picture__footer">
+                        <Link to={`/user/${picture.UserId}`} replace>{picture.User.firstName} {picture.User.lastName}</Link>
+                        <Reactions auth={auth} picture={picture}/>
+                    </footer>
+                </div>            
+            </article>
+            :
+            <>
+                <FormPictureModify id={id} setIsModify={setIsModify}/>
+                <Button type='button' classStyle='delete' onclick={handleDelete}>Supprimer</Button>
+                { error && <p>{error}</p>}
+            </>
+            }
+            {((auth.id === userId || auth.role > 1 )&& !isModify) && <Button type='button' classStyle='edit' onclick={handleModify}>Modifier</Button>}
+        </Container>
     )
 }
 
