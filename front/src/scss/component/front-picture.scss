@@ -13,7 +13,7 @@
         margin: $space-sm $space-xs;
     }
     &__image{
-        max-width: min(100vw, 600px);
+        width: min(100vw, 600px);
         height: auto;
         object-fit: cover;
     }
