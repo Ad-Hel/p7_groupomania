@@ -21,7 +21,7 @@ function Signup(){
                 method: 'POST',
                 body: JSON.stringify(data)
             },
-            url: "auth/signup"
+            url: "user/signup"
         }        
         const res = await apiRequest(args);
         if (res.status === 201){
