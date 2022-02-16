@@ -20,7 +20,7 @@ function AuthProvider({children}){
                 method: 'POST',
                 body: JSON.stringify(user)
             },
-            url: "auth/signin"
+            url: "user/signin"
         }
         const res = await apiRequest(args);
         if (res.status === 201){

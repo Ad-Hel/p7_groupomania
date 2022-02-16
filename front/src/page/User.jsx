@@ -22,7 +22,7 @@ function User(){
         async function getUser(id){
             const args = {
                 token: auth.token,
-                url: 'auth/' + id
+                url: 'user/' + id
             }
             const res = await apiRequest(args);
             if ( res.status === 200 ){
@@ -41,7 +41,7 @@ function User(){
                 method: 'PUT',
                 body: user
             },
-            url: 'auth/' + id
+            url: 'user/' + id
         }
         const res = await apiRequest(args);
         if (res.status === 200){
@@ -68,7 +68,7 @@ function User(){
             init: {
                 method: 'DELETE'
             },
-            url: 'auth/' + id
+            url: 'user/' + id
         };
         const res = await apiRequest(args);
         if (res.status === 200){
