@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 
 import useAuth from './useAuth';
-import apiRequest from '../js/apiRequest';
 
 import Form from './Form';
 import Input from './Input';
@@ -31,11 +30,11 @@ function FormUser(props){
 
     return(
         <Form action={handleFormSubmit}>
-            {(auth && auth.role > 1) && <Input type="number" name="role" value={user.role} onchange={handleInput}/>}
-            {!props.isSignIn && <><Input type="text" name="firstName" value={user.firstName} onchange={handleInput}/>
-            <Input type="text" name="lastName" value={user.lastName} onchange={handleInput}/></>}
-            <Input type="email" name="email" value={user.email} onchange={handleInput}/>
-            <Input type="password" name="password" value={user.password} onchange={handleInput}/>
+            {(auth && auth.role > 1) && <Input label="Rôle" type="number" name="role" value={user.role} onchange={handleInput}/>}
+            {!props.isSignIn && <><Input label="Prénom" type="text" name="firstName" value={user.firstName} onchange={handleInput}/>
+            <Input label="Nom" type="text" name="lastName" value={user.lastName} onchange={handleInput}/></>}
+            <Input label="Courriel" type="email" name="email" value={user.email} onchange={handleInput}/>
+            <Input label="Mot de passe" type="password" name="password" value={user.password} onchange={handleInput}/>
             <Button type="submit">{props.label}</Button>
             {props.error && <p className="error">{props.error}</p>}
         </Form>
