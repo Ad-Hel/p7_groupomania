@@ -7,7 +7,6 @@ import Container from '../layout/Container';
 import FormUser from '../components/FormUser';
 
 function Signin(){
-    // const [formData, setFormData] = useState(null);
     const [error, setError] = useState(null);
     const Auth = useAuth();
 
