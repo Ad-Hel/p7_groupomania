@@ -27,7 +27,8 @@ function AuthProvider({children}){
             const data = res.data;
             const auth = {
                 ...data,
-                token: "Bearer "+ data.token
+                token: "Bearer "+ data.token,
+                time: Date.now()
             }
             setAuth(auth);
             window.localStorage.setItem('auth', JSON.stringify(auth));
@@ -48,7 +49,12 @@ function AuthProvider({children}){
     }
 
     function handleLocalSignIn(localAuth){
-        setAuth({...localAuth});
+        if ((Date.now() -  localAuth.time) > 43200000){
+            window.localStorage.clear();
+            navigate('/signin');
+        } else {
+            setAuth({...localAuth});
+        }
     }
 
     const value={
