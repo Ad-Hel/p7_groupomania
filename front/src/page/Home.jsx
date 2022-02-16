@@ -15,12 +15,13 @@ function Home() {
 
   const auth = useAuth().auth;
   const navigate = useNavigate();
+  const url = auth.role < 2 ? "picture/page/" : "picture/mod/page/"
 
   useEffect(() => {
       async function getAllPictures(pageNumber){
           const args = {
               token: auth.token,
-              url: "picture/page/" + pageNumber,
+              url: url + pageNumber,
           }
           const res = await apiRequest(args);
           if (res.status === 200){
