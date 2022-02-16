@@ -4,6 +4,8 @@ const sequelize = require('../config/database');
 const queryInterface = sequelize.getQueryInterface();
 
 const User = require('../model/User');
+const Picture = require('../model/Picture');
+const Like = require('../model/Like');
 
 exports.signup = async (req, res, next) => {
     try {
@@ -76,14 +78,18 @@ exports.modifyOne = async (req, res, next) => {
 
 exports.deleteOne = async (req, res, next) => {
     try{
+        console.log('Ok')
         const user = await User.findByPk(req.params.id);
-        queryInterface.bulkUpdate('pictures', {
-            userId: 1000
-        }, 
-        {
-            userId: req.params.id
-        }
-        )
+        await Like.destroy({
+            where: {
+                UserId: req.params.id
+            }
+        });
+        await Picture.destroy({
+            where: {
+                UserId: req.params.id
+            }
+        });
         await user.destroy();
         res.status(200).json({"message":"Utilisateur supprimé."});
     } catch(error){
@@ -95,12 +101,56 @@ exports.showAll = async (req, res, next) => {
     const offset = (req.params.page - 1) * 9;
     try{
         const users = await User.findAndCountAll({
-            attributes: ['id', 'firstName', 'lastName', 'email', 'role'],
+            attributes: ['id', 'firstName', 'lastName', 'email', 'role', 'createdAt', 'deletedAt'],
             limit: 9,
-            offset: offset
+            offset: offset,
+            paranoid: false
         })
         res.status(200).json(users);
     } catch(error){
         res.status(400).json(error);
+    }
+}
+
+exports.restoreOne = async (req, res, next) => {
+    try{
+        User.restore({
+            where: {
+                id: req.params.id
+            }
+        })
+        Picture.restore({
+            where: {
+                UserId: req.params.id
+            }
+        });
+        Like.restore({
+            where: {
+                UserId: req.params.id
+            }
+        });
+        res.status(200).json({message: "Utilisateur restauré !"});
+    } catch (error){
+        res.status(404).json(error);
+    }
+}
+
+exports.hardDeleteOne = async (req, res, next) => {
+    try{
+        Like.destroy({
+            where: {
+                UserId: req.params.id
+            },
+            force: true
+        });
+        Picture.destroy({
+            where: {
+                UserId: req.params.id
+            },
+            force: true
+        })
+        const user = await User.findByPk(req.params.id, { paranoid: false });
+    } catch(error){
+        res.status(404).json(error);
     }
 }

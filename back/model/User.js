@@ -35,6 +35,7 @@ User.init({
     }
 }, {
     sequelize,
+    paranoid: true,
     modelName: 'User'
 });
 
@@ -48,7 +49,7 @@ User.hasMany(Picture, {
 });
 Picture.belongsTo(User);
 Picture.belongsToMany(User, { through: 'Like'});
-User.belongsToMany(Picture, {through: 'Like'});
+User.belongsToMany(Picture, { through: 'Like' });
 Picture.hasMany(Like);
 User.hasMany(Like);
 Like.belongsTo(Picture);

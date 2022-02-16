@@ -43,8 +43,6 @@ exports.modify = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
     try{
         const picture = await Picture.findByPk(req.params.id);
-        const filename = picture.imageUrl.split('/images/')[1];
-        await fs.unlink(`./images/${filename}`);
         await picture.destroy();
         res.status(200).json({"message" : "L'image a été supprimée"});
     } catch(error){
@@ -53,6 +51,12 @@ exports.delete = async (req, res, next) => {
 }
 exports.showAll = async (req, res, next) => {
     const offset = (req.params.page * 9) - 9;
+    let paranoid = true;
+    if (req.path.includes('mod/page')){
+        paranoid = false;
+    }
+    console.log(req.path);
+    console.log(paranoid);
     try{
         const pictures = await Picture.findAndCountAll({
             col: 'id',
@@ -71,7 +75,8 @@ exports.showAll = async (req, res, next) => {
                 ['createdAt', 'DESC']
             ],
             limit: 9,
-            offset: offset
+            offset: offset,
+            paranoid: paranoid
         });
         res.status(200).json(pictures);
     } catch(error){
@@ -95,5 +100,29 @@ exports.showOne = async (req, res, next) => {
         res.status(200).json(picture);
     } catch(error){
         res.status(404).json(error);
+    }
+}
+
+exports.restoreOne = async (req, res, next ) => {
+    try{
+        const picture = await Picture.findByPk(req.params.id, { paranoid: false });
+        picture.restore()
+        res.status(200).json({message: "Image restaurée"});
+    } catch(error){
+        res.status(404).json(error)
+    }
+}
+
+exports.destroyOne = async (req, res, next) => {
+    try{
+        console.log(req.params.id);
+        const picture = await Picture.findByPk(req.params.id, { paranoid: false });
+        console.log(JSON.stringify(picture))
+        const filename = picture.imageUrl.split('/images/')[1];
+        console.log(filename);
+        await fs.unlink(`./images/${filename}`);
+        picture.destroy({ force: true });
+    } catch(error){
+        res.status(404).json(error)
     }
 }

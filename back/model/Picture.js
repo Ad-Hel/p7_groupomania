@@ -20,6 +20,7 @@ Picture.init({
 
 }, {
     sequelize,
+    paranoid: true,
     modelName: 'Picture'
 });
 

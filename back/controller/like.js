@@ -13,7 +13,7 @@ exports.like = async (req, res, next) => {
 exports.unlike = async (req, res, next) => {
     try{
         const picture = await Picture.findByPk(req.params.id);
-        const unlike = await picture.removeUser(res.locals.userId);
+        const unlike = await picture.removeUser(res.locals.userId, { force: true });
         res.status(200).json(unlike);
     } catch(error){
         res.status(404).json(error);

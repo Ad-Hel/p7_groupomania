@@ -13,5 +13,8 @@ router.delete('/:id', ctrlPictureAuth, pictureCtrl.delete);
 router.get('/:id', auth, pictureCtrl.showOne);
 router.get('/', auth, pictureCtrl.showAll);
 router.get('/page/:page', auth, pictureCtrl.showAll);
+router.get('/mod/page/:page', auth, pictureCtrl.showAll);
+router.delete('/destroy/:id', pictureCtrl.destroyOne);
+router.put('/restore/:id', pictureCtrl.restoreOne);
 
 module.exports = router;

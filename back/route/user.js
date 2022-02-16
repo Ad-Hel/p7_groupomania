@@ -12,6 +12,8 @@ router.post('/signin', userCtrl.signin );
 router.get('/:id', auth, userCtrl.showOne);
 router.put('/:id', authCtrl, ctrlUserRole, userCtrl.modifyOne);
 router.delete('/:id', authCtrl, ctrlUserRole, userCtrl.deleteOne);
-router.get('/users/:page', userCtrl.showAll )
+router.get('/all/:page', userCtrl.showAll );
+router.put('/restore/:id', userCtrl.restoreOne);
+router.delete('/destroy/:id', userCtrl.hardDeleteOne);
 
 module.exports = router;
