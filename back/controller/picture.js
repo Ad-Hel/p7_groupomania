@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const fs = require('fs/promises');
 const jwt = require('jsonwebtoken');
 const Picture = require('../model/Picture');
@@ -51,12 +52,6 @@ exports.delete = async (req, res, next) => {
 }
 exports.showAll = async (req, res, next) => {
     const offset = (req.params.page * 9) - 9;
-    let paranoid = true;
-    if (req.path.includes('mod/page')){
-        paranoid = false;
-    }
-    console.log(req.path);
-    console.log(paranoid);
     try{
         const pictures = await Picture.findAndCountAll({
             col: 'id',
@@ -64,7 +59,7 @@ exports.showAll = async (req, res, next) => {
             include: [
                 {
                     model: User,
-                    attributes: ['firstName', 'lastName']
+                    attributes: ['firstName', 'lastName'],
                 },
                 {
                     model: Like,
@@ -76,7 +71,44 @@ exports.showAll = async (req, res, next) => {
             ],
             limit: 9,
             offset: offset,
-            paranoid: paranoid
+        });
+        res.status(200).json(pictures);
+    } catch(error){
+        res.status(400).json(error);
+    }
+}
+exports.showDeleted = async (req, res, next) => {
+    const offset = (req.params.page * 9) - 9;
+    try{
+        const pictures = await Picture.findAndCountAll({
+            col: 'id',
+            distinct:true,
+            include: [
+                {
+                    model: User,
+                    attributes: ['firstName', 'lastName'],
+                    where: {
+                        role: {
+                            [Op.lt]: res.locals.userRole
+                        }
+                    }
+                },
+                {
+                    model: Like,
+                    attributes: ['UserId']
+                }
+            ],
+            order: [
+                ['createdAt', 'DESC']
+            ],
+            limit: 9,
+            offset: offset,
+            where: {
+                [Op.not]: {
+                        deletedAt: null
+                }
+            },
+            paranoid: false
         });
         res.status(200).json(pictures);
     } catch(error){

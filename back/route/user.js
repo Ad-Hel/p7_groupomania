@@ -1,19 +1,19 @@
 const express = require('express');
 const router = express.Router();
 
-const auth = require('../middleware/auth')
-const authCtrl = require('../middleware/ctrlUserAuth');
-const ctrlUserRole = require('../middleware/ctrlUserRole');
+const isAuth = require('../middleware/isAuth');
+const isTargetValid = require('../middleware/isTargetValid');
+const isRoleModifValid = require('../middleware/isRoleModifValid');
 
 const userCtrl = require('../controller/user');
 
 router.post('/signup', userCtrl.signup );
 router.post('/signin', userCtrl.signin );
-router.get('/:id', auth, userCtrl.showOne);
-router.put('/:id', authCtrl, ctrlUserRole, userCtrl.modifyOne);
-router.delete('/:id', authCtrl, ctrlUserRole, userCtrl.deleteOne);
-router.get('/all/:page', userCtrl.showAll );
-router.put('/restore/:id', userCtrl.restoreOne);
-router.delete('/destroy/:id', userCtrl.hardDeleteOne);
+router.get('/:id', isAuth, userCtrl.showOne);
+router.put('/:id', isAuth, isTargetValid, userCtrl.modifyOne);
+router.delete('/:id', isAuth, isTargetValid, userCtrl.deleteOne);
+router.get('/all/:page', isAuth, userCtrl.showAll );
+router.put('/restore/:id', isAuth, isTargetValid, userCtrl.restoreOne);
+router.delete('/destroy/:id', isAuth, isTargetValid, userCtrl.hardDeleteOne);
 
 module.exports = router;
