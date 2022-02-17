@@ -8,7 +8,7 @@ import Container from "../layout/Container";
 import FrontPicture from "../components/FrontPicture";
 import Button from "../components/Button";
 
-function Home() {
+function DeletedPictures() {
   const [pictures, setPictures] = useState([]);
   const [page, setPage] = useState(1);
   const [isLastPage, setIsLastPage] = useState(false);
@@ -20,7 +20,7 @@ function Home() {
       async function getAllPictures(pageNumber){
           const args = {
               token: auth.token,
-              url: "picture/page/" + pageNumber,
+              url: "picture/deleted/page/" + pageNumber,
           }
           const res = await apiRequest(args);
           if (res.status === 200){
@@ -45,7 +45,7 @@ function Home() {
     <Container>
       <section>
             <h2>
-                Bonjour {auth.firstName}.
+                Images supprimées
             </h2>
             {pictures.map((picture)=>(
                 <FrontPicture key={picture.id} picture={picture} auth={auth} />
@@ -56,4 +56,4 @@ function Home() {
 );
 }
 
-export default Home;
+export default DeletedPictures;

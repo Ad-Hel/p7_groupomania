@@ -15,6 +15,7 @@ import NewPicture from './page/NewPicture';
 import User from './page/User';
 import Picture from './page/Picture';
 import Users from './page/Users';
+import DeletedPictures from './page/DeletedPictures';
 
 import LogoAlt from './components/LogoAlt';
 
@@ -53,6 +54,11 @@ function App(){
                 <Route path="/users" element={
                     <RoleProtectedRoute>
                         <Users/>
+                    </RoleProtectedRoute>
+                }/>
+                <Route path="/deleted-pictures" element={
+                    <RoleProtectedRoute>
+                        <DeletedPictures/>
                     </RoleProtectedRoute>
                 }/>
             </Routes>

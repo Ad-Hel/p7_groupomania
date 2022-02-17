@@ -25,6 +25,7 @@ function Navigation(){
                         <div className='nav__dropdown__content'>
                             <Link to={`/user/${auth.id}`}>Profil</Link>
                             {auth.role > 1 && <Link to='/users'>Tous les utilisateurs</Link>}
+                            {auth.role > 1 && <Link to='/deleted-pictures'>Images supprimées</Link>}
                             <Button type="button" classStyle='none' onclick={signout}>Déconnexion</Button>
                         </div>
                         <div className='nav__dropdown__background' onClick={toggleDropdown}></div>
