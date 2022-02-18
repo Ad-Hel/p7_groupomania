@@ -102,6 +102,11 @@ exports.showAll = async (req, res, next) => {
     try{
         const users = await User.findAndCountAll({
             attributes: ['id', 'firstName', 'lastName', 'email', 'role', 'createdAt', 'deletedAt'],
+            where: {
+                role: {
+                    [Op.lt]: res.locals.userRole
+                }
+            },
             limit: 9,
             offset: offset,
             paranoid: false
@@ -150,6 +155,8 @@ exports.hardDeleteOne = async (req, res, next) => {
             force: true
         })
         const user = await User.findByPk(req.params.id, { paranoid: false });
+        user.destroy({ force: true });
+        res.status(200).json({message: "Utilisateur supprimé."})
     } catch(error){
         res.status(404).json(error);
     }
