@@ -1,20 +1,28 @@
-const User = require('../model/User')
-const Picture = require('../model/Picture.js');
+const Like = require('../model/Like');
 
 exports.like = async (req, res, next) => {
     try{
-        const picture = await Picture.findByPk(req.params.id);
-        const like = await picture.addUser(res.locals.userId);
-        res.status(200).json(like);
+        await Like.findOrCreate({ 
+            where: {
+                UserId: res.locals.userId,
+                [res.locals.target]: req.params.id
+            }
+        })
+        res.status(200).json({message: "Like enregistré"});
     } catch(error){
         res.status(404).json(error);
     }
 }
 exports.unlike = async (req, res, next) => {
     try{
-        const picture = await Picture.findByPk(req.params.id);
-        const unlike = await picture.removeUser(res.locals.userId, { force: true });
-        res.status(200).json(unlike);
+        await Like.destroy({
+            where: {
+                UserId: res.locals.userId,
+                [res.locals.target]: req.params.id
+            },
+            force: true
+        })
+        res.status(200).json({message: "Like supprimé"});
     } catch(error){
         res.status(404).json(error);
     }
@@ -22,9 +30,12 @@ exports.unlike = async (req, res, next) => {
 
 exports.likeCount = async (req, res, next) =>{
     try{
-        const picture = await Picture.findByPk(req.params.id);
-        const likesCount = await picture.countUsers();
-        res.status(200).json(likesCount);
+        const count = await Like.count({
+            where: {
+                [res.locals.target]: req.params.id
+            }
+        })
+        res.status(200).json(count);
     } catch(error){
         res.status(404).json(error);
     }
@@ -32,9 +43,12 @@ exports.likeCount = async (req, res, next) =>{
 
 exports.isLiked = async (req, res, next) =>{
     try{
-        const picture = await Picture.findByPk(req.params.id);
-        const isLiked = await picture.hasUser(res.locals.userId);
-        res.status(200).json(isLiked);
+        const isLiked = Like.findOne({
+            where: {
+                UserId: res.locals.userId,
+                [res.locals.target]: req.params.id
+            }
+        })
     } catch(error){
         res.status(404).json(error);
     }
