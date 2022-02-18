@@ -147,11 +147,8 @@ exports.restoreOne = async (req, res, next ) => {
 
 exports.destroyOne = async (req, res, next) => {
     try{
-        console.log(req.params.id);
         const picture = await Picture.findByPk(req.params.id, { paranoid: false });
-        console.log(JSON.stringify(picture))
         const filename = picture.imageUrl.split('/images/')[1];
-        console.log(filename);
         await fs.unlink(`./images/${filename}`);
         picture.destroy({ force: true });
     } catch(error){
