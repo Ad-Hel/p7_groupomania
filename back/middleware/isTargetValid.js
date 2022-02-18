@@ -1,5 +1,6 @@
 const User = require('../model/User');
 const Picture = require('../model/Picture');
+const Text = require('../model/Text')
 
 module.exports = async (req, res, next) => {
     try{
@@ -11,7 +12,12 @@ module.exports = async (req, res, next) => {
             const picture = await Picture.findByPk(req.params.id, { include: User, paranoid: false });
             res.locals.targetId = picture.UserId;
             res.locals.targetRole = picture.User.role;
-        } else {
+        } else if (req.baseUrl.includes('text')){
+            const text = await Text.findByPk(req.params.id, {include: User, paranoid: false});
+            res.locals.targetId = text.UserId;
+            res.locals.targetRole = text.User.role;
+        }
+        else {
             res.status(500).json({ message: "Contrôle impossible. Accès refusé." })
         };
         if ( res.locals.userId == res.locals.targetId && !req.baseUrl.includes('destroy') && !req.baseUrl.includes('restore') ){

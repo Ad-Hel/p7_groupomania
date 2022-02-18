@@ -13,6 +13,7 @@ app.use(express.json());
 const usersRoutes = require('./route/user.js');
 const picturesRoutes = require('./route/picture')
 const likeRoutes = require('./route/like');
+const textRoutes = require('./route/text');
 
 async function connectionTest(){
     try {
@@ -68,5 +69,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/user', usersRoutes);
 app.use('/api/picture', picturesRoutes);
 app.use('/api/like', likeRoutes);
+app.use('/api/text', textRoutes);
+
 
 module.exports = app;
