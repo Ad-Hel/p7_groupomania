@@ -12,7 +12,8 @@ function Reactions(props){
 
     async function getCount(){
         const args = {
-            url: 'like/count/' + picture.id
+            token: auth.token,
+            url: 'like/picture/count/' + picture.id
         }
         const res = await apiRequest(args);
         if (res.status === 200){
@@ -27,7 +28,7 @@ function Reactions(props){
 
     async function sendLike(){
         const args = {
-            url: 'like/' + picture.id,
+            url: 'like/picture/' + picture.id,
             token: auth.token,
             init: {
                 method: 'POST'
@@ -42,7 +43,7 @@ function Reactions(props){
 
     async function sendDislike(){
         const args = {
-            url: 'like/' + picture.id,
+            url: 'like/picture/' + picture.id,
             token: auth.token,
             init: {
                 method: 'DELETE'
