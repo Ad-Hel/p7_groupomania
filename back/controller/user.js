@@ -1,7 +1,6 @@
+const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const sequelize = require('../config/database');
-const queryInterface = sequelize.getQueryInterface();
 
 const User = require('../model/User');
 const Picture = require('../model/Picture');
