@@ -151,6 +151,7 @@ exports.destroyOne = async (req, res, next) => {
         const filename = picture.imageUrl.split('/images/')[1];
         await fs.unlink(`./images/${filename}`);
         picture.destroy({ force: true });
+        res.status(200).json({message: "Image supprimée."})
     } catch(error){
         res.status(404).json(error)
     }
