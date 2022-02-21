@@ -11,28 +11,28 @@ import Button from "../components/Button";
 function Users(){
     const [users, setUsers] = useState([]);
     const [page, setPage]   = useState(1)
-    const [isLastPage, setIsLastPage] = useState(false)
+    const [isLastPage, setIsLastPage] = useState(false);
+
 
     const { auth } = useAuth();
 
-    useEffect(() => {
-        async function getUsers(){
-            const args = {
-                token: auth.token,
-                url: 'user/all/' + page
-            };
-            const res = await apiRequest(args);
-            if (res.status === 200){
-                setUsers(res.data.rows);
-                setPage(res.data.count);
-                if ( (page * 9 ) > res.data.count ){
-                    setIsLastPage(true);
-                } 
-                console.log(auth.role)
-            }
-        }   
-        getUsers();
-    }, []);
+    async function getUsers(){
+        const args = {
+            token: auth.token,
+            url: 'user/all/' + page
+        };
+        const res = await apiRequest(args);
+        if (res.status === 200){
+            setUsers(res.data.rows);
+            if ( (page * 9 ) > res.data.count ){
+                setIsLastPage(true);
+            } 
+        }
+    } 
+
+    useEffect(() => {   
+        getUsers(page);
+    }, [ auth.token, page]);
 
     return (
         <Container>
@@ -60,7 +60,7 @@ function Users(){
                         <td>{user.createdAt.split('T')[0].split('-').reverse().join('/')}</td>
                         <td>{user.deletedAt && user.deletedAt.split('T')[0].split('-').reverse().join('/')}</td>
                         <td><Link to={`/user/${user.id}`}>voir</Link></td>
-                        <td><ModActions deletedAt={user.deletedAt} id={user.id} path='user' /></td>
+                        <td><ModActions list={users} setList={setUsers} id={user.id} deletedAt={user.deletedAt} path='user' /></td>
                     </tr>
                 ))}
                 </tbody>
