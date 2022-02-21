@@ -10,7 +10,7 @@ const userCtrl = require('../controller/user');
 router.post('/signup', userCtrl.signup );
 router.post('/signin', userCtrl.signin );
 router.get('/:id', isAuth, userCtrl.showOne);
-router.put('/:id', isAuth, isTargetValid, userCtrl.modifyOne);
+router.put('/:id', isAuth, isTargetValid, isRoleModifValid, userCtrl.modifyOne);
 router.delete('/:id', isAuth, isTargetValid, userCtrl.deleteOne);
 router.get('/all/:page', isAuth, userCtrl.showAll );
 router.put('/restore/:id', isAuth, isTargetValid, userCtrl.restoreOne);
