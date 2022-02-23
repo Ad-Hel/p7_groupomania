@@ -12,4 +12,12 @@
     border-radius: 20px;
     width: min(90vw, 600px);
     font-size: 1.2rem;
+    &--text{
+        flex-direction: row;
+        padding: $space-sm;
+        gap: 0;
+        justify-content: center;
+        position: relative;
+        border-radius: 0;
+    }
 }
