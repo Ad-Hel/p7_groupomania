@@ -19,7 +19,7 @@ function FrontPicture(props){
                 <footer className="front-picture__footer">
                     <Link to={`/user/${picture.UserId}`} replace>{picture.User.firstName} {picture.User.lastName}</Link>
                     {auth.role > 1 && <ModActions list={props.list} setList={props.setList} path="picture" id={picture.id} deletedAt={picture.deletedAt}/>}
-                    <Reactions auth={auth} picture={picture}/>
+                    <Reactions auth={auth} target={picture} path='picture' />
                 </footer>
         </article>
     )
