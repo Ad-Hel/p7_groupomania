@@ -16,6 +16,7 @@ import User from './page/User';
 import Picture from './page/Picture';
 import Users from './page/Users';
 import DeletedPictures from './page/DeletedPictures';
+import Text from './page/Text';
 
 import LogoAlt from './components/LogoAlt';
 
@@ -44,6 +45,11 @@ function App(){
                 <Route path="/new" element={
                     <ProtectedRoute>
                         <NewPicture/>
+                    </ProtectedRoute>
+                }/>
+                <Route path="/text" element={
+                    <ProtectedRoute>
+                        <Text/>
                     </ProtectedRoute>
                 }/>
                 <Route path="/picture/:id" element={
