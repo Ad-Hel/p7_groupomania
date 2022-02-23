@@ -5,15 +5,16 @@ import '../scss/component/reactions.scss';
 
 function Reactions(props){
     const auth = props.auth;
-    const picture = props.picture;
-    const [isLiked, setIsLiked] = useState(picture.Likes.find(x => (x.UserId === auth.id)) ? true : false);
-    const [likesCount, setLikeCount] = useState(picture.Likes.length);
+    const target = props.target;
+    const path = props.path;
+    const [isLiked, setIsLiked] = useState(target.Likes.find(x => (x.UserId === auth.id)) ? true : false);
+    const [likesCount, setLikeCount] = useState(target.Likes.length);
     const [countState, setCountState] = useState('initial');
 
     async function getCount(){
         const args = {
             token: auth.token,
-            url: 'like/picture/count/' + picture.id
+            url: 'like/' + path + '/count/' + target.id
         }
         const res = await apiRequest(args);
         if (res.status === 200){
@@ -22,13 +23,11 @@ function Reactions(props){
             setTimeout(() => setCountState('down'), 100);
             setTimeout(() => setCountState('initial'), 200);
         }
-        
-        
     }
 
     async function sendLike(){
         const args = {
-            url: 'like/picture/' + picture.id,
+            url: 'like/' + path + '/' + target.id,
             token: auth.token,
             init: {
                 method: 'POST'
@@ -43,7 +42,7 @@ function Reactions(props){
 
     async function sendDislike(){
         const args = {
-            url: 'like/picture/' + picture.id,
+            url: 'like/' + path + '/' + target.id,
             token: auth.token,
             init: {
                 method: 'DELETE'
