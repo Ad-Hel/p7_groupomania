@@ -1,0 +1,18 @@
+@import '../utils/space';
+@import '../utils/colors';
+@import '../utils/preformated';
+
+.text{
+    padding: $space-sm;
+    &__author{
+        font-size: $space-md;
+    }
+    &__footer{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        & .reactions{
+            margin-left: auto;
+        }
+    }
+}

@@ -1,0 +1,26 @@
+@import '../utils/colors';
+@import '../utils/space';
+@import '../utils/preformated';
+
+.conversation{
+    @include component;
+    width: min(90vw, 600px);
+    margin-top: -$space-xxs;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: $space-sm;
+    &__first-text{
+        width: 100%;
+        padding-left: $space-md;
+    }
+    &__responses{
+        width: calc(100% - $space-lg);
+        margin-left: $space-lg;
+        border-left: solid $space-xxs $secondary;
+    }
+    & .form{
+        width: calc(100% - $space-lg);
+        border: none;
+    }
+}
