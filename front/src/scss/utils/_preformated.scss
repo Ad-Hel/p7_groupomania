@@ -1,0 +1,6 @@
+@import './space';
+
+@mixin component{
+    background-color: $white;
+    border: solid $space-xxs $secondary;
+}

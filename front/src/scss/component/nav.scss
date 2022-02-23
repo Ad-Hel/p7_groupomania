@@ -1,6 +1,8 @@
 @import '../utils/colors';
 @import '../utils//space';
-@import '../utils/mixin';
+@import '../utils/responsive';
+@import '../utils/preformated';
+
 .nav{
     position: fixed;
     bottom: 0;
@@ -8,7 +10,7 @@
     right: 0;
     display: flex;
     padding: $space-md $space-sm;
-    background-color: white;
+    background-color: $white;
     justify-content: space-around;
     align-items: center;
     height: 5vh;
@@ -28,10 +30,9 @@
                 right: unset;
                 top: 7vh;
             }
+            @include component;
             position: fixed;
             z-index: 1000;
-            background-color: white;
-            border: solid 0.1rem $secondary;
             display: flex;
             flex-direction: column;
             padding: $space-md;

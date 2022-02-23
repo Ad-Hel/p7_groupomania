@@ -1,14 +1,14 @@
 @import '../utils/colors';
-@import '../utils/mixin';
+@import '../utils/responsive';
+@import '../utils/preformated';
 
 .footer{
     @include desktop{
+        @include component;
         min-height: 18vh;
-        border-top: solid 0.1rem $secondary;
         position: unset;
         z-index: unset;
         height: unset;
-        background-color: white;
         &> button{
             display: none;
         }
