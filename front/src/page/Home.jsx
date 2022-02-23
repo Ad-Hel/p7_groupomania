@@ -45,14 +45,12 @@ function Home() {
   
   return (
     <Container>
-      <section>
-            <h2>
-                Bonjour {auth.firstName}.
-            </h2>
-            {pictures.map((picture)=>(
-                <FrontPicture list={pictures} setList={setPictures} key={picture.id} picture={picture} auth={auth} />
-            ))}
-      </section>
+        <h1 className="container__title">
+            Bonjour {auth.firstName}.
+        </h1>
+        {pictures.map((picture)=>(
+            <FrontPicture list={pictures} setList={setPictures} key={picture.id} picture={picture} auth={auth} />
+        ))}
       {!isLastPage && <Button type="button" classStyle="next" onclick={handlePagination}>Page suivante</Button>}
     </Container>
 );
