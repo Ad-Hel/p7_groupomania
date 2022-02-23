@@ -18,6 +18,9 @@
         flex-direction: column;
         gap: $space-xs;
     }
+    &__error{
+        height: 1rem;
+    }
     &--file{
         height: min(80vw, 550px);
         color: transparent;
