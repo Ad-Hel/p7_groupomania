@@ -46,6 +46,7 @@
     &--next{
         display: block;
         margin-left: auto;
+        margin-right: $space-sm;
     }
     &--submit{
         width: min(80vw, 350px);
