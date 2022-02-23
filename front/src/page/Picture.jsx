@@ -68,7 +68,7 @@ function Picture(){
                     </header>
                     <footer className="picture__footer">
                         <Link to={`/user/${picture.UserId}`} replace>{picture.User.firstName} {picture.User.lastName}</Link>
-                        <Reactions auth={auth} picture={picture}/>
+                        <Reactions auth={auth} target={picture} path='picture'/>
                     </footer>
                 </div>            
             </article>
