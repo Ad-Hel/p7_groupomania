@@ -75,7 +75,7 @@ function FormText(props){
 
     return(
         <Form action={handleFormSubmit} classStyle='form--text'>
-            <Input label="none" type="text" name="content" value={text.content} onchange={handleInput}/>
+            <Input label="none" type="text" name="content" value={text.content} onchange={handleInput} error='none'/>
             <Button type="submit" classStyle='none button--text'>{props.label}</Button>
             {props.error && <p className="error">{props.error}</p>}
         </Form>
