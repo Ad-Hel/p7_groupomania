@@ -57,6 +57,10 @@ User.hasMany(Text, {
 });
 Text.belongsTo(User);
 
+Text.hasMany(Text, {
+    foreignKey: 'ParentId'
+});
+
 Picture.hasMany(Like);
 User.hasMany(Like);
 Text.hasMany(Like);
@@ -65,12 +69,7 @@ Like.belongsTo(Picture);
 Like.belongsTo(User);
 Like.belongsTo(Text);
 
-Text.hasMany(Text, {
-    foreignKey: {
-        name: 'parent'
-    }
-});
-Text.belongsTo(Text);
+
 
 
 
