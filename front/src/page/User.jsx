@@ -87,7 +87,7 @@ function User(){
             {isModify ?
             <>
                 <FormUser user={user} isModify error={error} formaction={handleUser} label='Modifier' /> 
-                <button className="button button--delete" onClick={handleDelete}>Supprimer</button>
+                <Button type='button' classStyle='delete' onclick={handleDelete}>Supprimer</Button>
                 { error && <p>{error}</p>}
             </>
             :
