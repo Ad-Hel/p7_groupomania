@@ -71,5 +71,10 @@ app.use('/api/picture', picturesRoutes);
 app.use('/api/like', likeRoutes);
 app.use('/api/text', textRoutes);
 
+app.use(function(err, req, res, next) {
+    console.error(err.stack.split('\n')[0]);
+    const error = err.stack.split('\n')[0].split(': ')[1];
+    res.status(500).json({message: error});
+  });
 
 module.exports = app;

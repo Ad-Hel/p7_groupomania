@@ -13,7 +13,10 @@ function FormPicture(props){
     const navigate = useNavigate();
     const [picture, setPicture] = useState({ title: "Titre" });
     const [file, setFile] = useState(null);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState({
+        form: null,
+        title: null
+    });
 
     useEffect(() => {
         if (props.isModify){
@@ -50,8 +53,10 @@ function FormPicture(props){
        const res = await apiRequest(args);
        if (res.status === 200){
             props.setIsModify(false);
-       } else if (res.status === 403){
-           setError(res.data.message);
+       } else {
+           setError({
+               form: res.data.message
+           });
        }
     }
 
@@ -69,6 +74,12 @@ function FormPicture(props){
 
     function getTitle(event){
         const value = event.target.value;
+        if (!value){
+            setError({title: 'Une image doit avoir un titre !'})
+        } else {
+            setError({title: null})
+        }
+        
         setPicture({
             'title': value
         })
@@ -83,10 +94,10 @@ function FormPicture(props){
 
     return(
         <Form action={handlePicture}>
-            <Input type="text" name="title" value={picture.title} onchange={getTitle}/>
-            <Input type="file" name="image" onchange={getFile}/>
+            <Input label="Titre" type="text" name="title" value={picture.title} onchange={getTitle} error={error.title}/>
+            <Input label="Image" type="file" name="image" onchange={getFile} accept="image/jpg, image/jpeg, image/gif, image/webp, image/png"/>
             <Button type="submit">Poster</Button>
-            {error && <p className="error">{error}</p>}
+            {error.form && <p className="form__error">{error.form}</p>}
         </Form>
     )
 }
