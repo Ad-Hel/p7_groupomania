@@ -68,18 +68,24 @@ exports.destroy = async (req, res, next) => {
 
 exports.show = async (req, res, next) => {
     try{
-        console.log("ok")
         const text = await Text.findByPk(req.params.id, {
             include : [
                 {
                     model: User,
-                    attributes: ['id', 'firstName', 'lastName']
+                    attributes: ['id', 'firstName', 'lastName', 'role']
                 },
-                Like,
-                Text
+                {
+                    model: Like,
+                    attributes: ['UserId'],
+                    include: User
+                },
+                {
+                    model: Text,
+                    include: [Like, User]
+                }
             ]
+            // include: {all: true, nested: true}
         });
-        console.log(text)
         res.status(200).json(text);
     }
     catch(error){
@@ -92,18 +98,21 @@ exports.showAll = async (req, res, next) => {
     try{
         const texts = await Text.findAndCountAll({
             include: [
-                {
-                    model: User,
-                    attributes: ['id', 'firstName', 'lastName']
-                },
-                Like,
-                Text
-            ],
+                    {
+                        model: User,
+                        attributes: ['id', 'firstName', 'lastName', 'role']
+                    },
+                    Text,
+                    Like
+                ],
             where: {
-                parent: null
+                ParentId: null
             },
             offset: offset,
-            limit: 9
+            limit: 9,
+            order: [
+                ['createdAt', 'DESC']
+            ],
         });
         res.status(200).json(texts);
     }
@@ -131,11 +140,43 @@ exports.showDeleted = async (req, res, next) => {
             },
             offset: offset,
             limit: 9,
+            order: [
+                ['createdAt', 'DESC']
+            ],
             paranoid: false
         });
         res.status(200).json(texts);
     }
     catch(error){
+        res.status(500).json(error);
+    }
+}
+
+exports.showResponses = async (req, res, next) => {
+    const offset = (req.params.page - 1 ) * 9;
+    try{
+        const responses = await Text.findAndCountAll({
+           include : [
+               {
+                   model: User,
+                   attributes: ['id', 'firstName', 'lastName', 'role']
+               },
+               {
+                   model: Like,
+                   attributes: ['UserId']
+               }
+           ],
+           where: {
+               ParentId: req.params.id
+           },
+           offset: offset,
+           limit: 9,
+           order: [
+            ['createdAt', 'ASC']
+            ]
+        })
+        res.status(200).json(responses);
+    } catch(error){
         res.status(500).json(error);
     }
 }
