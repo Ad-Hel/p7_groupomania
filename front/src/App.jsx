@@ -2,7 +2,6 @@ import { createContext } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 import Auth  from './components/Auth';
-import RoleProtectedRoute from './components/RoleProtectedRoute';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import Header from './layout/Header';
@@ -30,43 +29,19 @@ function App(){
         <Auth>
             {(location.pathname !== "/signup" && location.pathname !== "/signin") ? <Header/> : <LogoAlt/>}
             <Routes>
-                <Route index element={
-                    <ProtectedRoute>
-                        <Home/>
-                    </ProtectedRoute>
-                } />
+                <Route element={<ProtectedRoute/>}>
+                    <Route index element={<Home/>} />
+                    <Route path="/user/:id" element={<User/>}/>
+                    <Route path="/new" element={<NewPicture/>}/>
+                    <Route path="/picture/:id" element={<Picture/>}/>
+                    <Route path="/text" element={<Text/>}/>
+                </Route>
                 <Route path="/signup" element={<Signup/>}/>
                 <Route path="/signin" element={<Signin/>}/>
-                <Route path="/user/:id" element={
-                    <ProtectedRoute>
-                        <User/>
-                    </ProtectedRoute>
-                }/>
-                <Route path="/new" element={
-                    <ProtectedRoute>
-                        <NewPicture/>
-                    </ProtectedRoute>
-                }/>
-                <Route path="/text" element={
-                    <ProtectedRoute>
-                        <Text/>
-                    </ProtectedRoute>
-                }/>
-                <Route path="/picture/:id" element={
-                    <ProtectedRoute>
-                        <Picture/>
-                    </ProtectedRoute>
-                }/>
-                <Route path="/users" element={
-                    <RoleProtectedRoute>
-                        <Users/>
-                    </RoleProtectedRoute>
-                }/>
-                <Route path="/deleted-pictures" element={
-                    <RoleProtectedRoute>
-                        <DeletedPictures/>
-                    </RoleProtectedRoute>
-                }/>
+                <Route element={<ProtectedRoute role="2"/>}>
+                    <Route path="/users" element={<Users/>}/>
+                    <Route path="/deleted-pictures" element={<DeletedPictures/>}/>
+                </Route>
             </Routes>
             <Footer/>
         </Auth>

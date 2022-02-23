@@ -1,19 +1,25 @@
-import { Navigate } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 import useAuth from './useAuth';
 
-function ProtectedRoute({ children }){
+function ProtectedRoute(props){
     const Auth = useAuth();
+    const { auth } = Auth;
+    const role = parseInt(props.role);
 
-    if (Auth.auth.id === "" && window.localStorage.hasOwnProperty('auth') ){
+    if (auth.id === "" && window.localStorage.hasOwnProperty('auth') ){
         const localAuth = JSON.parse(window.localStorage.getItem('auth'));
         Auth.onReload(localAuth);
         return null
-    } else if( Auth.auth.id === ""){
+    } else if( auth.id === ""){
         return <Navigate to="/signin" replace />;
-    }
+    };
+
+    if (role && role > auth.role){
+        return <Navigate to='/signin' replace />;
+    };
         
 
-    return children;
+    return <Outlet />;
 }
 
 export default ProtectedRoute
