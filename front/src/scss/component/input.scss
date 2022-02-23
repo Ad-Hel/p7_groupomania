@@ -19,7 +19,10 @@
         gap: $space-xs;
     }
     &__error{
+        margin-top: -$space-xs;
+        margin-left: $space-xs;
         height: 1rem;
+        font-size: 1rem;
     }
     &--file{
         height: min(80vw, 550px);
@@ -38,6 +41,5 @@
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
-
     }
 }
