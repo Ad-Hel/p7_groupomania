@@ -8,4 +8,8 @@
     min-height: 75vh;
     margin-top: 7vh;
     padding: $space-lg 0 $space-xxl;
+    &__title{
+        width: 100%;
+        padding: 0 $space-sm;
+    }
 }
