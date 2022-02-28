@@ -1,4 +1,4 @@
-const { Op } = require('sequelize');
+const { Op, ValidationError } = require('sequelize');
 const fs = require('fs/promises');
 const jwt = require('jsonwebtoken');
 const Picture = require('../model/Picture');
@@ -8,15 +8,43 @@ const User = require('../model/User');
 
 exports.create = async (req, res, next) => {
     try{
+        let url = null;
+        if (req.file){
+            url = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+            
+        }
         const pictureData = JSON.parse(req.body.picture);
         const picture = await Picture.create({
             ...pictureData,
             UserId: res.locals.userId,
-            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+            imageUrl: url
         })
         res.status(201).json(picture);
     } catch(error) {
-        res.status(500).json(error);
+        console.log(error)
+        const messages = []
+        if (error instanceof ValidationError){
+            error.errors.forEach((error) => {
+                console.log(error.path + " : " + error.validatorKey )
+                let message;
+                switch (error.path){
+                    case 'title':
+                        message = 'Le titre ';
+                        break;
+                    case 'imageUrl':
+                        message = 'L\'image ';
+                        break;
+                };
+                switch (error.validatorKey){
+                    case 'is_null' :
+                    case 'notEmpty':
+                        message += 'est obligatoire.';
+                        break;
+                };
+                messages.push(message);
+            })
+        }
+        res.status(500).json(messages);
     }
 }
 exports.modify = async (req, res, next) => {

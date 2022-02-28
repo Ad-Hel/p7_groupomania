@@ -11,7 +11,10 @@ Picture.init({
     },
     title: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
     },
     imageUrl: {
         type: DataTypes.STRING,

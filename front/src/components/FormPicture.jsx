@@ -11,10 +11,10 @@ import Input from "./Input";
 function FormPicture(props){
     const auth = useAuth().auth;
     const navigate = useNavigate();
-    const [picture, setPicture] = useState({ title: "Titre" });
+    const [picture, setPicture] = useState({ title: null });
     const [file, setFile] = useState(null);
     const [error, setError] = useState({
-        form: null,
+        form: [],
         title: null
     });
 
@@ -38,6 +38,11 @@ function FormPicture(props){
         if (res.status === 201){
             const url = '/picture/' + res.data.id;
             navigate(url);
+        } else {
+            setError({
+                ...error,
+                form: res.data
+            });
         }
     }
 
@@ -55,7 +60,8 @@ function FormPicture(props){
             props.setIsModify(false);
        } else {
            setError({
-               form: res.data.message
+               ...error,
+               form: res.data
            });
        }
     }
@@ -97,7 +103,9 @@ function FormPicture(props){
             <Input label="Titre" type="text" name="title" value={picture.title} onchange={getTitle} error={error.title}/>
             <Input label="Image" type="file" name="image" onchange={getFile} accept="image/jpg, image/jpeg, image/gif, image/webp, image/png"/>
             <Button type="submit">Poster</Button>
-            {error.form && <p className="form__error">{error.form}</p>}
+            {error.form && error.form.map((error) => (
+                <p className="form__error">{error}</p>
+            ))}
         </Form>
     )
 }
