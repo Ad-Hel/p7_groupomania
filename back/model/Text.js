@@ -11,7 +11,13 @@ Text.init({
     },
     content: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+            len : {
+                args: [0, 255]
+            }
+        }
     }
 }, {
     sequelize,

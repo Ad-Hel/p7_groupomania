@@ -8,7 +8,9 @@ import Button from './Button';
 import apiRequest from '../js/apiRequest';
 
 function FormText(props){
-    const [ text, setText ] = useState('');
+    const [ text, setText ] = useState({
+        content: ''
+    });
     const { auth } = useAuth();
     const texts = props.texts;
     const setTexts = props.set;
@@ -39,16 +41,35 @@ function FormText(props){
         }
         const res = await apiRequest(args);
         if (res.status === 201){
-            const newTexts = [
-                (res.data.parentId && {
-                    ...res.data,
-                    User: auth,
-                    Likes: [],
-                    Texts: []
-                }),
-                ...((texts.length > 0) ? texts : []),
-            ];
+            let newTexts = [];
+            if (res.data.ParentId){
+                newTexts = [
+                    ...((texts.length > 0) ? texts : []),
+                    {
+                        ...res.data,
+                        User: auth,
+                        Likes: [],
+                        Texts: []
+                    }
+                ];
+            } else {
+                newTexts = [
+                    {
+                        ...res.data,
+                        User: auth,
+                        Likes: [],
+                        Texts: []
+                    },
+                    ...((texts.length > 0) ? texts : []), 
+                ];
+            }
+            
             setTexts(newTexts);
+            setText({
+                content: ''
+            });
+        } else {
+            alert(res.data[0])
         }
     }
 
@@ -62,9 +83,7 @@ function FormText(props){
     function handleFormSubmit(form){
         form.preventDefault();
         const stringText = JSON.stringify(text);
-        setText({
-            content: ''
-        });
+
         console.log(text);
         if (props.isModify){
             // modifyText(stringText);
@@ -77,7 +96,6 @@ function FormText(props){
         <Form action={handleFormSubmit} classStyle='form--text'>
             <Input label="none" type="text" name="content" value={text.content} onchange={handleInput} error='none'/>
             <Button type="submit" classStyle='none button--text'>{props.label}</Button>
-            {props.error && <p className="error">{props.error}</p>}
         </Form>
     )
 }

@@ -1,4 +1,4 @@
-const { Op } = require('sequelize');
+const { Op, ValidationError } = require('sequelize');
 const Text = require('../model/Text');
 const Like = require('../model/Like');
 const User = require('../model/User');
@@ -12,7 +12,30 @@ exports.create = async (req, res, next) => {
         res.status(201).json(text);
     }
     catch(error){
-        res.status(500).json(error);
+        console.log(error);
+        const messages = []
+        if (error instanceof ValidationError){
+            error.errors.forEach((error) => {
+                console.log(error.path + " : " + error.validatorKey )
+                let message;
+                switch (error.path){
+                    case 'content':
+                        message = 'Le message ';
+                        break;
+                };
+                switch (error.validatorKey){
+                    case 'is_null' :
+                    case 'notEmpty':
+                        message += 'est obligatoire.';
+                        break;
+                    case 'len' : 
+                        message += 'est trop long !'
+                        break;
+                };
+                messages.push(message);
+            })
+        }
+        res.status(500).json(messages);
     }
 };
 
@@ -84,7 +107,6 @@ exports.show = async (req, res, next) => {
                     include: [Like, User]
                 }
             ]
-            // include: {all: true, nested: true}
         });
         res.status(200).json(text);
     }
