@@ -20,4 +20,8 @@
         position: relative;
         border-radius: 0;
     }
+    &__error{
+        margin: 0;
+        color: $primary-dark;
+    }
 }
