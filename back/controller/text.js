@@ -26,10 +26,10 @@ exports.create = async (req, res, next) => {
                 switch (error.validatorKey){
                     case 'is_null' :
                     case 'notEmpty':
-                        message += 'est obligatoire.';
+                        message += 'est vide 😢';
                         break;
                     case 'len' : 
-                        message += 'est trop long !'
+                        message += 'est trop long ! 😮'
                         break;
                 };
                 messages.push(message);
