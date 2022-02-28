@@ -55,18 +55,14 @@ function Conversation(props){
     return(
         <article className="conversation">
             <div className="conversation__first-text">
-            {!(text.Texts && showResponses) ? 
-                <Text text={text}  handle={handleShowResponses} />
-            :
-                <Text text={text} show handle={handleShowResponses}/>
-            }
+                <Text text={text} showResponses={showResponses} handle={handleShowResponses} list={props.texts} setList={props.setTexts}/>
             </div>
             {(text.Texts && showResponses) && <div className="conversation__responses">
                 { responses && responses.map((response) => (
-                    <Text key={response.id} text={response} />
+                    <Text key={response.id} text={response} list={responses} setList={setResponses} />
                 ))}
                 {!isLastPage && <Button type="button" classStyle="next" onclick={handlePagination}>Page suivante</Button>}
-                <FormText texts={responses} set={setResponses} parent={text.id} label='répondre'/>
+                {isLastPage && <FormText texts={responses} set={setResponses} parent={text.id} response/>}
             </div>}   
         </article>
     )

@@ -25,17 +25,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        &--true{
-            color: $primary;
-            transform: translate(0);
-            box-shadow: none;
-        }
-        &--false{
-            color: white;
-            &:hover{
-                color: $primary;
-            }
-        }
     }
     &--footer-toggle{
         background-color: transparent;
@@ -68,5 +57,34 @@
     }
     &--edit{
         margin-top: $space-lg;
+    }
+    &--show-responses{
+        height: 2rem;
+        width: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &--text-delete{
+        height: 2rem;
+        width: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $primary;
+        box-shadow: 2px 4px 0 $primary-dark;
+        border: solid 0.1rem $primary;
+        color: $light;
+    }
+    &--true{
+        color: $primary;
+        transform: translate(0);
+        box-shadow: none;
+    }
+    &--false{ 
+        color: white;
+        &:hover{
+            color: $primary;
+        }
     }
 }

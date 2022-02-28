@@ -42,9 +42,9 @@ function NewText(){
 
     return(
         <Container>
-            <FormText texts={texts} set={setTexts} label='>'/>
+            <FormText texts={texts} set={setTexts}/>
             { texts && texts.map((text) => (
-                <Conversation text={text} key={text.id} />
+                <Conversation text={text} texts={texts} setTexts={setTexts} key={text.id} />
             ))}
             {!isLastPage && <Button type="button" classStyle="next" onclick={handlePagination}>Page suivante</Button>}
         </Container>

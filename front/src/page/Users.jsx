@@ -60,7 +60,7 @@ function Users(){
                         <td>{user.createdAt.split('T')[0].split('-').reverse().join('/')}</td>
                         <td>{user.deletedAt && user.deletedAt.split('T')[0].split('-').reverse().join('/')}</td>
                         <td><Link to={`/user/${user.id}`}>voir</Link></td>
-                        <td><ModActions list={users} setList={setUsers} id={user.id} deletedAt={user.deletedAt} path='user' /></td>
+                        <td><ModActions isMod list={users} setList={setUsers} id={user.id} deletedAt={user.deletedAt} path='user' /></td>
                     </tr>
                 ))}
                 </tbody>
