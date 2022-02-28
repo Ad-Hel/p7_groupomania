@@ -34,8 +34,8 @@ function AuthProvider({children}){
             window.localStorage.setItem('auth', JSON.stringify(auth));
             navigate('/');
         } else if (res.status === 401){
-            console.log("Auth: " + res.data.message)
-            return res.data.message
+            console.log("Auth: " + res.data)
+            return res.data
         }
     }
 

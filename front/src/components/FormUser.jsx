@@ -79,7 +79,9 @@ function FormUser(props){
             <Input label="Courriel" type="email" name="email" value={user.email} onchange={handleInput} error={error.email}/>
             <Input label="Mot de passe" type="password" name="password" value={user.password} onchange={handleInput} error={error.password}/>
             <Button type="submit">{props.label}</Button>
-            {props.error && <p className="error">{props.error}</p>}
+            {props.error && props.error.map((error) => (
+                <p className="form__error">{error}</p>
+            ))}
         </Form>
     )
 }

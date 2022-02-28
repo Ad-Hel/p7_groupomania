@@ -26,8 +26,8 @@ function Signup(){
         const res = await apiRequest(args);
         if (res.status === 201){
             await Auth.onSignIn(data);
-        } else if (res.status === 500 && res.data.name === "SequelizeUniqueConstraintError"){
-            setError('L\'adresse email renseignée est déjà utilisée pour un compte. Veuillez vous connecter.')
+        } else if (res.status === 500){
+            setError(res.data)
         }
     }
 

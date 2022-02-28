@@ -1,4 +1,4 @@
-const { Op } = require('sequelize');
+const { Op, ValidationError } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -8,14 +8,53 @@ const Like = require('../model/Like');
 
 exports.signup = async (req, res, next) => {
     try {
-        const hash = await bcrypt.hash(req.body.password, 10);
+        let hash = null;
+        if (req.body.password){
+            if (req.body.password.length > 5 && req.body.password.length < 51){
+                hash = await bcrypt.hash(req.body.password, 10);
+            } else {
+                res.status(500).json('Votre mot de passe doit comporter entre 6 et 50 caractères')
+            }
+        }
         const user = await User.create({
             ...req.body,
             password: hash
         });
         res.status(201).json({user});
     } catch (error){
-        res.status(500).json(error);
+        console.log(error);
+        const messages = []
+        if (error instanceof ValidationError){
+            error.errors.forEach((error) => {
+                console.log(error.path + " : " + error.validatorKey )
+                let message;
+                switch (error.path){
+                    case 'firstName':
+                        message = 'Le prénom ';
+                        break;
+                    case 'lastName':
+                        message = 'Le nom de famille ';
+                        break;
+                    case 'email':
+                        message = 'L\'adresse courriel ';
+                        break;
+                    case 'password':
+                        message = 'Le mot de passe ';
+                        break;
+                };
+                switch (error.validatorKey){
+                    case 'is_empty' :
+                    case 'is_null' :
+                        message += 'est obligatoire.';
+                        break;
+                    case 'not_unique':
+                        message += 'renseignée est déjà utilisé.';
+                        break;
+                };
+                messages.push(message);
+            })
+        }
+        res.status(500).json(messages);
     };   
 };
 
@@ -23,11 +62,11 @@ exports.signin = async (req, res, next) => {
     try{
         const user = await User.findOne({where: { email: req.body.email}});
         if (!user){
-            return res.status(401).json({ message: "Utilisateur inconnu."})
+            return res.status(401).json( ["Utilisateur inconnu."] )
         };
         const pwd = await bcrypt.compare(req.body.password, user.password);
         if (!pwd){
-            return res.status(401).json({message: "Mot de passe erroné."});
+            return res.status(401).json( ["Mot de passe erroné."] );
         };
         res.status(201).json({
             ...user.dataValues,
