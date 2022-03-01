@@ -1,0 +1,62 @@
+@import '../utils/colors';
+@import '../utils/responsive';
+@import '../utils/space';
+
+.table{
+    // table-layout: fixed;
+    border-collapse: collapse;
+    width: min(100vw, 900px);
+    font-size: 1.2rem;
+    @include mobile{
+        table-layout: fixed;
+    }
+    &__head{
+        margin-bottom: 1rem;
+        border-bottom: solid 0.1rem $secondary;
+        @include mobile{
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+    }
+    &__line{
+        min-height: 3rem;
+        @include mobile{
+            display: block;
+            width: 100vw;
+            padding: $space-lg;
+            margin-bottom: $space-lg;
+            background-color: $white;
+        }
+    }
+    &__cell{
+        min-width: fit-content;
+        padding: $space-xs;
+        @include mobile{
+            width: auto;
+            display: block;
+            text-align: right;
+            position: relative;
+            min-height: 2rem;
+            &::before{
+                content: attr(data-label);
+                position: absolute;
+                left: $space-lg;
+                font-weight: bold;
+            }
+        }
+        &--head{
+            text-align: left;
+        }
+        &--actions{
+            min-width: 95px;
+            display: flex;
+            justify-content: flex-end;
+            gap: $space-sm;
+        }
+    }
+}

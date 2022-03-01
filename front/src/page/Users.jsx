@@ -8,6 +8,8 @@ import Container from "../layout/Container";
 import ModActions from "../components/ModActions";
 import Button from "../components/Button";
 
+import '../scss/page/users.scss';
+
 function Users(){
     const [users, setUsers] = useState([]);
     const [page, setPage]   = useState(1)
@@ -36,31 +38,32 @@ function Users(){
 
     return (
         <Container>
-            <table>
-                <thead>
-                    <tr>
-                        <td>Rôle</td>
-                        <td>Id</td>
-                        <td>Prénom</td>
-                        <td>Nom</td>
-                        <td>Email</td>
-                        <td>Créé le</td>
-                        <td>Supprimé le</td>
-                        <td>profil</td>
+            <table className="table">
+                <thead className="table__head">
+                    <tr className="table__line table__line--head">
+                        <th className="table__cell table__cell--head">Rôle</th>
+                        <th className="table__cell table__cell--head">Id</th>
+                        <th className="table__cell table__cell--head">Prénom</th>
+                        <th className="table__cell table__cell--head">Nom</th>
+                        <th className="table__cell table__cell--head">Email</th>
+                        <th className="table__cell table__cell--head">Créé le</th>
+                        <th className="table__cell table__cell--head">Supprimé le</th>
+                        <th className="table__cell table__cell--head">profil</th>
+                        <th className="table__cell table__cell--head">actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="table__body">
                 {users.map((user) => (
-                    <tr key={user.id}>
-                        <td>{user.role}</td>
-                        <td>{user.id}</td>
-                        <td>{user.firstName}</td>
-                        <td>{user.lastName}</td>
-                        <td>{user.email}</td>
-                        <td>{user.createdAt.split('T')[0].split('-').reverse().join('/')}</td>
-                        <td>{user.deletedAt && user.deletedAt.split('T')[0].split('-').reverse().join('/')}</td>
-                        <td><Link to={`/user/${user.id}`}>voir</Link></td>
-                        <td><ModActions isMod list={users} setList={setUsers} id={user.id} deletedAt={user.deletedAt} path='user' /></td>
+                    <tr key={user.id} className="table__line">
+                        <td className="table__cell" data-label="role">{user.role}</td>
+                        <td className="table__cell" data-label="id">{user.id}</td>
+                        <td className="table__cell" data-label="firstName">{user.firstName}</td>
+                        <td className="table__cell" data-label="lastName">{user.lastName}</td>
+                        <td className="table__cell" data-label="email">{user.email}</td>
+                        <td className="table__cell" data-label="créé le">{user.createdAt.split('T')[0].split('-').reverse().join('/')}</td>
+                        <td className="table__cell" data-label="supprimé le">{user.deletedAt && user.deletedAt.split('T')[0].split('-').reverse().join('/')}</td>
+                        <td className="table__cell" data-label="profil"><Link to={`/user/${user.id}`}>voir</Link></td>
+                        <td className="table__cell table__cell--actions"><ModActions isMod list={users} setList={setUsers} id={user.id} deletedAt={user.deletedAt} path='user' /></td>
                     </tr>
                 ))}
                 </tbody>
