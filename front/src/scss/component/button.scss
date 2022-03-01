@@ -11,6 +11,7 @@
     &:hover{
         transform: translate(0);
         box-shadow: none;
+        color: $primary
     }
     &--none{
         background-color: transparent;
@@ -19,12 +20,13 @@
         padding: 0;
         transform: translate(0);
     }
-    &--like{
+    &--icon{
         height: 2rem;
         width: 2rem;
         display: flex;
         justify-content: center;
         align-items: center;
+        color: $white;
     }
     &--footer-toggle{
         background-color: transparent;
@@ -57,11 +59,13 @@
         }
     }
     &--delete{
-        margin-top: $space-lg;
         background-color: $primary;
         box-shadow: 2px 4px 0 $primary-dark;
         border: solid 0.1rem $primary;
         color: $light;
+        &:hover{
+            color: $light;
+        }
     }
     &--edit{
         margin-top: $space-lg;
@@ -73,26 +77,12 @@
         justify-content: center;
         align-items: center;
     }
-    &--text-delete{
-        height: 2rem;
-        width: 2rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: $primary;
-        box-shadow: 2px 4px 0 $primary-dark;
-        border: solid 0.1rem $primary;
-        color: $light;
-    }
     &--true{
         color: $primary;
         transform: translate(0);
         box-shadow: none;
     }
     &--false{ 
-        color: white;
-        &:hover{
-            color: $primary;
-        }
+        
     }
 }

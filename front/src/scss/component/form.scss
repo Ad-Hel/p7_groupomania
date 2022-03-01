@@ -2,6 +2,7 @@
 @import '../utils/colors';
 
 .form{
+    margin-bottom: $space-lg;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,6 +14,7 @@
     width: min(90vw, 600px);
     font-size: 1.2rem;
     &--text{
+        margin-bottom: 0;
         flex-direction: row;
         padding: $space-sm;
         gap: 0;
