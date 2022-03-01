@@ -2,6 +2,19 @@ const User = require('../model/User');
 const Picture = require('../model/Picture');
 const Text = require('../model/Text')
 
+/**
+ * 
+ * This function set locals.targetId and locals.TargetRole in express.Response from the express.Request baseUrl by queries the user ressource or the one associated to the ressource. 
+ * Then it compares it to the locals.userId and userRole.
+ * If the id are the same and the express.Request base url don't include "destroy" or "restore" the express.NextFunction is called.
+ * If the locals.userRole is greater than the locals.targetRole the express.NextFunction is called.
+ * 
+ * @name isTargetValid
+ * @function
+ * @param {express.Request} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 module.exports = async (req, res, next) => {
     try{
         if (req.baseUrl.includes('user')){
@@ -20,6 +33,7 @@ module.exports = async (req, res, next) => {
         else {
             res.status(500).json({ message: "Contrôle impossible. Accès refusé." })
         };
+
         if ( res.locals.userId == res.locals.targetId && !req.baseUrl.includes('destroy') && !req.baseUrl.includes('restore') ){
             next();
         } else if ( res.locals.userRole > res.locals.targetRole ){

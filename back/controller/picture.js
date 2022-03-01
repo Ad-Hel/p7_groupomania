@@ -5,7 +5,16 @@ const Picture = require('../model/Picture');
 const Like = require('../model/Like');
 const User = require('../model/User');
 
-
+/**
+ * 
+ * This function create a javascript object used to create a Picture ressource.
+ * 
+ * @name pictureCtrl.create
+ * @function
+ * @param {express.Request {file: multerObject}} req 
+ * @param {express.Response {localsUserId: integer}} res 
+ * @param {express.NextFunction} next 
+ */
 exports.create = async (req, res, next) => {
     try{
         let url = null;
@@ -47,6 +56,17 @@ exports.create = async (req, res, next) => {
         res.status(500).json(messages);
     }
 }
+
+/**
+ * 
+ * This function create a javascript object used to update an existing picture ressource identified by its id.
+ * 
+ * @name pictureCtrl.modify
+ * @function
+ * @param {express.Request & {paramId: integer, file: multerObject}} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.modify = async (req, res, next) => {
     try{
         const picture = await Picture.findByPk(req.params.id);
@@ -69,6 +89,17 @@ exports.modify = async (req, res, next) => {
         res.status(404).json(error);
     }
 }
+
+/**
+ * 
+ * This function soft delete a picture ressource identified by its Id. The actual image saved on the server is untouched.
+ * 
+ * @name pictureCtrl.delete
+ * @function
+ * @param {express.Request & {paramId: integer}} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.delete = async (req, res, next) => {
     try{
         const picture = await Picture.findByPk(req.params.id);
@@ -78,6 +109,17 @@ exports.delete = async (req, res, next) => {
         res.status(404).json(error);
     }
 }
+
+/**
+ * 
+ * This function get 9 picture ressources with theirs user ressources and like ressources associated. The 9 picture ressources are determined by a request parameter "page".
+ * 
+ * @name pictureCtrl.showAll
+ * @function
+ * @param {express.Request & {paramPage: integer}} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.showAll = async (req, res, next) => {
     const offset = (req.params.page * 9) - 9;
     try{
@@ -105,6 +147,17 @@ exports.showAll = async (req, res, next) => {
         res.status(400).json(error);
     }
 }
+
+/**
+ * 
+ * This function gets 9 picture ressources who have been soft deleted with their users and likes. The 9 ressources are determined by the request parameter "page".
+ * 
+ * @name pictureCtrl.showDeleted
+ * @function
+ * @param {express.Request & {paramPage: integer}} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.showDeleted = async (req, res, next) => {
     const offset = (req.params.page * 9) - 9;
     try{
@@ -143,6 +196,17 @@ exports.showDeleted = async (req, res, next) => {
         res.status(400).json(error);
     }
 }
+
+/**
+ * 
+ * This function get one picture ressource and its user and likes identified by its id.
+ * 
+ * @name pictureCtrl.showOne
+ * @function
+ * @param {express.Request & {paramId: integer}} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.showOne = async (req, res, next) => {
     try{
         const picture = await Picture.findByPk(req.params.id, {
@@ -163,6 +227,16 @@ exports.showOne = async (req, res, next) => {
     }
 }
 
+/**
+ * 
+ * This function get one picture ressource identified by its id to restore it.
+ * 
+ * @name pictureCtrl.restoreOne
+ * @function
+ * @param {express.Request & {paramId: integer}} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.restoreOne = async (req, res, next ) => {
     try{
         const picture = await Picture.findByPk(req.params.id, { paranoid: false });
@@ -173,6 +247,16 @@ exports.restoreOne = async (req, res, next ) => {
     }
 }
 
+/**
+ * 
+ * This function definitely delete a picture ressource identified by its id. The actual image saved on the server is also removed.
+ * 
+ * @name pictureCtrl.destroyOne
+ * @function
+ * @param {express.Request & {paramId: integer}} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.destroyOne = async (req, res, next) => {
     try{
         const picture = await Picture.findByPk(req.params.id, { paranoid: false });

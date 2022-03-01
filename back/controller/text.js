@@ -3,6 +3,16 @@ const Text = require('../model/Text');
 const Like = require('../model/Like');
 const User = require('../model/User');
 
+/**
+ * 
+ * This function create a new text ressource.
+ * 
+ * @name textCtrl.create
+ * @function
+ * @param {express.Request} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.create = async (req, res, next) => {
     try{
         const text = await Text.create({

@@ -1,3 +1,13 @@
+/**
+ * 
+ * This function look fore a body.role entry in the express.Request and verifies if the locals.userRole in express.Response is greater than it.
+ * 
+ * @name isRoleModifValid
+ * @function
+ * @param {express.Request} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 module.exports = (req, res, next) => {
     try{
         if (req.body.role && res.locals.userRole > req.body.role ){

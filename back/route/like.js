@@ -7,7 +7,7 @@ const likeCtrl = require('../controller/like');
 
 router.post( '/text/:id', isAuth, handleLike, likeCtrl.like );
 router.delete( '/text/:id', isAuth, handleLike, likeCtrl.unlike );
-router.get( '/text/isLiked/:id', isAuth, handleLike, likeCtrl.isLiked );
+router.get( '/text/isLiked/:id', isAuth, handleLike, likeCtrl.isLiked ); //TO DO Is this route used ?
 router.get( '/text/count/:id', isAuth, handleLike, likeCtrl.likeCount );
 router.post( '/picture/:id', isAuth, handleLike, likeCtrl.like );
 router.delete( '/picture/:id', isAuth, handleLike, likeCtrl.unlike );

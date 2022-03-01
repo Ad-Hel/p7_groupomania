@@ -53,8 +53,9 @@ User.init({
     modelName: 'User'
 });
 
-
-
+/**
+ * The association declarations
+ */
 
 User.hasMany(Picture, {
     foreignKey: {
@@ -82,11 +83,4 @@ Like.belongsTo(Picture);
 Like.belongsTo(User);
 Like.belongsTo(Text);
 
-
-
-
-
-
-
-module.exports = Like;
 module.exports = User;

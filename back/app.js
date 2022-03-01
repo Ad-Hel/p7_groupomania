@@ -3,10 +3,8 @@ const path = require('path');
 const bcrypt = require('bcrypt')
 const User = require ('./model/User')
 
-
 const sequelize = require('./config/database.js');
 const app = express();
-
 
 app.use(express.json());
 
@@ -23,7 +21,6 @@ async function connectionTest(){
         console.error('Impossible de se connecter à la base de données : ', error);
     }
 }
-
 connectionTest();
 
 async function DbSync(){
@@ -42,7 +39,7 @@ const createAdmin = async () => {
     const hash = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
     const [user, created] = await User.findOrCreate({
         where: {
-            role: 3
+            role: process.env.ADMIN_ROLE_LEVEL
         },
         defaults: {
             firstName: process.env.ADMIN_FIRST_NAME,
@@ -72,9 +69,8 @@ app.use('/api/like', likeRoutes);
 app.use('/api/text', textRoutes);
 
 app.use(function(err, req, res, next) {
-    console.error(err.stack.split('\n')[0]);
     const error = err.stack.split('\n')[0].split(': ')[1];
     res.status(500).json({message: error});
-  });
+});
 
 module.exports = app;
