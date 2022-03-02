@@ -3,14 +3,20 @@ import apiRequest from '../js/apiRequest';
 import { AuthContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 
+
 function AuthProvider({children}){
-    const [auth, setAuth] = useState({
-        id: "",
-        role: "",
-        token: ""
-    });
+    const [auth, setAuth] = useState(null);
     const navigate = useNavigate();
     
+    /**
+     * 
+     * This function use an object composed of an email and a password to make an API call. If successful, an user ressource is returned with a token to maintains the session.
+     * 
+     * @name handleSignIn
+     * @function
+     * @param {object & {email: string, password: string}} user 
+     * @returns {object & {firstName: string, lastName: string, email: string, role: integer, createdAt: string, deletedAt: string, token: string}}
+     */
     async function handleSignIn(user){
         const args = {
             head: {
@@ -34,21 +40,34 @@ function AuthProvider({children}){
             window.localStorage.setItem('auth', JSON.stringify(auth));
             navigate('/');
         } else if (res.status === 401){
-            console.log("Auth: " + res.data)
             return res.data
         }
     }
 
+    /**
+     * 
+     * This function delete the local storage, set the auth state to null and redirect to sign in page.
+     * 
+     * @name handleSignOut
+     * @function
+     */
     function handleSignOut(){
-        setAuth({
-            id: '',
-            role: '',
-            token: ''
-        });
+        setAuth(null);
         window.localStorage.clear();
+        navigate('/signin');
     }
 
-    function handleLocalSignIn(localAuth){
+    /**
+     * 
+     * This function get the local storage 'auth' if it existes.
+     * Then it's parsed, the timestamp is checked.
+     * If not outdated the content is used to set auth state, else it redirects to sign in page.
+     * 
+     * @name handleLocalSignIn
+     * @function
+     */
+    function handleLocalSignIn(){
+        const localAuth = JSON.parse(window.localStorage.getItem('auth'));
         if ((Date.now() -  localAuth.time) > 43200000){
             window.localStorage.clear();
             navigate('/signin');
@@ -57,6 +76,14 @@ function AuthProvider({children}){
         }
     }
 
+    /**
+     * 
+     * This constant groups in one object authentification data and three functions to handle sign in, sign out and local sign in.
+     * It is used as context to manage the user's authentification status.
+     * 
+     * @name Auth.value
+     * @constant
+     */
     const value={
         auth,
         onSignIn: handleSignIn,

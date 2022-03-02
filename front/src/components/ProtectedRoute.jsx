@@ -6,11 +6,10 @@ function ProtectedRoute(props){
     const { auth } = Auth;
     const role = parseInt(props.role);
 
-    if (auth.id === "" && window.localStorage.hasOwnProperty('auth') ){
-        const localAuth = JSON.parse(window.localStorage.getItem('auth'));
-        Auth.onReload(localAuth);
+    if (auth === null && window.localStorage.hasOwnProperty('auth') ){
+        Auth.onReload();
         return null
-    } else if( auth.id === ""){
+    } else if( auth === null){
         return <Navigate to="/signin" replace />;
     };
 
