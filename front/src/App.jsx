@@ -16,6 +16,7 @@ import Picture from './page/Picture';
 import Users from './page/Users';
 import DeletedPictures from './page/DeletedPictures';
 import Text from './page/Text';
+import DeletedTexts from './page/DeletedTexts';
 
 import LogoAlt from './components/LogoAlt';
 
@@ -41,6 +42,7 @@ function App(){
                 <Route element={<ProtectedRoute role="2"/>}>
                     <Route path="/users" element={<Users/>}/>
                     <Route path="/deleted-pictures" element={<DeletedPictures/>}/>
+                    <Route path="/deleted-texts" element={<DeletedTexts/>}/>
                 </Route>
             </Routes>
             <Footer/>

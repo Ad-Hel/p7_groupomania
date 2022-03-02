@@ -61,7 +61,7 @@ const save  = multer.diskStorage({
     ];
     if (!mimetypeAccepted.includes(file.mimetype)){
         cb( new Error('Type de fichier non supporté.'), false)
-    }
+    };
     cb(null, true)
  }
 

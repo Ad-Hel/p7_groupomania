@@ -145,6 +145,7 @@ exports.showAll = async (req, res, next) => {
             order: [
                 ['createdAt', 'DESC']
             ],
+            distinct:true
         });
         res.status(200).json(texts);
     }
@@ -160,10 +161,14 @@ exports.showDeleted = async (req, res, next) => {
             include: [
                 {
                     model: User,
-                    attributes: ['id', 'firstName', 'lastName']
+                    attributes: ['id', 'firstName', 'lastName', 'role'],
+                    where: {
+                        role: {
+                            [Op.lt]: res.locals.userRole
+                        }
+                    }
                 },
-                Like,
-                Text
+                Like
             ],
             where: {
                 [Op.not]: {
