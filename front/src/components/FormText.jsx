@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import useAuth from './useAuth';
 
 import Form from './Form';
-import Input from './Input';
 import Button from './Button';
 import apiRequest from '../js/apiRequest';
 
@@ -18,21 +17,33 @@ function FormText(props){
     const setTexts = props.set;
 
     useEffect( () => {
-        if (props.text){
-            setText(props.text)
-        }
+        /**
+         * Set the ParentId property if the form text is used to answer another text.
+         */
         if (props.parent){
             setText({
                 ...text,
                 ParentId: props.parent
             })
         }
-    }, []);
+    }, [props.text, props.parent, text]);
 
     useEffect(() => {
+        /**
+         * Display the number of characters remaining at each input. 
+         */
         setCharacterCount( 255 - text.content.length);
-    }, [handleInput]);
+    }, [handleInput, text.content.length]);
 
+    /**
+     * 
+     * This function make an API call to create a new text ressource.
+     * The data is an object which contains a content and mays contain a parent id if it is a response to an existing text.
+     * 
+     * @name createText
+     * @function
+     * @param {object &{content: string, ParentId: integer}} data 
+     */
     async function createText(data){
         const args = {
             head: {
@@ -48,6 +59,12 @@ function FormText(props){
         const res = await apiRequest(args);
         if (res.status === 201){
             let newTexts = [];
+            /**
+             * 
+             * The new text is added at the top of the list if it starts a new conversation. 
+             * It is added at the bottom, if it's an answer to an existing text.
+             * 
+             */
             if (res.data.ParentId){
                 newTexts = [
                     ...((texts.length > 0) ? texts : []),
@@ -80,6 +97,16 @@ function FormText(props){
         }
     }
 
+    /**
+     * 
+     * This function get the value of the input named content to saved it in text state.
+     * A first test reset the error state if an error was displayed.
+     * A second test prevent user to make line break as they are not displayed back in text.
+     * 
+     * @name handleInput
+     * @function
+     * @param {event} event 
+     */
     function handleInput(event){
         if (error){
             setError(null);
@@ -92,6 +119,12 @@ function FormText(props){
         }            
     }
 
+    /**
+     * 
+     * This function stringify the text content and call createText to make the API calL.
+     * 
+     * @param {event} form 
+     */
     function handleFormSubmit(form){
         form.preventDefault();
         const stringText = JSON.stringify(text);
