@@ -19,12 +19,24 @@ function FormPicture(props){
     });
 
     useEffect(() => {
+        /**
+         * Aliment the form if it's called to modify an existing picture.
+         */
         if (props.isModify){
             setPicture({ title: props.picture.title })
             document.getElementById('image').style.backgroundImage = 'url(' + props.picture.imageUrl + ')';
         }
-    }, [])
+    }, [props.isModify, props.picture.title, props.picture.imageUrl])
     
+    /**
+     * 
+     * This function make an API call to create a picture ressource.
+     * It sends a formData object with a file and a title.
+     * 
+     * @name createPicture
+     * @function
+     * @param {formData.instance & {title: string, image: file}} data 
+     */
     async function createPicture(data){
         const args = {
             token: auth.token,
@@ -46,6 +58,15 @@ function FormPicture(props){
         }
     }
 
+    /**
+     * 
+     * This function make an API call to update an existing picture.
+     * The data sent mays contain a file and/or a title.
+     * 
+     * @name modifyPicture
+     * @function
+     * @param {formData.instance & {title: string, image: file}} data 
+     */
     async function modifyPicture(data){
        const args =  {
            init: {
@@ -66,6 +87,14 @@ function FormPicture(props){
        }
     }
 
+    /**
+     * 
+     * This function make an instance of FormData with the file and the title - inside a picture object - and call the right function to make the API call.
+     * 
+     * @name handlePicture
+     * @function
+     * @param {formData.instance & {title: string, image: file}} form 
+     */
     function handlePicture(form){
         form.preventDefault();
         const formData = new FormData();
@@ -78,6 +107,14 @@ function FormPicture(props){
         }
     }
 
+    /**
+     * 
+     * This function get the value of the input text named title to add it to a picture object in state picture.
+     * 
+     * @name getTitle
+     * @function
+     * @param {event} event 
+     */
     function getTitle(event){
         const value = event.target.value;
         if (!value){
@@ -91,11 +128,18 @@ function FormPicture(props){
         })
     }
 
+    /**
+     * 
+     * This function get the file of file input named image, create an url to display a preview and save it to file state.
+     * 
+     * @name getFile
+     * @function
+     * @param {event} event 
+     */
     function getFile(event){
         const [file] = event.target.files;
         event.target.style.backgroundImage = 'url(' + URL.createObjectURL(file) +')';
         setFile(file)
-
     }
 
     return(
