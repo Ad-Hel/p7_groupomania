@@ -11,7 +11,7 @@ import Button from "../components/Button";
 
 import '../scss/component/text.scss';
 
-function NewText(){
+function Text(){
     const [ texts, setTexts ] = useState(null);
     const [ page, setPage ] = useState(1);
     const [isLastPage, setIsLastPage] = useState(false);
@@ -51,4 +51,4 @@ function NewText(){
     )
 }
 
-export default NewText;
+export default Text;
