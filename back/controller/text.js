@@ -49,6 +49,16 @@ exports.create = async (req, res, next) => {
     }
 };
 
+/**
+ * 
+ * This function gets a text ressource identified by its id and updates it with request data.
+ * 
+ * @name textCtrl.modify
+ * @function
+ * @param {express.Request & {paramId: integer}} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.modify = async (req, res, next) => {
     try{
         const text = await Text.findByPk(req.params.id);
@@ -60,6 +70,16 @@ exports.modify = async (req, res, next) => {
     }
 };
 
+/**
+ * 
+ * This function gets a text ressource by its id and soft deletes it.
+ * 
+ * @name textCtrl.delete
+ * @function
+ * @param {express.Request & {paramId: integer}} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.delete = async (req, res, next) => {
     try{
         const text = await Text.findByPk(req.params.id);
@@ -71,6 +91,16 @@ exports.delete = async (req, res, next) => {
     }
 }
 
+/**
+ * 
+ * This function gets a soft deleted text ressource identified by its id and restores it. 
+ * 
+ * @name textCtrl.restore
+ * @function
+ * @param {express.Request & {paramId: integer}} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.restore = async (req, res, next) => {
     try{
         const text = await Text.findByPk(req.params.id, { paranoid: false });
@@ -82,15 +112,25 @@ exports.restore = async (req, res, next) => {
     }
 }
 
+/**
+ * 
+ * This function gets a text ressource, deletes permanently all its responses and deletes permanently it.
+ * 
+ * @name textCtrl.destroy
+ * @function
+ * @param {express.Request & {paramId: integer}} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.destroy = async (req, res, next) => {
     try{
+        const text = await Text.findByPk(req.params.id, { paranoid: false });
         Text.destroy({
             where: {
-                parent: req.params.id
+                ParentId: req.params.id
             },
             force: true
         })
-        const text = await Text.findByPk(req.params.id, { paranoid: false });
         text.destroy({ force: true });
         res.status(200).json({message: "Texte supprimé."})
     }
@@ -99,6 +139,17 @@ exports.destroy = async (req, res, next) => {
     }
 }
 
+
+/**
+ * 
+ * This function get a text ressource, its author, its likes and its responses.
+ * 
+ * @name textCtrl.show
+ * @function
+ * @param {express.Request & {paramId: integer}} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.show = async (req, res, next) => {
     try{
         const text = await Text.findByPk(req.params.id, {
@@ -112,10 +163,7 @@ exports.show = async (req, res, next) => {
                     attributes: ['UserId'],
                     include: User
                 },
-                {
-                    model: Text,
-                    include: [Like, User]
-                }
+                Text
             ]
         });
         res.status(200).json(text);
@@ -125,6 +173,17 @@ exports.show = async (req, res, next) => {
     }
 }
 
+/**
+ * 
+ * This function get nine text ressources, their author, responses and likes. 
+ * The text ressources are determined by the page number.
+ * 
+ * @name textCtrl.showAll
+ * @function 
+ * @param {express.Request & {paramPage: integer}} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.showAll = async (req, res, next) => {
     const offset = (req.params.page - 1 ) * 9;
     try{
@@ -154,6 +213,17 @@ exports.showAll = async (req, res, next) => {
     }
 }
 
+/**
+ * 
+ * This function gets 9 soft deleted text ressources and their authors and likes.
+ * The texts are determined by a page number.
+ * 
+ * @name textCtrl.showDeleted
+ * @function
+ * @param {express.Request & {paramPage: integer}} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.showDeleted = async (req, res, next) => {
     const offset = (req.params.page - 1 ) * 9;
     try{
@@ -189,6 +259,17 @@ exports.showDeleted = async (req, res, next) => {
     }
 }
 
+/**
+ * 
+ * This function get 9 answers to a text ressources and their authors and likes.
+ * The answers are determined by the page number.
+ * 
+ * @name textCtrl.showResponses
+ * @function
+ * @param {express.Request & {paramPage: integer}} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
 exports.showResponses = async (req, res, next) => {
     const offset = (req.params.page - 1 ) * 9;
     try{
