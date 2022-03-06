@@ -10,7 +10,7 @@ import Button from './Button';
 import '../scss/component/conversation.scss';
 
 function Conversation(props){
-    const text = props.text;
+    const text = props.item;
     const { auth } = useAuth();
 
     const [showResponses, setShowResponses] = useState(false);
@@ -69,11 +69,11 @@ function Conversation(props){
     return(
         <article className="conversation">
             <div className="conversation__first-text">
-                <Text text={text} showResponses={showResponses} handle={handleShowResponses} list={props.texts} setList={props.setTexts}/>
+                <Text item={text} showResponses={showResponses} handle={handleShowResponses} items={props.items} setItems={props.setItems}/>
             </div>
             {showResponses && <div className="conversation__responses">
                 {responses && responses.map((response) => (
-                    <Text key={response.id} text={response} list={responses} setList={setResponses} />
+                    <Text key={response.id} item={response} items={responses} setItems={setResponses} />
                 ))}
                 {!isLastPage && <Button type="button" classStyle="next" onclick={handlePagination}>Page suivante</Button>}
                 {isLastPage && <FormText texts={responses} set={setResponses} parent={text.id} response/>}
