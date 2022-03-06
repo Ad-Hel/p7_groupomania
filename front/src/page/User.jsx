@@ -13,12 +13,20 @@ function User(){
     const [isModify, setIsModify] = useState(false);
     const [error, setError] = useState(null)
 
-    const auth = useAuth().auth;
+    const { auth } = useAuth();
     const navigate = useNavigate();
 
     const { id } =  useParams();
     
     useEffect( () => {
+        /**
+         * 
+         * This function makes an API call to retrieve an user ressource determined by its id.
+         * 
+         * @name getUser
+         * @function
+         * @param {integer} id 
+         */
         async function getUser(id){
             const args = {
                 token: auth.token,
@@ -29,8 +37,17 @@ function User(){
                 setUser(res.data);            }
         }
         getUser(id);
-    }, [isModify])
+    }, [isModify, id, auth.token])
 
+    /**
+     * 
+     * This function makes an API call to update an existing user ressource.
+     * It sets the error state if needed.
+     * 
+     * @name updateUser
+     * @function
+     * @param {object & {firstName: string, lastName: string, email: string, password: string, role: integer}} user 
+     */
     async function updateUser(user){
         const args = {
             token: auth.token,
@@ -51,6 +68,15 @@ function User(){
        }
     }
 
+    /**
+     * 
+     * This function deletes entries in the object whose content have not be modified.
+     * It stringify the final object and call the updateUser function.
+     * 
+     * @name handleUser
+     * @function
+     * @param {object & {firstName: string, lastName: string, email: string, password: string, role: integer}} data 
+     */
     function handleUser(data){
         const newUser = Object.keys(data).reduce((diff, key) => {
             if (user[key] === data[key]) return diff;
@@ -62,6 +88,13 @@ function User(){
         updateUser(JSON.stringify(newUser));
     }
 
+    /**
+     * 
+     * This function makes an API call to soft delete an user ressource.
+     * 
+     * @name handleDelete
+     * @function
+     */
     async function handleDelete(){
         const args = {
             token: auth.token,
@@ -78,6 +111,11 @@ function User(){
         }
     }
 
+    /**
+     * This function toggle the isModify state to show the form.
+     * @name handleModify
+     * @function
+     */
     function handleModify(){
         setIsModify(!isModify);
     }
@@ -105,4 +143,4 @@ function User(){
     )
 }
 
-export default User
+export default User;
