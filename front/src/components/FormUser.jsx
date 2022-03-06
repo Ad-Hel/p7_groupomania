@@ -19,12 +19,26 @@ function FormUser(props){
     const { auth } = useAuth();
 
     useEffect( () => {
+        /**
+         * 
+         * Aliment the form if props.user object exists.
+         * 
+         */
         if (props.user){
             setUser(props.user);
         }
     }, []);
 
+    /**
+     * 
+     * This function use the value of the input who triggers it to saves it in the user state.
+     * Some controls over the input are also triggered and return messages in the error state.
+     * 
+     * @function
+     * @param {event} event 
+     */
     function handleInput(event){
+        // Handle wrong inputs.
         if (!event.target.value){
             setError({
                 ...error,
@@ -58,12 +72,21 @@ function FormUser(props){
                 password: null
             })
         }
+        // Save input content in user state.
         setUser({
             ...user,
             [event.target.name]: event.target.value
         });
     }
 
+    /**
+     * 
+     * Call an function from props with the user state as parameter.
+     * 
+     * @name handleFormSubmit
+     * @function
+     * @param {event} form 
+     */
     function handleFormSubmit(form){
         form.preventDefault();
         props.formaction(user);
