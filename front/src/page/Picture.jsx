@@ -22,6 +22,14 @@ function Picture(){
     const navigate = useNavigate();
 
     useEffect( () => {
+        /**
+         * 
+         * This function makes an API call to retrieve one picture ressource identified by its id.
+         * 
+         * @name getOnePicture
+         * @function
+         * @param {integer} id 
+         */
         async function getOnePicture(id) {
             const args = {
                 token: auth.token,
@@ -32,8 +40,15 @@ function Picture(){
             setUserId(res.data.UserId);
         }
         getOnePicture(id)
-    }, [isModify])
+    }, [isModify, auth.token, id])
 
+    /**
+     * 
+     * This function makes an api call to soft delete a picture ressource identified by its id.
+     * 
+     * @name handleDelete
+     * @function
+     */
     async function handleDelete(){
         const args = {
             token: auth.token,
@@ -50,6 +65,14 @@ function Picture(){
         }
     }
 
+
+    /**
+     * 
+     * This function toggles the modify state to show the form to modify the picture.
+     * 
+     * @name handleModify
+     * @function
+     */
     function handleModify(){
         setIsModify(!isModify);
     }
