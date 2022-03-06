@@ -11,6 +11,14 @@ function Reactions(props){
     const [likesCount, setLikeCount] = useState(target.Likes.length);
     const [countState, setCountState] = useState('initial');
 
+    /**
+     * 
+     * This function make an API call to recover the number of like associated to the targeted ressource.
+     * 
+     * 
+     * @name getCount
+     * @function
+     */
     async function getCount(){
         const args = {
             token: auth.token,
@@ -18,13 +26,33 @@ function Reactions(props){
         }
         const res = await apiRequest(args);
         if (res.status === 200){
-            setTimeout(() => setCountState('up'), 0);
-            setTimeout(() => setLikeCount(res.data), 100);
-            setTimeout(() => setCountState('down'), 100);
-            setTimeout(() => setCountState('initial'), 200);
+            setCounter(res.data);
         }
     }
+    
+    /**
+     * 
+     * This function set counter and count state to animate it.
+     * 
+     * @name setCounter
+     * @function
+     * @param {integer} count 
+     */
+    function setCounter(count){
+        setTimeout(() => setCountState('up'), 0);
+        setTimeout(() => setLikeCount(count), 100);
+        setTimeout(() => setCountState('down'), 100);
+        setTimeout(() => setCountState('initial'), 200);
+    };
 
+    /**
+     * 
+     * This function make an API call to create a new like ressource associated to the target.
+     * The end point is determined by the constant 'path' and the 'target.id'.
+     * 
+     * @name sendLike
+     * @function
+     */
     async function sendLike(){
         const args = {
             url: 'like/' + path + '/' + target.id,
@@ -40,6 +68,14 @@ function Reactions(props){
         }        
     }
 
+    /**
+     * 
+     * This function delete permanently a like ressource associated to the target id. 
+     * The end point is determined by the contant 'path' and 'target.id'.
+     * 
+     * @name sendDislike
+     * @function
+     */
     async function sendDislike(){
         const args = {
             url: 'like/' + path + '/' + target.id,
