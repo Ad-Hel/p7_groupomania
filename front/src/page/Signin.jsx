@@ -10,6 +10,13 @@ function Signin(){
     const [error, setError] = useState(null);
     const Auth = useAuth();
 
+    /**
+     * 
+     * This function call the onSignIn method of Auth context and set error state if needed.
+     * 
+     * @name signIn
+     * @param {object & {email: string, password: string}} data 
+     */
     async function signIn(data){
         const res = await Auth.onSignIn(data);
         if (res){
