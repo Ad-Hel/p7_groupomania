@@ -12,6 +12,15 @@ function Signup(){
     const [error, setError] = useState(null)
     const Auth = useAuth();
 
+    /**
+     * 
+     * This function makes an API call to create a new user ressource.
+     * It set error state if needed.
+     * 
+     * @name createUser
+     * @function
+     * @param {object & {firstName: string, lastName: string, email: string, password: string}} data 
+     */
     async function createUser(data){
         const args = {
             head: {
