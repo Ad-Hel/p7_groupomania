@@ -12,6 +12,9 @@ function ModActions(props){
     const setList = props.setList;
 
     useEffect(() => {
+        /**
+         * The state "is deleted" is initialize by a props.
+         */
         if (props.deletedAt){
             setIsDeleted(true);
         } else {
@@ -19,6 +22,15 @@ function ModActions(props){
         }
     }, [props.deletedAt, setIsDeleted])
     
+    /**
+     * 
+     * This function make an api call to the specified end point to soft delete a ressource.
+     * The end point targeted is determined by the constante 'path' and the 'id' parameter.
+     * 
+     * @name handleDelete
+     * @function
+     * @param {integer} id 
+     */
     async function handleDelete(id){
         const args = {
             token: auth.token,
@@ -50,6 +62,15 @@ function ModActions(props){
         }
     }
     
+    /**
+     * 
+     * This function makes an API call to restore a soft deleted ressource. 
+     * The end point targeted is determined by the constant 'path' and the 'id'.
+     * 
+     * @name handleRestore
+     * @function
+     * @param {integer} id 
+     */
     async function handleRestore(id){
         const args = {
             token: auth.token,
@@ -75,6 +96,15 @@ function ModActions(props){
         };
     }
 
+    /**
+     * 
+     * This function makes an API call to hard delete a ressource.
+     * The endpoint is determined by the 'path' and 'id'.
+     * 
+     * @name handleHardDelete
+     * @function
+     * @param {integer} id 
+     */
     async function handleHardDelete(id){
         const args = {
             token: auth.token,
