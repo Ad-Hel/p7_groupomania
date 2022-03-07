@@ -1,0 +1,82 @@
+@import 'scss/utils/colors';
+@import 'scss/utils/space';
+.button{
+    border: solid 0.1rem $secondary;
+    background-color: $secondary;
+    transform: translate(-2px, -4px);
+    padding: $space-sm $space-md;
+    border-radius: 5px;
+    box-shadow: 2px 4px 0 $secondary-dark;
+    cursor: pointer;
+    &:hover{
+        transform: translate(0);
+        box-shadow: none;
+        color: $primary
+    }
+    &--none{
+        background-color: transparent;
+        border-color: transparent;
+        box-shadow: none;
+        padding: 0;
+        transform: translate(0);
+    }
+    &--icon{
+        height: 2rem;
+        width: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $white;
+    }
+    &--footer-toggle{
+        background-color: transparent;
+        border-color: transparent;
+        box-shadow: none;
+        transform: translate(0);
+    }
+    &--submit{
+        width: min(80vw, 350px);
+        margin-top: 2rem;
+    }
+    &--text{
+        position: absolute;
+        height: 2rem;
+        width: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        right: $space-sm;
+        bottom: $space-sm;
+        color: $white;
+        &:hover{
+            color: $primary;
+        }
+    }
+    &--delete{
+        background-color: $primary;
+        box-shadow: 2px 4px 0 $primary-dark;
+        border: solid 0.1rem $primary;
+        color: $light;
+        &:hover{
+            color: $light;
+        }
+    }
+    &--edit{
+        margin-top: $space-lg;
+    }
+    &--show-responses{
+        height: 2rem;
+        width: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &--true{
+        color: $primary;
+        transform: translate(0);
+        box-shadow: none;
+    }
+    &--false{ 
+        
+    }
+}

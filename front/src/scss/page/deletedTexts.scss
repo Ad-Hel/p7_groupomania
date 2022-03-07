@@ -1,9 +1,0 @@
-@import '../utils/preformated';
-
-.deletedTexts{
-    @include component;
-    & section {
-        width: 600px;
-        border-bottom: solid 0.1rem $secondary;
-    }
-}

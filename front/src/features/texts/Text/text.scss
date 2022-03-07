@@ -1,0 +1,18 @@
+@import 'scss/utils/space';
+@import 'scss/utils/colors';
+
+.text{
+    padding: $space-sm;
+    &__author{
+        font-size: $space-md;
+    }
+    &__footer{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: $space-sm;
+        & .reactions{
+            margin-left: auto;
+        }
+    }
+}

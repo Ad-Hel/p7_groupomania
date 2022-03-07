@@ -1,0 +1,13 @@
+@import 'scss/utils/space';
+
+.pagination{
+    display: flex;
+    width: 100%;
+    margin-top: $space-md;
+    &--next{
+        margin-left: auto;
+    }
+    &--previous{
+        margin-right: auto;
+    }
+}

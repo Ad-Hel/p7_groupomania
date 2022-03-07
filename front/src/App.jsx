@@ -1,24 +1,11 @@
 import { createContext } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
-import Auth  from './components/Auth';
-import ProtectedRoute from './components/ProtectedRoute';
+import { Auth, ProtectedRoute } from 'features/users';
 
-import Header from './layout/Header';
-import Footer from './layout/Footer';
+import { Footer, Header, LogoAlt } from 'features/ui';
+import { DeletedPictures, DeletedTexts, Home, NewPicture, Picture, Signin, Signup, Text, User, Users } from 'pages';
 
-import Home from './page/Home';
-import Signup from './page/Signup';
-import Signin from './page/Signin';
-import NewPicture from './page/NewPicture';
-import User from './page/User';
-import Picture from './page/Picture';
-import Users from './page/Users';
-import DeletedPictures from './page/DeletedPictures';
-import Text from './page/Text';
-import DeletedTexts from './page/DeletedTexts';
-
-import LogoAlt from './components/LogoAlt';
 
 import './scss/global.scss';
 
