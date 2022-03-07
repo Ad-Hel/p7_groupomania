@@ -5,13 +5,12 @@ import { useAuth } from 'features/users';
 
 import { Form, Button } from 'features/ui';
 
-
 function FormText(props){
     const [ text, setText ] = useState({
         content: ''
     });
     const [ error, setError ] = useState(null);
-    const [ characterCount, setCharacterCount] = useState(255);
+    const [ characterCount, setCharacterCount ] = useState(255);
     const { auth } = useAuth();
     const texts = props.texts;
     const setTexts = props.set;
@@ -26,14 +25,7 @@ function FormText(props){
                 ParentId: props.parent
             })
         }
-    }, [props.text, props.parent, text]);
-
-    useEffect(() => {
-        /**
-         * Display the number of characters remaining at each input. 
-         */
-        setCharacterCount( 255 - text.content.length);
-    }, [handleInput, text.content.length]);
+    }, []);
 
     /**
      * 
@@ -115,6 +107,7 @@ function FormText(props){
                 ...text,
                 [event.target.name]: event.target.value
             });
+        setCharacterCount( 255 - text.content.length);
         }            
     }
 
