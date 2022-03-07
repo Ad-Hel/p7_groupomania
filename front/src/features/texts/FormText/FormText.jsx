@@ -81,6 +81,7 @@ function FormText(props){
             
             setTexts(newTexts);
             setText({
+                ...text,
                 content: ''
             });
         } else {
