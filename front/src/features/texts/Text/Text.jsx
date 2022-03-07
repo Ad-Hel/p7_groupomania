@@ -3,6 +3,8 @@ import { useAuth } from "features/users";
 import { Button, ModActions } from "features/ui";
 import { Reactions } from "features/likes";
 
+import './text.scss'
+
 function Text(props){
     const text      = props.item;
     const list      = props.items;
