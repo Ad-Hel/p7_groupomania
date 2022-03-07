@@ -11,11 +11,8 @@ $side: max(1rem, calc((100% - 600px)/2));
     display: grid;
     grid-template-columns: $side min(600px, 100vw) $side;
     &__logo{
-        max-height: 5vh;
         width: min(300px, 50vw);
         margin: 1vh 0;
         grid-column: 2;
-        object-fit: cover;
-        object-position: max(-40px, -5vw);
     }
 }
