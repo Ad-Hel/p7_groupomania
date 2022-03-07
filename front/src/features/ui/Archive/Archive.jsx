@@ -14,8 +14,6 @@ function Archive(props) {
 
   const path = props.path;
 
-    
-
   useEffect(() => {
     /**
      * 
