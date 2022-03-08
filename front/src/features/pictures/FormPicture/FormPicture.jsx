@@ -143,7 +143,7 @@ function FormPicture(props){
     return(
         <Form action={handlePicture}>
             <Input label="Titre" type="text" name="title" value={picture.title} onchange={getTitle} error={error.title}/>
-            <Input label="Image" type="file" name="image" onchange={getFile} accept="image/jpg, image/jpeg, image/gif, image/webp, image/png"/>
+            <Input label="Image" type="file" name="image" onchange={getFile} accept="image/jpg, image/jpeg, image/gif, image/webp, image/png" value={null}/>
             <Button type="submit">Poster</Button>
             {error.form && error.form.map((error) => (
                 <p className="form__error">{error}</p>
