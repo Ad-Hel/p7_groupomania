@@ -1,13 +1,16 @@
 @import 'scss/utils/space';
 @import 'scss/utils/colors';
+@import 'scss/utils/responsive';
 
 .front-picture{
     background-color: white;
     display: flex;
     flex-direction: column;
     margin-bottom: $space-lg;
-    border: solid 0.05rem $secondary;
-    border-radius: 0.25rem;
+    @include desktop{
+        border: solid 0.05rem $secondary;
+        border-radius: 0.25rem;
+    }
     &__title{
         text-align: left;
         margin: $space-sm $space-xs;
@@ -23,5 +26,8 @@
         margin: $space-sm;
         align-items: center;
         gap: $space-sm;
+    }
+    &__author{
+        color: $dark;
     }
 }
