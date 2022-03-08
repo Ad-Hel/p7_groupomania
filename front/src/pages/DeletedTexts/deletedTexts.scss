@@ -3,7 +3,7 @@
 .deletedTexts{
     @include component;
     & section {
-        width: 600px;
+        width: min(600px, 90vw);
         border-bottom: solid 0.1rem $secondary;
     }
 }
