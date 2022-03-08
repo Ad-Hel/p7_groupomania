@@ -8,7 +8,7 @@ async function apiRequest(args){
         headers: head
     }
     try{
-        const res = await fetch('http://localhost:4800/api/' + args.url, init);
+        const res = await fetch('http://localhost:' + process.env.REACT_APP_SERVER_PORT +'/api/' + args.url, init);
         const status = res.status;
         const data = await res.json();
         return({data, status});
