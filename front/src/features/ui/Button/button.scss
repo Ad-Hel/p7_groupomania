@@ -33,6 +33,8 @@
         border-color: transparent;
         box-shadow: none;
         transform: translate(0);
+        z-index: 1000;
+        margin-right: $space-md;
     }
     &--submit{
         width: min(80vw, 350px);
@@ -76,4 +78,5 @@
         transform: translate(0);
         box-shadow: none;
     }
+
 }
