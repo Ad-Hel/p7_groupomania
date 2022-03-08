@@ -19,7 +19,7 @@ function Conversation(props){
     }
 
     return(
-        <article className="conversation">
+        <div className="conversation">
             <div className="conversation__first-text">
                 <Text item={text} showResponses={showResponses} handle={handleShowResponses} items={props.items} setItems={props.setItems}/>
             </div>
@@ -29,7 +29,7 @@ function Conversation(props){
                 </Archive>
                 <FormText texts={responses} set={setResponses} parent={text.id} response/>
             </div>}   
-        </article>
+        </div>
     )
 }
 
