@@ -1,9 +1,13 @@
-import { Archive, Container } from "features/ui";
+import { useState } from 'react';
+
+import { Archive, Container, Pagination } from "features/ui";
 import { UserRow } from "features/users";
 
 import './users.scss';
 
 function Users(){
+    const [count, setCount] = useState(0);
+    const [page, setPage]   = useState(1);
 
     return (
         <Container>
@@ -22,11 +26,12 @@ function Users(){
                     </tr>
                 </thead>
                 <tbody className="table__body">
-                <Archive path='user/all/'>
+                <Archive path='user/all/' page={page} setCount={setCount}>
                     <UserRow/>    
                 </Archive>
                 </tbody>
             </table>
+            <Pagination page={page} setPage={setPage} count={count}/>
         </Container>
     ) 
 }
