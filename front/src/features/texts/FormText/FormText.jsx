@@ -126,7 +126,7 @@ function FormText(props){
 
     return(
         <Form action={handleFormSubmit} classStyle='form--text'>
-            <label for="content" className='visually-hidden'>Votre message</label>
+            <label htmlFor="content" className='visually-hidden'>Votre message</label>
             <textarea id="content" className='form--text__textarea' onChange={handleInput} name="content" maxLength="300" minLength="1" autoComplete="off" value={text.content} placeholder='Une question, une idée, une pensée ?'>
             </textarea>
             {error && <span className='form--text__error'>{error}</span>}
