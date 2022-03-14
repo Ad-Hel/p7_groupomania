@@ -5,16 +5,21 @@ import useAuth from '../useAuth/useAuth';
 import { Button, Form, Input } from 'features/ui';
 
 function FormUser(props){
-    const[user, setUser] = useState({});
-    const [error, setError] = useState({
-        form: null,
+    const { auth } = useAuth();
+
+    const initUser = {
         firstName: null, 
         lastName: null, 
         email: null,
         password: null,
         role: null
-    })
-    const { auth } = useAuth();
+    };
+    const initError = {
+        ...initUser,
+        form: null
+    }
+    const [user, setUser] = useState(initUser);
+    const [error, setError] = useState(initError)
 
     useEffect( () => {
         /**
@@ -25,7 +30,7 @@ function FormUser(props){
         if (props.user){
             setUser(props.user);
         }
-    }, []);
+    }, [props.user]);
 
     /**
      * 
@@ -36,44 +41,46 @@ function FormUser(props){
      * @param {event} event 
      */
     function handleInput(event){
+        const value = event.target.value;
+        const name = event.target.name;
         // Handle wrong inputs.
-        if (!event.target.value){
-            setError({
-                ...error,
-                [event.target.name]: 'Ce champ est obligatoire !'
-            })
-        }  else {
-            setError({
-                ...error,
-                [event.target.name]: null
-            })
-        }
-        if ( event.target.name === 'email' && !event.target.value.includes('@') ){
+        // Reset error
+        setError({
+            ...error,
+            [name]: null
+        })
+        // check for arobas in email
+        if ( name === 'email' && !value.includes('@') ){
             setError({
                 ...error,
                 email: 'Votre adresse doit comporter un @'
             });
-        } else if ( event.target.name === 'email') {
-            setError({
-                ...error,
-                email: null
-            })
         }
-        if ( event.target.name === 'password' && ( event.target.value.length < 6 ) ){
+        // check for too short password
+        if ( name === 'password' && ( value.length < 6 ) ){
             setError({
                 ...error,
                 password: 'Votre mot de passe doit comporter au moins 6 caractères.'
             })
-        } else if ( event.target.name === 'password' ) {
+        } 
+        // check for too long password
+        if ( name === 'password' && ( value.length > 50 )){
             setError({
                 ...error,
-                password: null
+                password: 'Votre mot de passe ne doit pas dépasser plus de 50 caractères.'
+            })
+        }
+        // detect empty if its not called to modify an existing user
+        if (!value){
+            setError({
+                ...error,
+                [event.target.name]: 'Ce champ est obligatoire !'
             })
         }
         // Save input content in user state.
         setUser({
             ...user,
-            [event.target.name]: event.target.value
+            [name]: value
         });
     }
 
@@ -87,7 +94,19 @@ function FormUser(props){
      */
     function handleFormSubmit(form){
         form.preventDefault();
-        props.formaction(user);
+        /**
+         * If an error is still showed, the form can't be submitted
+         */
+        let valid = true;
+        Object.entries(error).forEach(([key, value]) => {
+            if (value != null){
+                valid = false;
+                return valid;
+            }
+        });
+        if (valid){
+            props.formaction(user);
+        }
     }
 
     return(
@@ -98,10 +117,10 @@ function FormUser(props){
                 <Input label="Nom" type="text" name="lastName" value={user.lastName} onchange={handleInput} error={error.lastName}/>
             </>}
             <Input label="Courriel" type="email" name="email" value={user.email} onchange={handleInput} error={error.email}/>
-            <Input label="Mot de passe" type="password" name="password" value={user.password} onchange={handleInput} error={error.password}/>
+            <Input label="Mot de passe" type="password" name="password" value={user.password} onchange={handleInput} error={error.password} {... props.user && {autocomplete:true}} />
             <Button type="submit">{props.label}</Button>
-            {props.error && props.error.map((error) => (
-                <p className="form__error">{error}</p>
+            {props.error && props.error.map((error, index) => (
+                <p key={index} className="form__error">{error}</p>
             ))}
         </Form>
     )
