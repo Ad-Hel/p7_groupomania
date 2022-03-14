@@ -19,11 +19,7 @@ exports.signup = async (req, res, next) => {
     try {
         let hash = null;
         if (req.body.password){
-            if (req.body.password.length > 5 && req.body.password.length < 51){
-                hash = await bcrypt.hash(req.body.password, 10);
-            } else {
-                res.status(500).json('Votre mot de passe doit comporter entre 6 et 50 caractères')
-            }
+            hash = await bcrypt.hash(req.body.password, 10);
         }
         const user = await User.create({
             ...req.body,
@@ -52,7 +48,7 @@ exports.signup = async (req, res, next) => {
                         break;
                 };
                 switch (error.validatorKey){
-                    case 'is_empty' :
+                    case 'notEmpty' :
                     case 'is_null' :
                         message += 'est obligatoire.';
                         break;
