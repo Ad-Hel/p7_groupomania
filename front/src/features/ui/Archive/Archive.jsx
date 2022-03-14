@@ -35,10 +35,18 @@ function Archive(props) {
             } else {
                 setItems(res.data.rows);
             }
-            setCount(res.data.count);
+            if (!props.setCount){
+                setCount(res.data.count);
+            } else {
+                props.setCount(res.data.count);
+            }
         }
     }
-    getItems(page);
+    if (!props.page){
+        getItems(page);
+    } else {
+        getItems(props.page);
+    }
     if (props.list){
         setItems(props.list)
     }
@@ -49,7 +57,7 @@ function Archive(props) {
             {items.map((item)=>(
                     cloneElement(props.children, {setItems: setItems, items: items, item: item, key: item.id}, null)
                 ))}
-            <Pagination page={page} setPage={setPage} count={count}/>
+            {!props.page && <Pagination page={page} setPage={setPage} count={count}/>}
         </>
   );
 }
