@@ -46,7 +46,7 @@ function User(){
      * @function
      * @param {object & {firstName: string, lastName: string, email: string, password: string, role: integer}} user 
      */
-    async function updateUser(user){
+    async function updateUser(data){
         const args = {
             token: auth.token,
             head: {
@@ -54,7 +54,7 @@ function User(){
             },
             init: {
                 method: 'PUT',
-                body: user
+                body: data
             },
             url: 'user/' + id
         }
