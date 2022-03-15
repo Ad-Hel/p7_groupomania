@@ -5,7 +5,7 @@ function DeletedPictures() {
   
   return (
     <Container>
-      <Archive path='picture/page/'>
+      <Archive path='picture/deleted/page/'>
             <FrontPicture/>    
         </Archive>
     </Container>
