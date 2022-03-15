@@ -30,11 +30,9 @@ exports.create = async (req, res, next) => {
         })
         res.status(201).json(picture);
     } catch(error) {
-        console.log(error)
         const messages = []
         if (error instanceof ValidationError){
             error.errors.forEach((error) => {
-                console.log(error.path + " : " + error.validatorKey )
                 let message;
                 switch (error.path){
                     case 'title':

@@ -27,11 +27,9 @@ exports.signup = async (req, res, next) => {
         });
         res.status(201).json({user});
     } catch (error){
-        console.log(error);
         const messages = []
         if (error instanceof ValidationError){
             error.errors.forEach((error) => {
-                console.log(error.path + " : " + error.validatorKey )
                 let message;
                 switch (error.path){
                     case 'firstName':

@@ -10,7 +10,6 @@
  */
 module.exports = async (req, res, next) => {
     try{
-        console.log(req.path)
         if (req.path.includes('picture')){
             res.locals.target = 'PictureId';
             next()
