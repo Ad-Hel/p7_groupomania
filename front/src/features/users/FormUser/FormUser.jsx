@@ -8,14 +8,18 @@ function FormUser(props){
     const { auth } = useAuth();
 
     const initUser = {
+        firstName: '', 
+        lastName: '', 
+        email: '',
+        password: '',
+        role: ''
+    };
+    const initError = {
         firstName: null, 
         lastName: null, 
         email: null,
         password: null,
-        role: null
-    };
-    const initError = {
-        ...initUser,
+        role: null,
         form: null
     }
     const [user, setUser] = useState(initUser);
@@ -28,7 +32,10 @@ function FormUser(props){
          * 
          */
         if (props.user){
-            setUser(props.user);
+            setUser({
+                ...props.user,
+                password: ''
+            });
         }
     }, [props.user]);
 

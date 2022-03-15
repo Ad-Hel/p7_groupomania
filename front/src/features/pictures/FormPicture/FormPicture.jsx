@@ -9,7 +9,7 @@ import { Button, Form, Input } from 'features/ui'
 function FormPicture(props){
     const auth = useAuth().auth;
     const navigate = useNavigate();
-    const [picture, setPicture] = useState({ title: null });
+    const [picture, setPicture] = useState({ title: '' });
     const [file, setFile] = useState(null);
     const [error, setError] = useState({
         form: [],

@@ -68,7 +68,7 @@ function User(){
 
     /**
      * 
-     * This function deletes entries in the object whose content have not be modified.
+     * This function deletes entries in the object whose content have not be modified or are empty string.
      * It stringify the final object and call the updateUser function.
      * 
      * @name handleUser
@@ -77,7 +77,7 @@ function User(){
      */
     function handleUser(data){
         const newUser = Object.keys(data).reduce((diff, key) => {
-            if (user[key] === data[key]) return diff;
+            if (user[key] === data[key] || data[key] === '') return diff;
             return {
                 ...diff,
                 [key]: data[key]
