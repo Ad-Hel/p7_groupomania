@@ -39,9 +39,6 @@ if (dotenv.error){
   * This function  catch server error to provide a meaningful console message.
   * @param {string} error 
   */
-
-
-
  const errorHandler = error => {
    if (error.syscall !== 'listen') {
      throw error;

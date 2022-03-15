@@ -5,8 +5,23 @@ const User = require ('./model/User')
 
 const sequelize = require('./config/database.js');
 const app = express();
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+
+
+const header = helmet({
+    crossOriginResourcePolicy: false,
+    permittedCrossOriginOpenerPolicy : false
+})
+
+const limiter = rateLimit({
+    windowMs: 5 * 60 * 1000, // 5 minutes in milliseconds
+    max: 50
+})
 
 app.use(express.json());
+app.use(header);
+app.use('/api', limiter)
 
 const usersRoutes = require('./route/user.js');
 const picturesRoutes = require('./route/picture')
@@ -69,8 +84,10 @@ app.use('/api/like', likeRoutes);
 app.use('/api/text', textRoutes);
 
 app.use(function(err, req, res, next) {
+    const message = [];
     const error = err.stack.split('\n')[0].split(': ')[1];
-    res.status(500).json({message: error});
+    message.push(error);
+    res.status(500).json(message);
 });
 
 module.exports = app;
