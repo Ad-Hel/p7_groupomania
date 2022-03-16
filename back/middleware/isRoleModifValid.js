@@ -10,13 +10,20 @@
  */
 module.exports = (req, res, next) => {
     try{
+        // if no role modification occurs
         if (!req.body.role){
             next();
-        } else if (res.locals.userRole > req.body.role){
+        } 
+        // if the author of the modif has the right to do it
+        else if (res.locals.userRole > parseInt(req.body.role,10)){
             next();
-        };
+        } 
+        // when the modification is unauthorized
+        else {
+            res.status(403).json({message: ["Vous n'êtes pas autorisé à réaliser cette action."] })
+        }
     }
     catch(error){
-        res.status(403).json({message: "Vous n'êtes pas autorisé à réaliser cette action."})
+        res.status(500).json(error)
     } 
 }
