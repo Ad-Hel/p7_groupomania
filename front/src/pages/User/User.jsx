@@ -124,7 +124,6 @@ function User(){
             <>
                 <FormUser user={user} isModify error={error} formaction={handleUser} label='Modifier' /> 
                 <Button type='button' classStyle='delete' onclick={handleDelete}>Supprimer</Button>
-                { error && <p>{error}</p>}
             </>
             :
             <article className="user-card">
