@@ -118,7 +118,7 @@ function FormUser(props){
 
     return(
         <Form action={handleFormSubmit}>
-            {(auth && auth.role > 1) && <Input label="Rôle" type="number" name="role" value={user.role} onchange={handleInput} error={error.role}/>}
+            {(auth && auth.role > 1) && <Input label="Rôle" type="number" name="role" value={user.role} onchange={handleInput} error={error.role} max={auth.role}/>}
             {!props.isSignIn && <>
                 <Input label="Prénom" type="text" name="firstName" value={user.firstName} onchange={handleInput} error={error.firstName}/>
                 <Input label="Nom" type="text" name="lastName" value={user.lastName} onchange={handleInput} error={error.lastName}/>
