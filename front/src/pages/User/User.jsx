@@ -9,12 +9,14 @@ import { Button, Container } from "features/ui";
 function User(){
     const [user, setUser] = useState(null);
     const [isModify, setIsModify] = useState(false);
-    const [error, setError] = useState(null)
+    const [error, setError] = useState(null);
 
-    const { auth } = useAuth();
-    const navigate = useNavigate();
+    const Auth      =   useAuth();
+    const { auth }  =   Auth;
 
     const { id } =  useParams();
+
+    const nav   =   useNavigate();
     
     useEffect( () => {
         /**
@@ -103,7 +105,11 @@ function User(){
         };
         const res = await apiRequest(args);
         if (res.status === 200){
-            navigate('/');
+            if (id === auth.id){
+                Auth.onSignOut();
+            } else {
+                nav('/users')
+            }
         } else if (res.status === 403){
             setError(res.data.message)
         }
