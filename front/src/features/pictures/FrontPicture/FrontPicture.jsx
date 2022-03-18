@@ -23,7 +23,7 @@ function FrontPicture(props){
                 <img className="front-picture__image" src={picture.imageUrl} alt=""/>
                 <footer className="front-picture__footer">
                     <Link to={`/user/${picture.UserId}`} className="front-picture__author">{picture.User.firstName} {picture.User.lastName}</Link>
-                    {auth.role > 1 && <ModActions isMod list={props.items} setList={props.setItems} path="picture" id={picture.id} deletedAt={picture.deletedAt}/>}
+                    {auth.role > picture.User.role && <ModActions isMod list={props.items} setList={props.setItems} path="picture" id={picture.id} deletedAt={picture.deletedAt}/>}
                     <Reactions auth={auth} target={picture} path='picture' />
                 </footer>
         </article>

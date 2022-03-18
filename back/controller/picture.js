@@ -127,7 +127,7 @@ exports.showAll = async (req, res, next) => {
             include: [
                 {
                     model: User,
-                    attributes: ['firstName', 'lastName'],
+                    attributes: ['firstName', 'lastName', 'role'],
                 },
                 {
                     model: Like,
@@ -211,7 +211,7 @@ exports.showOne = async (req, res, next) => {
             include: [
                 {
                     model: User,
-                    attributes: ['firstName', 'lastName']
+                    attributes: ['firstName', 'lastName', 'role']
                 },
                 {
                     model: Like,
