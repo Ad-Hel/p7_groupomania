@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { FormText, Text } from 'features/texts';
 import { Archive } from 'features/ui';
 
 import './conversation.scss';
-import { Children } from 'react/cjs/react.production.min';
 
 function Conversation(props){
     const text = props.item;
