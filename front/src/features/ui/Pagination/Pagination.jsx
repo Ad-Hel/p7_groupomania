@@ -5,7 +5,7 @@ import './pagination.scss';
 function Pagination(props){
     const page = props.page;
     const setPage = props.setPage;
-    const isLastPage = ( props.count - ( page * 9 ) ) > 1 ? false : true
+    const isLastPage = ( props.count - ( page * 9 ) ) > 0 ? false : true
 
     function handleNextPage(){
         setPage( page + 1 );
