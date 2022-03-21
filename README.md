@@ -18,7 +18,7 @@ Lancer le serveur depuis le dossier *Back* avec la commande :
 
 node server
 
-**Lancement de l'application React **
+**Lancement de l'application React**
 
 Démarrer l'application React depuis le dossier *Front* avec la commande : 
 
