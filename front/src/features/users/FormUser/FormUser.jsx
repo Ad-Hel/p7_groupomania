@@ -12,7 +12,7 @@ function FormUser(props){
         lastName: '', 
         email: '',
         password: '',
-        role: ''
+        role: 1
     };
     const initError = {
         firstName: null, 
@@ -106,7 +106,7 @@ function FormUser(props){
          */
         let valid = true;
         Object.entries(error).forEach(([key, value]) => {
-            if (value != null){
+            if (value !== null){
                 valid = false;
                 return valid;
             }
